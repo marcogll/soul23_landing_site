@@ -2146,6 +2146,53 @@ body.light-theme select.contact__form-input option {
     margin-bottom: 1.5rem;
 }
 
+/*=============== COOKIES BANNER ===============*/
+.cookies-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--crust);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform .3s;
+}
+
+.cookies-banner.show {
+    transform: translateY(0);
+}
+
+.cookies-banner p {
+    font-size: var(--smaller-font-size);
+    color: var(--text-color);
+}
+
+.cookies-banner a {
+    color: var(--teal);
+    text-decoration: underline;
+}
+
+.cookies-btn {
+    padding: 0.5rem 1.5rem;
+    background: var(--teal);
+    color: var(--crust);
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background .3s;
+}
+
+.cookies-btn:hover {
+    background: var(--sage);
+}
+
 /*=============== FOOTER ===============*/
 .footer {
     background-color: var(--navy-accent);

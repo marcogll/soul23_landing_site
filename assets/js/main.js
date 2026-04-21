@@ -340,3 +340,17 @@ function validateStaticContactPayload(payload) {
 
     return ''
 }
+
+/*=============== COOKIES BANNER ===============*/
+function acceptCookies() {
+    localStorage.setItem('cookiesAccepted', 'true')
+    document.getElementById('cookies-banner').classList.remove('show')
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('cookiesAccepted')) {
+        setTimeout(function() {
+            document.getElementById('cookies-banner').classList.add('show')
+        }, 1500)
+    }
+})
