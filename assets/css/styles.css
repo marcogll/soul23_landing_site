@@ -433,12 +433,15 @@ body.light-theme {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 5px;
     cursor: pointer;
     padding: 8px;
     z-index: 100;
     width: 36px;
     height: 36px;
+    background: transparent;
+    border: none;
 }
 
 .nav__toggle span {
@@ -466,6 +469,10 @@ body.light-theme {
 .nav__toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
     background: var(--teal);
+}
+
+.nav__toggle:active {
+    outline: none;
 }
 
 /* Nav CTA Button - always visible */
@@ -568,51 +575,42 @@ body.light-theme {
 .home__container {
     position: relative;
     row-gap: 2rem;
-    padding-top: 2rem;
+    padding-top: 5rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .home {
     min-height: 100vh;
     display: flex;
     align-items: center;
+    padding-bottom: 4rem;
 }
 
 .home__data {
     text-align: center;
-    margin-top: 2rem;
-}
-
-.home__brand {
-    width: 210px;
-    height: 210px;
-    margin: 0 auto 1.75rem;
-    display: grid;
-    place-items: center;
-}
-
-.home__brand-logo {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: var(--logo-boxed-url) center / contain no-repeat;
-    border-radius: .5rem;
 }
 
 .home__greeting,
 .home__education {
     font-size: var(--normal-font-size);
     font-weight: var(--font-medium);
+    max-width: 100%;
 }
 
 .home__greeting {
     display: block;
-    color: var(--title-color);
+    color: var(--sage);
     margin-bottom: .5rem;
 }
 
 .home__education {
     color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
     margin-bottom: 2.75rem;
 }
 
@@ -2426,8 +2424,12 @@ body.light-theme select.contact__form-input option {
         text-align: left;
         margin-top: 3rem;
     }
-    .home__brand {
-        margin: 0 0 1.75rem;
+    .home__greeting,
+    .home__education {
+        text-align: left;
+    }
+    .home__buttons {
+        justify-content: flex-start;
     }
     .home__social {
         position: static;
