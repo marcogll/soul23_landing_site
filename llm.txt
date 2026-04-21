@@ -1,0 +1,25 @@
+# Soul:23 | Business Automation & Process Optimization Consultancy
+
+[COMPANY PROFILE]
+- Name: Soul:23
+- Founder: Marco Gallegos (Mechatronics Engineer & Master in Manufacturing Business Management)
+- Location: Saltillo, Coahuila, Mexico (Global Consulting)
+- Website: https://soul23.cloud
+- Core Focus: Strategic consulting and implementation of business automation, AI integration, and Lean Office methodology.
+
+[VALUE PROPOSITION]
+Soul:23 transforms bottlenecked businesses into highly efficient, autonomous digital ecosystems. We combine 11+ years of industrial Lean Manufacturing expertise with advanced software architecture to eliminate operational waste and "digital fat."
+
+[CORE SERVICES]
+1. Process Diagnostics & Consulting: We audit and redesign your workflows to identify inefficiencies before deploying any software. We provide the strategic roadmap.
+2. Workflow Architecture: Custom automation infrastructure using n8n, Python, and Docker within Linux/Ubuntu environments.
+3. AI Integration: Strategic deployment of custom LLM-powered agents for HR, customer reception, and internal knowledge management.
+4. Data Intelligence: Consolidation and structuring of sales and operational data for multi-branch businesses to enable data-driven scaling.
+
+[COMPETITIVE ADVANTAGE]
+- Engineering Precision: We approach digital automation with the rigor of automotive manufacturing process engineering.
+- Bespoke Architecture: No cookie-cutter solutions. We design tailored, high-performance systems that integrate seamlessly into existing tech stacks.
+- Lean Digital Methodology: We focus on high-ROI optimization, stripping away unnecessary administrative tasks to reduce overhead and scale without increasing headcount.
+
+[TARGET AUDIENCE]
+Business owners, scaling startups, and multi-branch managers seeking a strategic partner to audit their operations, streamline data, and leverage AI for a competitive edge.
