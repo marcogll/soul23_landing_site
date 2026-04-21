@@ -1,320 +1,681 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--=============== FAVICON ===============-->
-        <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/img/logos_soul23/favicon/s23_logo_wh.png" type="image/png">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 
-        <!--=============== BOXICONS ===============-->
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <title>soul:23 | Sistemas digitales</title>
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#home" class="nav__logo" aria-label="soul:23">
+                <span class="nav__logo-mark"></span>
+            </a>
 
-
-        <!--=============== SWIPER CSS ===============-->
-        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="assets/css/styles.css">
-
-        <title> Responsive portfolio website Ansel </title>
-    </head>
-    <body>
-        <!--=============== HEADER ===============-->
-        <header class="header" id="header">
-            <nav class="nav container">
-                <a href="#" class="nav__logo">Ansel</a>
-
-                <div class="nav__menu">
-                    <ul class="nav__list">
-                        <li class="nav__item">
-                            <a href="#home" class="nav__link active-link">
-                                <i class="uil uil-estate"></i>
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#about" class="nav__link">
-                                <i class="uil uil-user"></i>
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#skills" class="nav__link">
-                                <i class="uil uil-file-alt"></i>
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#services" class="nav__link">
-                                <i class="uil uil-briefcase-alt"></i>
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#work" class="nav__link">
-                                <i class="uil uil-scenery"></i>
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="#contact" class="nav__link">
-                                <i class="uil uil-message"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <a href="#" class="button button--flex">
-                    <i class="uil uil-moon"></i>
-                </a>
-            </nav>
-        </header>
-
-        <!--=============== MAIN ===============-->
-        <main class="main">
-            <!--=============== HOME ===============-->
-            <section class="home section" id="home">
-                <div class="hero-slider">
-                    <div class="hero-slide active" style="background-image: url('assets/img/hero/do_more.jpg');"></div>
-                    <div class="hero-slide" style="background-image: url('assets/img/hero/dashboard.jpg');"></div>
-                    <div class="hero-slide" style="background-image: url('assets/img/hero/social_media.jpg');"></div>
-                    <div class="hero-slide" style="background-image: url('assets/img/hero/tripod_setup.jpg');"></div>
-                    <div class="hero-slide" style="background-image: url('assets/img/hero/mac_timeline.jpg');"></div>
-                    <div class="hero-slide" style="background-image: url('assets/img/hero/timeline.jpg');"></div>
-                    <div class="hero-slide" style="background-image: url('assets/img/hero/production.jpg');"></div>
-                </div>
-                <div class="hero-content">
-                    <div class="home__data">
-                        <h1 class="home__title">Welcome</h1>
-                        <h3 class="home__subtitle">Frontend Developer</h3>
-                        <a href="#contact" class="button button--flex">
-                            Contact Me <i class="uil uil-message button__icon"></i>
+            <div class="nav__menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link active-link" aria-label="Inicio">
+                            <i class="bx bx-terminal"></i>
                         </a>
-                    </div>
-                </div>
-            </section>
-            
-            <!--=============== ABOUT ===============-->
-            <section class="about section" id="about">
-                <h2 class="section__title">About Me</h2>
-                <span class="section__subtitle">My Introduction</span>
-
-                <div class="about__container container grid">
-                    <div class="about__data">
-                        <p class="about__description">
-                            Frontend developer, I create web pages with UI / UX user interface, 
-                            I have years of experience and many clients are happy 
-                            with the projects carried out.
-                        </p>
-
-                        <div class="about__info">
-                            <div>
-                                <span class="about__info-title">08+</span>
-                                <span class="about__info-name">Years<br>Working</span>
-                            </div>
-                            <div>
-                                <span class="about__info-title">48+</span>
-                                <span class="about__info-name">Completed<br>Projects</span>
-                            </div>
-                            <div>
-                                <span class="about__info-title">24/7</span>
-                                <span class="about__info-name">Online<br>Support</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!--=============== SKILLS ===============-->
-            <section class="skills section" id="skills">
-                <h2 class="section__title">My Experience</h2>
-                <span class="section__subtitle">My Technical Level</span>
-
-                <div class="skills__container container grid">
-                    <div class="skills__content">
-                        <h3 class="skills__title">Frontend Developer</h3>
-
-                        <div class="skills__box">
-                            <div class="skills__group">
-                                <div class="skills__data">
-                                    <i class="uil uil-check-circle"></i>
-                                    <div>
-                                        <h3 class="skills__name">HTML</h3>
-                                        <span class="skills__level">Basic</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                    <i class="uil uil-check-circle"></i>
-                                    <div>
-                                        <h3 class="skills__name">CSS</h3>
-                                        <span class="skills__level">Advanced</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                    <i class="uil uil-check-circle"></i>
-                                    <div>
-                                        <h3 class="skills__name">JavaScript</h3>
-                                        <span class="skills__level">Intermediate</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="skills__group">
-                                <div class="skills__data">
-                                    <i class="uil uil-check-circle"></i>
-                                    <div>
-                                        <h3 class="skills__name">React</h3>
-                                        <span class="skills__level">Intermediate</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                    <i class="uil uil-check-circle"></i>
-                                    <div>
-                                        <h3 class="skills__name">Bootstrap</h3>
-                                        <span class="skills__level">Intermediate</span>
-                                    </div>
-                                </div>
-                                <div class="skills__data">
-                                    <i class="uil uil-check-circle"></i>
-                                    <div>
-                                        <h3 class="skills__name">Git</h3>
-                                        <span class="skills__level">Intermediate</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!--=============== SERVICES ===============-->
-            <section class="services section" id="services">
-                <h2 class="section__title">What I Offer</h2>
-                <span class="section__subtitle">My Services</span>
-
-                <div class="services__container container grid">
-                    <div class="services__card">
-                        <h3 class="services__title">Product<br>Designer</h3>
-                        <p class="services__modal-description">
-                            Service with more than 3 years of experience. 
-                            Providing quality work to clients and companies.
-                        </p>
-                    </div>
-                    <div class="services__card">
-                        <h3 class="services__title">Ui/Ux<br>Designer</h3>
-                        <p class="services__modal-description">
-                            Service with more than 3 years of experience. 
-                            Providing quality work to clients and companies.
-                        </p>
-                    </div>
-                    <div class="services__card">
-                        <h3 class="services__title">Visual<br>Designer</h3>
-                        <p class="services__modal-description">
-                            Service with more than 3 years of experience. 
-                            Providing quality work to clients and companies.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!--=============== WORK ===============-->
-            <section class="work section" id="work">
-                <h2 class="section__title">Recent Works</h2>
-                <span class="section__subtitle">My Portfolio</span>
-
-                <div class="work__container container grid">
-                    <div class="work__card">
-                        <img src="assets/img/work1.jpg" alt="" class="work__img">
-                        <h3 class="work__title">Web Design</h3>
-                    </div>
-                    <div class="work__card">
-                        <img src="assets/img/work2.jpg" alt="" class="work__img">
-                        <h3 class="work__title">App Movil</h3>
-                    </div>
-                    <div class="work__card">
-                        <img src="assets/img/work3.jpg" alt="" class="work__img">
-                        <h3 class="work__title">Brand Design</h3>
-                    </div>
-                    <div class="work__card">
-                        <img src="assets/img/work4.jpg" alt="" class="work__img">
-                        <h3 class="work__title">Web Design</h3>
-                    </div>
-                </div>
-            </section>
-
-            <!--=============== TESTIMONIALS ===============-->
-            <section class="testimonial section">
-                <h2 class="section__title">Testimonial</h2>
-                <span class="section__subtitle">My clients say</span>
-
-                <div class="testimonial__container container">
-                    <div class="testimonial__card">
-                        <p class="testimonial__description">
-                            A really good job, all aspects of the project were 
-                            followed step by step and with good results.
-                        </p>
-                        <h3 class="testimonial__name">John Doe</h3>
-                    </div>
-                </div>
-            </section>
-
-            <!--=============== CONTACT ===============-->
-            <section class="contact section" id="contact">
-                <h2 class="section__title">Contact Me</h2>
-                <span class="section__subtitle">Get in touch</span>
-
-                <div class="contact__container container grid">
-                    <div class="contact__card">
-                        <i class="uil uil-envelope contact__icon"></i>
-                        <h3 class="contact__card-title">Email</h3>
-                        <span class="contact__card-data">user@gmail.com</span>
-                        <a href="mailto:examplemail@correo.com" class="button button--flex">
-                            Write Me <i class="uil uil-message button__icon"></i>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link" aria-label="Resumen">
+                            <i class="bx bx-analyse"></i>
                         </a>
-                    </div>
-                    <div class="contact__card">
-                        <i class="uil uil-whatsapp contact__icon"></i>
-                        <h3 class="contact__card-title">Whatsapp</h3>
-                        <span class="contact__card-data">999-888-777</span>
-                        <a href="https://api.whatsapp.com/send?phone=51123456789&text=Hello, more information!" class="button button--flex">
-                            Write Me <i class="uil uil-message button__icon"></i>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#skills" class="nav__link" aria-label="Stack">
+                            <i class="bx bx-cog"></i>
                         </a>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!--=============== FOOTER ===============-->
-        <footer class="footer">
-            <div class="footer__container container grid">
-                <div>
-                    <h1 class="footer__title">Ansel</h1>
-                    <ul class="footer__list">
-                        <li><a href="#about" class="footer__link">About</a></li>
-                        <li><a href="#work" class="footer__link">Projects</a></li>
-                        <li><a href="#testimonial" class="footer__link">Testimonials</a></li>
-                    </ul>
-                </div>
-                <div class="footer__social">
-                    <a href="https://www.facebook.com/" target="_blank" class="footer__social-link">
-                        <i class="uil uil-facebook-f"></i>
-                    </a>
-                    <a href="https://www.instagram.com/" target="_blank" class="footer__social-link">
-                        <i class="uil uil-instagram"></i>
-                    </a>
-                    <a href="https://twitter.com/" target="_blank" class="footer__social-link">
-                        <i class="uil uil-twitter"></i>
-                    </a>
-                </div>
-                <p class="footer__copy">&#169; Bedimcode. All rigths reserved</p>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#services" class="nav__link" aria-label="Capacidades">
+                            <i class="bx bx-layer"></i>
+                        </a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#work" class="nav__link" aria-label="Despliegues">
+                            <i class="bx bx-code-alt"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </footer>
 
-        <!--=============== SCROLLREVEAL ===============-->
-        <script src="assets/js/scrollreveal.min.js"></script>
+            <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
+        </nav>
+    </header>
 
-        <!--=============== SWIPER JS ===============-->
-        <script src="assets/js/swiper-bundle.min.js"></script>
+    <main class="main">
+        <section class="home section" id="home">
+            <div class="home__container container grid">
+                <div class="home__data">
+                    <div class="home__brand">
+                        <span class="home__brand-logo"></span>
+                    </div>
+                    <span class="home__greeting">Sistemas digitales para operar, vender y responder mejor</span>
+                    <h1 class="home__name">soul:23</h1>
+                    <h3 class="home__education">Sitios, ecommerce, plataformas de salud y automatización administrativa</h3>
 
-        <!--=============== MIXITUP FILTER ===============-->
-        <script src="assets/js/mixitup.min.js"></script>
+                    <div class="home__buttons">
+                        <a href="#work" class="button">Revisar despliegues</a>
+                        <a href="#contact" class="button button--ghost">Levantar solicitud</a>
+                    </div>
+                </div>
 
-        <!--=============== MAIN JS ===============-->
-        <script src="assets/js/main.js"></script>
-    </body>
+                <div class="home__handle-container">
+                    <div class="home__handle">
+                        <img src="assets/img/hero/dashboard.jpg" alt="Dashboard de trabajo digital" class="home__img" id="hero-img">
+                    </div>
+                </div>
+
+                <div class="home__social">
+                    <a href="https://www.instagram.com/" target="_blank" class="home__social-link" aria-label="Instagram">
+                        <i class="bx bxl-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/" target="_blank" class="home__social-link" aria-label="Facebook">
+                        <i class="bx bxl-facebook"></i>
+                    </a>
+                    <a href="https://wa.me/528441026472?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20soul23." target="_blank" class="home__social-link" aria-label="WhatsApp">
+                        <i class="bx bxl-whatsapp"></i>
+                    </a>
+                </div>
+
+                <a href="#about" class="home__scroll">
+                    <i class="bx bx-mouse home__scroll-icon"></i>
+                    <span class="home__scroll-name">Desplazar</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="about section" id="about">
+            <span class="section__subtitle">Resumen</span>
+            <h2 class="section__title">Construimos sistemas que ya quedan conectados</h2>
+
+            <div class="about__container container grid">
+                <span class="about__logo" aria-label="soul:23"></span>
+
+                <div class="about__data">
+                    <div class="about__info">
+                        <div class="about__box">
+                            <i class="bx bx-window-alt about__icon"></i>
+                            <h3 class="about__title">Web</h3>
+                            <span class="about__subtitle">Sitios y landings</span>
+                        </div>
+
+                        <div class="about__box">
+                            <i class="bx bx-cart about__icon"></i>
+                            <h3 class="about__title">Venta</h3>
+                            <span class="about__subtitle">Ecommerce</span>
+                        </div>
+
+                        <div class="about__box">
+                            <i class="bx bx-bot about__icon"></i>
+                            <h3 class="about__title">Ops</h3>
+                            <span class="about__subtitle">Procesos más lean</span>
+                        </div>
+                    </div>
+
+                    <p class="about__description">
+                        En soul:23 desplegamos sitios, plataformas comerciales y automatizaciones conectadas a la
+                        operación real de cada cliente. El inventario actual incluye Vanity Experience, un ecommerce de
+                        tutoriales, plataformas de terapia con agenda y venta digital, landings médicas y formularios
+                        con reportes generados por IA para que la información fluya sin trabajo repetitivo.
+                    </p>
+
+                    <a href="#work" class="button">Revisar despliegues</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills section" id="skills">
+            <span class="section__subtitle">Stack</span>
+            <h2 class="section__title">Herramientas listas para producción</h2>
+
+            <div class="skills__container container grid">
+                <div class="skills__content">
+                    <h3 class="skills__title">Web y comercio</h3>
+                    <div class="skills__box">
+                        <div class="skills__group">
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">HTML, CSS, JS</h3>
+                                    <span class="skills__level">Interfaces estáticas</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Ecommerce</h3>
+                                    <span class="skills__level">Catálogo y checkout</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Branding</h3>
+                                    <span class="skills__level">Sistema visual</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skills__group">
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Salud digital</h3>
+                                    <span class="skills__level">Agenda y servicios</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Automatización administrativa</h3>
+                                    <span class="skills__level">Flujos de información</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">IA aplicada</h3>
+                                    <span class="skills__level">Reportes y clasificación</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills__content">
+                    <h3 class="skills__title">Operación</h3>
+                    <div class="skills__box">
+                        <div class="skills__group">
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Formularios</h3>
+                                    <span class="skills__level">Captura estructurada</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">WhatsApp</h3>
+                                    <span class="skills__level">Contacto directo</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Reportes</h3>
+                                    <span class="skills__level">Seguimiento interno</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skills__group">
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Hosting estático</h3>
+                                    <span class="skills__level">Deploy simple</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">SEO técnico</h3>
+                                    <span class="skills__level">Base indexable</span>
+                                </div>
+                            </div>
+                            <div class="skills__data">
+                                <i class="bx bx-check-circle"></i>
+                                <div>
+                                    <h3 class="skills__name">Mantenimiento</h3>
+                                    <span class="skills__level">Ajustes y expansión</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services section" id="services">
+            <span class="section__subtitle">Capacidades</span>
+            <h2 class="section__title">Lo que dejamos funcionando</h2>
+
+            <div class="services__container container grid">
+                <div class="services__card">
+                    <i class="bx bx-window-alt services__card-icon"></i>
+                    <h3 class="services__title">Sitios <br> web</h3>
+                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-palette services__card-icon"></i>
+                    <h3 class="services__title">Branding <br> digital</h3>
+                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-cart services__card-icon"></i>
+                    <h3 class="services__title">Ecommerce</h3>
+                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-calendar-heart services__card-icon"></i>
+                    <h3 class="services__title">Salud <br> & agenda</h3>
+                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-git-branch services__card-icon"></i>
+                    <h3 class="services__title">Automatización <br> administrativa</h3>
+                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Sitios web</h3>
+                    <p class="services__modal-description">
+                        Presencia digital para presentar servicios, publicar información clave y dirigir el tráfico hacia
+                        contacto, compra, agenda o automatización.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Sitio principal:</strong> estructura clara para presentar servicios, casos y llamadas a la acción.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Landings médicas:</strong> páginas enfocadas en redirigir flujo y capturar intención.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Integración:</strong> base lista para conectar formularios, WhatsApp, ecommerce o automatizaciones internas.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Branding digital</h3>
+                    <p class="services__modal-description">
+                        Sistema visual para que el sitio, campañas, redes y activos comerciales se sientan consistentes.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Identidad:</strong> uso de logo, color, tipografía y jerarquía visual para cada punto de contacto.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Contenido:</strong> estructura visual lista para campañas, redes y activos de venta.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Consistencia:</strong> componentes reutilizables para mantener la marca ordenada al crecer.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Ecommerce</h3>
+                    <p class="services__modal-description">
+                        Plataformas para vender productos, servicios, tutoriales o activos digitales sin depender de
+                        procesos manuales para cada compra.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Catálogo:</strong> productos, servicios o activos digitales presentados con rutas de compra claras.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Checkout:</strong> experiencia enfocada en convertir tráfico de comunidad en venta.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Entrega:</strong> base lista para automatizar acceso, seguimiento y recompra.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Salud & agenda</h3>
+                    <p class="services__modal-description">
+                        Plataformas para terapeutas y doctoras con agenda, cursos, artículos digitales y rutas de atención claras.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Agenda:</strong> solicitud de citas y organización de servicios.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Venta digital:</strong> cursos y artículos digitales cuando el modelo lo requiere.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Confianza:</strong> estructura clara para perfiles profesionales, pacientes y comunidad.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Automatización administrativa</h3>
+                    <p class="services__modal-description">
+                        Procesos internos más ligeros para ahorrar tiempo, reducir capturas manuales y mover la
+                        información correcta entre personas, formularios y herramientas.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Captura:</strong> formularios que ordenan solicitudes, datos de clientes y pendientes desde el primer contacto.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Seguimiento:</strong> avisos, reportes y tareas automáticas para que nada dependa de copiar y pegar.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Operación lean:</strong> menos pasos manuales y más claridad sobre quién debe hacer qué después.</p></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="work section" id="work">
+            <span class="section__subtitle">Despliegues</span>
+            <h2 class="section__title">Proyectos activos y demostraciones</h2>
+
+            <div class="work__filters">
+                <span class="work__item active-work" data-filter="all">Todo</span>
+                <span class="work__item" data-filter=".web">Web</span>
+                <span class="work__item" data-filter=".commerce">Ecommerce</span>
+                <span class="work__item" data-filter=".health">Salud</span>
+                <span class="work__item" data-filter=".automation">Automatización</span>
+                <span class="work__item" data-filter=".clientes">Clientes</span>
+            </div>
+
+            <div class="work__container container grid">
+                <article class="work__card mix commerce">
+                    <a href="https://cursos.vanityexperience.mx/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir Cursos Vanity Experience">
+                        <img src="assets/img/cursos_vanity.png" alt="Ecommerce Vanity Experience" class="work__img">
+                    </a>
+                    <span class="work__tag">Ecommerce · tutoriales</span>
+                    <h3 class="work__title">Cursos Vanity Experience</h3>
+                    <p class="work__description">Plataforma de ecommerce para vender tutoriales y productos educativos de la clienta.</p>
+                    <a href="https://cursos.vanityexperience.mx/" target="_blank" rel="noopener" class="work__button">Abrir cursos <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                </article>
+
+                <article class="work__card mix health commerce">
+                    <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir Vanity Experience">
+                        <img src="assets/img/vanityexp.png" alt="Vanity Experience" class="work__img">
+                    </a>
+                    <span class="work__tag">Salud · agenda · venta</span>
+                    <h3 class="work__title">Vanity Experience</h3>
+                    <p class="work__description">Plataforma de terapia con agenda de citas, venta de cursos y artículos digitales.</p>
+                    <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="work__button">Abrir plataforma <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                </article>
+
+                <article class="work__card mix web health">
+                    <a href="https://daniela-flores.soul23.cloud/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir sitio de Daniela Flores">
+                        <img src="assets/img/dradfg.jpg" alt="Landing médica" class="work__img">
+                    </a>
+                    <span class="work__tag">Landing médica</span>
+                    <h3 class="work__title">Dra. DFG</h3>
+                    <p class="work__description">Landing de redirección para consulta médica y contacto de pacientes.</p>
+                    <a href="https://daniela-flores.soul23.cloud/" target="_blank" rel="noopener" class="work__button">Abrir sitio <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                </article>
+
+                <article class="work__card mix web health">
+                    <a href="https://gloria.soul23.cloud/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir sitio de Gloria">
+                        <img src="assets/img/gloria_demo.png" alt="Sitio Gloria" class="work__img">
+                    </a>
+                    <span class="work__tag">Salud · sitio web</span>
+                    <h3 class="work__title">Gloria</h3>
+                    <p class="work__description">Sitio de presentación para servicios de salud y contacto directo.</p>
+                    <a href="https://gloria.soul23.cloud/" target="_blank" rel="noopener" class="work__button">Abrir sitio <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                </article>
+
+                <article class="work__card mix automation">
+                    <a href="https://feedback.soul23.cloud/s/cmnhxc6620000o401c7c874q7" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir muestra de survey automático con IA">
+                        <img src="assets/img/n8n.png" alt="Flujo de survey automático con IA" class="work__img">
+                    </a>
+                    <span class="work__tag">Survey · IA · reporte</span>
+                    <h3 class="work__title">Surveys automáticos con IA</h3>
+                    <p class="work__description">Muestra de un formulario que recibe respuestas, analiza la información y genera un reporte accionable sin captura manual.</p>
+                    <a href="https://feedback.soul23.cloud/s/cmnhxc6620000o401c7c874q7" target="_blank" rel="noopener" class="work__button">Probar survey <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                </article>
+
+                <article class="work__card mix clientes">
+                    <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir Vanity Salon & Spa">
+                        <img src="assets/img/customers/logo.vanity.salon&spa.svg" alt="Vanity Salon & Spa" class="work__img client-logo client-logo--vanity">
+                    </a>
+                    <span class="work__tag">Cliente</span>
+                    <h3 class="work__title">Vanity Salon & Spa</h3>
+                    <p class="work__description">Presencia y sistemas digitales para una marca de belleza y bienestar.</p>
+                    <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="work__button">Ver alcance <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                </article>
+            </div>
+        </section>
+
+        <section class="pillars section" id="pillars">
+            <span class="section__subtitle">Pilares</span>
+            <h2 class="section__title">Cómo optimizamos procesos</h2>
+
+            <div class="pillars__container container grid">
+                <article class="pillars__card">
+                    <i class="bx bx-search-alt pillars__icon"></i>
+                    <h3 class="pillars__title">Diagnóstico operativo</h3>
+                    <p class="pillars__description">
+                        Identificamos dónde se pierde tiempo, qué tareas se repiten, qué información falta y qué parte
+                        del proceso está frenando al equipo.
+                    </p>
+                </article>
+
+                <article class="pillars__card">
+                    <i class="bx bx-git-merge pillars__icon"></i>
+                    <h3 class="pillars__title">Proceso más simple</h3>
+                    <p class="pillars__description">
+                        Quitamos pasos innecesarios, ordenamos responsabilidades y dejamos una ruta clara para que cada
+                        persona sepa qué hacer y cuándo hacerlo.
+                    </p>
+                </article>
+
+                <article class="pillars__card">
+                    <i class="bx bx-line-chart pillars__icon"></i>
+                    <h3 class="pillars__title">Medición útil</h3>
+                    <p class="pillars__description">
+                        Definimos los datos que sí importan para tomar decisiones: ventas, tiempos muertos, carga de
+                        trabajo, seguimiento y calidad del servicio.
+                    </p>
+                </article>
+
+                <article class="pillars__card">
+                    <i class="bx bx-refresh pillars__icon"></i>
+                    <h3 class="pillars__title">Mejora continua</h3>
+                    <p class="pillars__description">
+                        Dejamos una base que puede revisarse, ajustarse y crecer conforme cambian la operación, el equipo
+                        y las necesidades del negocio.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="testimonial section" id="testimonial">
+            <span class="section__subtitle">Testimonios</span>
+            <h2 class="section__title">Lo que cambió en la operación</h2>
+
+            <div class="testimonial__container container swiper">
+                <div class="swiper-wrapper">
+                    <article class="swiper-slide">
+                        <div class="testimonial__card">
+                            <div class="testimonial__rating" aria-label="5 de 5 estrellas">
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                            </div>
+                            <p class="testimonial__description">
+                                La verdad es que antes me volvía loca con los cuadernos y las agendas de papel; entre
+                                las tres sucursales era un relajo. Lo que más me cambió la vida fue dejar de hacer los
+                                pagos de las muchachas a mano y no tener que estar cazando las ventas del día. Ahora todo
+                                se calcula solo y por fin sé qué onda con los tiempos muertos sin estar pegada ahí. Si no
+                                fuera por esto, todavía estaría haciendo cuentas en una libreta hasta las 11 de la noche.
+                            </p>
+                            <h3 class="testimonial__name">Alejandra</h3>
+                            <span class="testimonial__role">Salón de belleza</span>
+                        </div>
+                    </article>
+
+                    <article class="swiper-slide">
+                        <div class="testimonial__card">
+                            <div class="testimonial__rating" aria-label="5 de 5 estrellas">
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                            </div>
+                            <p class="testimonial__description">
+                                Yo lo que quería era dejar de perder el tiempo revisando plataformas de encuestas que ni
+                                entendía. Ahora las reservas caen solas y lo que dicen los clientes me llega directo al
+                                celular. Mi gente y yo ya no tenemos que andar adivinando; tenemos la info ahí mismo al
+                                momento. Me ahorré muchísimas vueltas y el sistema se encarga de todo.
+                            </p>
+                            <h3 class="testimonial__name">Roberto Pérez</h3>
+                            <span class="testimonial__role">Restaurante</span>
+                        </div>
+                    </article>
+
+                    <article class="swiper-slide">
+                        <div class="testimonial__card">
+                            <div class="testimonial__rating" aria-label="5 de 5 estrellas">
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                                <i class="bx bxs-star"></i>
+                            </div>
+                            <p class="testimonial__description">
+                                Necesitaba que mi página de verdad transmitiera lo que hago, porque antes se sentía todo
+                                muy frío. Ahora mis pacientes entran, ven de qué trata la terapia y agendan su cita sin
+                                que yo tenga que estar enviando mensajes de ida y vuelta. Se siente todo mucho más
+                                profesional y organizado, pero sobre todo me quitó un peso de encima con la administración.
+                            </p>
+                            <h3 class="testimonial__name">Gloria</h3>
+                            <span class="testimonial__role">Terapeuta</span>
+                        </div>
+                    </article>
+                </div>
+                <div class="testimonial__controls" aria-label="Controles de testimonios">
+                    <button class="testimonial__button testimonial__button-prev" type="button" aria-label="Testimonio anterior">
+                        <i class="bx bx-left-arrow-alt"></i>
+                    </button>
+                    <button class="testimonial__button testimonial__button-next" type="button" aria-label="Siguiente testimonio">
+                        <i class="bx bx-right-arrow-alt"></i>
+                    </button>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <section class="contact section" id="contact">
+            <span class="section__subtitle">Solicitud</span>
+            <h2 class="section__title">Cuéntanos qué sistema necesitas</h2>
+
+            <div class="contact__container container grid">
+                <div class="contact__content">
+                    <h3 class="contact__title">Contacto directo</h3>
+
+                    <div class="contact__info">
+                        <div class="contact__card">
+                            <i class="bx bx-mail-send contact__card-icon"></i>
+                            <h3 class="contact__card-title">Email</h3>
+                            <span class="contact__card-data">hola@soul23.mx</span>
+                            <a href="mailto:hola@soul23.mx" class="contact__button">Escribir <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                        </div>
+
+                        <div class="contact__card">
+                            <i class="bx bxl-whatsapp contact__card-icon"></i>
+                            <h3 class="contact__card-title">WhatsApp</h3>
+                            <span class="contact__card-data">Respuesta directa</span>
+                            <a href="https://wa.me/" target="_blank" class="contact__button">Abrir chat <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact__content">
+                    <h3 class="contact__title">Brief inicial</h3>
+
+                    <form class="contact__form" data-webhook-url="https://flows.soul23.cloud/webhook/OvJ8A25svipYxC8OQ60tT1">
+                        <div class="contact__form-div">
+                            <label for="contact-name" class="contact__form-tag">Nombre</label>
+                            <input id="contact-name" name="name" type="text" class="contact__form-input" required>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-business" class="contact__form-tag">Negocio</label>
+                            <input id="contact-business" name="businessName" type="text" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-email" class="contact__form-tag">Email</label>
+                            <input id="contact-email" name="email" type="email" class="contact__form-input" required>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-phone" class="contact__form-tag">Teléfono</label>
+                            <input id="contact-phone" name="phone" type="tel" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-industry" class="contact__form-tag">Tipo de negocio</label>
+                            <select id="contact-industry" name="industry" class="contact__form-input" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="Tienda en linea">Tienda en línea</option>
+                                <option value="Cursos o educacion">Cursos o educación</option>
+                                <option value="Salud o bienestar">Salud o bienestar</option>
+                                <option value="Operacion interna">Operación interna</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-comment-type" class="contact__form-tag">Sistema requerido</label>
+                            <select id="contact-comment-type" name="commentType" class="contact__form-input" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="sitio-web">Sitio web</option>
+                                <option value="branding-digital">Branding digital</option>
+                                <option value="ecommerce">Ecommerce</option>
+                                <option value="plataforma-salud">Plataforma de salud</option>
+                                <option value="landing">Landing de redirección</option>
+                                <option value="automatizacion-administrativa">Automatización administrativa</option>
+                                <option value="reporte-ia">Formulario con reporte IA</option>
+                            </select>
+                        </div>
+
+                        <div class="contact__form-div contact__form-area">
+                            <label for="contact-message" class="contact__form-tag">Objetivo</label>
+                            <textarea id="contact-message" name="message" class="contact__form-input" required></textarea>
+                        </div>
+
+                        <div class="contact__form-trap" aria-hidden="true">
+                            <label for="contact-website">Website</label>
+                            <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <p class="contact__form-status" role="status"></p>
+                        <button type="submit" class="button contact__form-submit">Enviar solicitud</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <h2 class="footer__title">soul:23</h2>
+
+            <ul class="footer__list">
+                <li><a href="#about" class="footer__link">Resumen</a></li>
+                <li><a href="#services" class="footer__link">Capacidades</a></li>
+                <li><a href="#work" class="footer__link">Despliegues</a></li>
+            </ul>
+
+            <div class="footer__social">
+                <a href="https://www.instagram.com/" target="_blank" class="footer__social-link" aria-label="Instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="https://www.facebook.com/" target="_blank" class="footer__social-link" aria-label="Facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="https://wa.me/" target="_blank" class="footer__social-link" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
+            </div>
+
+            <span class="footer__copy">soul:23</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/scrollreveal.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/mixitup.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
 </html>
