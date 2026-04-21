@@ -91,7 +91,7 @@ python3 -m http.server 8080
 ## Contacto
 
 - **Email:** hola@soul23.mx
-- **WhatsApp:** +52 844 102 6472
+- **WhatsApp:** 
 - **Calendly:** https://calendly.com/alma_dev/30min
 
 ---
