@@ -136,6 +136,33 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
 
+/*=============== BURGER MENU ===============*/
+const navToggle = document.getElementById('nav-toggle')
+const navOverlay = document.getElementById('nav-overlay')
+
+if (navToggle && navOverlay) {
+    navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('active')
+        navOverlay.classList.toggle('active')
+    })
+
+    // Close menu when clicking on a link
+    navOverlay.querySelectorAll('.nav__link').forEach(link => {
+        link.addEventListener('click', () => {
+            navToggle.classList.remove('active')
+            navOverlay.classList.remove('active')
+        })
+    })
+
+    // Close menu when clicking outside
+    navOverlay.addEventListener('click', (e) => {
+        if (e.target === navOverlay) {
+            navToggle.classList.remove('active')
+            navOverlay.classList.remove('active')
+        }
+    })
+}
+
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
     origin: 'top',

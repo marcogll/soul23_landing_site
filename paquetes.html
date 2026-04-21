@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="assets/img/logos_soul23/favicon/s23_logo_wh.png" type="image/png">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <title>Paquetes | soul:23</title>
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo" aria-label="soul:23">
+                <span class="nav__logo-mark"></span>
+            </a>
+
+            <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
+                Agendar cita
+            </a>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
+        </nav>
+    </header>
+
+    <div class="nav__overlay" id="nav-overlay">
+        <a href="index.html" class="nav__logo" aria-label="soul:23">
+            <span class="nav__logo-mark"></span>
+        </a>
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a href="index.html" class="nav__link" aria-label="Inicio">INICIO</a>
+            </li>
+            <li class="nav__item">
+                <a href="acerca.html" class="nav__link" aria-label="Acerca">ACERCA</a>
+            </li>
+            <li class="nav__item">
+                <a href="servicios.html" class="nav__link" aria-label="Servicios">SERVICIOS</a>
+            </li>
+            <li class="nav__item">
+                <a href="index.html#work" class="nav__link" aria-label="Despliegues">DESPLIEGUES</a>
+            </li>
+        </ul>
+        <a href="https://calendly.com/alma_dev/30min" target="_blank" class="button" aria-label="Agendar cita">
+            Agendar cita
+        </a>
+    </div>
+
+    <main class="main">
+        <section class="section" id="paquetes">
+            <span class="section__subtitle">Planes</span>
+            <h2 class="section__title">Soluciones por nivel</h2>
+
+            <div class="packages container grid">
+                <div class="package__card package--startup">
+                    <div class="package__header">
+                        <span class="package__badge">🚀 INICIO</span>
+                        <h3 class="package__title">Básico</h3>
+                        <p class="package__price">$9,999 <span class="package__price-note">único pago</span></p>
+                        <p class="package__desc">Para consultorio, restaurante pequeño, salón, servicios &lt; 10 empleados</p>
+                    </div>
+
+                    <div class="package__includes">
+                        <h4>Incluye:</h4>
+                        <ul>
+                            <li><i class="bx bx-check"></i> Auditoría de operación</li>
+                            <li><i class="bx bx-check"></i> 1 Sistema (Agenda o Bot o Ecommerce)</li>
+                            <li><i class="bx bx-check"></i> Dashboard básico (3-5 métricas)</li>
+                            <li><i class="bx bx-check"></i> Setup y training</li>
+                            <li><i class="bx bx-check"></i> Soporte por 1 mes</li>
+                            <li><i class="bx bx-check"></i> Hosting incluido</li>
+                        </ul>
+                    </div>
+
+                    <div class="package__details">
+                        <div class="package__detail-item">
+                            <span class="detail-label">Plazo:</span>
+                            <span class="detail-value">2-3 semanas</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="button package__cta">Lo quiero</a>
+                </div>
+
+                <div class="package__card package--scale">
+                    <div class="package__header">
+                        <span class="package__badge">📈 PRO</span>
+                        <h3 class="package__title">Profesional</h3>
+                        <p class="package__price">$19,500 <span class="package__price-note">único pago</span></p>
+                        <p class="package__desc">Para PME, clínica, restaurante 1-2 sucursales, 10-50 empleados</p>
+                    </div>
+
+                    <div class="package__includes">
+                        <h4>Incluye:</h4>
+                        <ul>
+                            <li><i class="bx bx-check"></i> Auditoría completa + Mapeo</li>
+                            <li><i class="bx bx-check"></i> 2 Sistemas integrados</li>
+                            <li><i class="bx bx-check"></i> Bot de WhatsApp con IA</li>
+                            <li><i class="bx bx-check"></i> Dashboard operativo</li>
+                            <li><i class="bx bx-check"></i> Automatizaciones (hasta 3 flujos)</li>
+                            <li><i class="bx bx-check"></i> Landing de captación</li>
+                            <li><i class="bx bx-check"></i> Soporte por 2 meses</li>
+                            <li><i class="bx bx-check"></i> Hosting incluido</li>
+                        </ul>
+                    </div>
+
+                    <div class="package__details">
+                        <div class="package__detail-item">
+                            <span class="detail-label">Plazo:</span>
+                            <span class="detail-value">4-6 semanas</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="button package__cta">Lo quiero</a>
+                </div>
+
+                <div class="package__card package--enterprise">
+                    <div class="package__header">
+                        <span class="package__badge">🏆 ENTERPRISE</span>
+                        <h3 class="package__title">Completo</h3>
+                        <p class="package__price">$34,500 <span class="package__price-note">único pago</span></p>
+                        <p class="package__desc">Para cadena de negocios, clínica mediana, 50+ empleados</p>
+                    </div>
+
+                    <div class="package__includes">
+                        <h4>Incluye:</h4>
+                        <ul>
+                            <li><i class="bx bx-check"></i> Auditoría + Roadmap completo</li>
+                            <li><i class="bx bx-check"></i> Todos los sistemas integrados</li>
+                            <li><i class="bx bx-check"></i> Bot IA avanzado (múltiples flujos)</li>
+                            <li><i class="bx bx-check"></i> Dashboard ejecutivo</li>
+                            <li><i class="bx bx-check"></i> Automatizaciones ilimitadas</li>
+                            <li><i class="bx bx-check"></i> Web app o portal customizado</li>
+                            <li><i class="bx bx-check"></i> Integraciones API</li>
+                            <li><i class="bx bx-check"></i> Soporte por 3 meses</li>
+                            <li><i class="bx bx-check"></i> Hosting dedicado incluido</li>
+                        </ul>
+                    </div>
+
+                    <div class="package__details">
+                        <div class="package__detail-item">
+                            <span class="detail-label">Plazo:</span>
+                            <span class="detail-value">8-12 semanas</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="button package__cta">Lo quiero</a>
+                </div>
+            </div>
+
+            <div class="packages__services-note">
+                <i class="bx bx-info-circle"></i>
+                <div>
+                    <strong>Servicios adicionales con mensualidad:</strong>
+                    <p>Acceso a APIs de IA (ChatGPT, Gemini, Grok, Claude), mantenimiento del sistema y soporte continuo tienen costo mensual opcional. Consultar.</p>
+                </div>
+            </div>
+
+            <div class="packages__note">
+                <i class="bx bx-info-circle"></i>
+                <p>Todos los paquetes son único pago. Hosting incluido. No incluye mensualidades de herramientas externas (dominio, servicios de pago, etc.).</p>
+            </div>
+        </section>
+
+        <section class="contact section" id="contact">
+            <span class="section__subtitle">Contacto</span>
+            <h2 class="section__title">Elige tu plan</h2>
+
+            <div class="contact__container container grid">
+                <div class="contact__content">
+                    <h3 class="contact__title">Escríbenos</h3>
+
+                    <div class="contact__info">
+                        <div class="contact__card">
+                            <i class="bx bx-mail-send contact__card-icon"></i>
+                            <h3 class="contact__card-title">Email</h3>
+                            <span class="contact__card-data">hola@soul23.mx</span>
+                            <a href="mailto:hola@soul23.mx" class="contact__button">Escribir <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                        </div>
+
+                        <div class="contact__card">
+                            <i class="bx bxl-whatsapp contact__card-icon"></i>
+                            <h3 class="contact__card-title">WhatsApp</h3>
+                            <span class="contact__card-data">Respuesta directa</span>
+                            <a href="https://wa.me/528441026472?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20los%20paquetes%20de%20soul23." target="_blank" class="contact__button">Abrir chat <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact__content">
+                    <h3 class="contact__title">¿Cuál necesitas?</h3>
+
+                    <form class="contact__form" data-webhook-url="https://flows.soul23.cloud/webhook/OvJ8A25svipYxC8OQ60tT1">
+                        <div class="contact__form-div">
+                            <label for="contact-name" class="contact__form-tag">Nombre</label>
+                            <input id="contact-name" name="name" type="text" class="contact__form-input" required>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-business" class="contact__form-tag">Negocio</label>
+                            <input id="contact-business" name="businessName" type="text" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-email" class="contact__form-tag">Email</label>
+                            <input id="contact-email" name="email" type="email" class="contact__form-input" required>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-phone" class="contact__form-tag">Teléfono</label>
+                            <input id="contact-phone" name="phone" type="tel" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-industry" class="contact__form-tag">Tu negocio es...</label>
+                            <select id="contact-industry" name="industry" class="contact__form-input" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="consultorio-medico">Consultorio médico / Clínica</option>
+                                <option value="salon-belleza">Salón de belleza / Spa</option>
+                                <option value="restaurante">Restaurante / Bar / Cafetería</option>
+                                <option value="tienda">Tienda en línea / Física</option>
+                                <option value="educacion">Escuela / Academia / Cursos</option>
+                                <option value="servicios">Empresa de servicios</option>
+                                <option value="consultoria">Consultoría / Profesional independiente</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-comment-type" class="contact__form-tag">¿Qué necesitas?</label>
+                            <select id="contact-comment-type" name="commentType" class="contact__form-input" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="paquete-inicio">🚀 INICIO ($9,999)</option>
+                                <option value="paquete-pro">📈 PRO ($19,500)</option>
+                                <option value="paquete-enterprise">🏆 ENTERPRISE ($34,500)</option>
+                                <option value="consulta">Solo quiero consultar</option>
+                            </select>
+                        </div>
+
+                        <div class="contact__form-div contact__form-area">
+                            <label for="contact-message" class="contact__form-tag">Describe tu situación</label>
+                            <textarea id="contact-message" name="message" class="contact__form-input" placeholder="Ej: tengo un consultorio con 2 doctores y pierdo tiempo agendando..." required></textarea>
+                        </div>
+
+                        <div class="contact__form-trap" aria-hidden="true">
+                            <label for="contact-website">Website</label>
+                            <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <p class="contact__form-status" role="status"></p>
+                        <button type="submit" class="button contact__form-submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <h2 class="footer__title">soul:23</h2>
+
+            <ul class="footer__list">
+                <li><a href="index.html#about" class="footer__link">Acerca</a></li>
+                <li><a href="servicios.html" class="footer__link">Servicios</a></li>
+                <li><a href="#paquetes" class="footer__link">Paquetes</a></li>
+                <li><a href="index.html#work" class="footer__link">Despliegues</a></li>
+                <li><a href="#contact" class="footer__link">Contacto</a></li>
+            </ul>
+
+            <p class="footer__description">
+                Diseño de sistemas para operación: citas, ventas, control interno, reportes y procesos conectados.
+            </p>
+
+            <div class="footer__social">
+                <a href="https://www.instagram.com/" target="_blank" class="footer__social-link" aria-label="Instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="https://www.facebook.com/" target="_blank" class="footer__social-link" aria-label="Facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="https://wa.me/528441026472" target="_blank" class="footer__social-link" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
+            </div>
+
+            <span class="footer__copy">© 2026 · soul:23 · by Grupo AlMa™</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/scrollreveal.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/mixitup.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -18,54 +18,62 @@
                 <span class="nav__logo-mark"></span>
             </a>
 
-            <div class="nav__menu">
-                <ul class="nav__list">
-                    <li class="nav__item">
-                        <a href="#home" class="nav__link active-link" aria-label="Inicio">
-                            <i class="bx bx-terminal"></i>
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#about" class="nav__link" aria-label="Resumen">
-                            <i class="bx bx-analyse"></i>
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#skills" class="nav__link" aria-label="Stack">
-                            <i class="bx bx-cog"></i>
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#services" class="nav__link" aria-label="Capacidades">
-                            <i class="bx bx-layer"></i>
-                        </a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#work" class="nav__link" aria-label="Despliegues">
-                            <i class="bx bx-code-alt"></i>
-                        </a>
-                    </li>
-                </ul>
+            <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
+                Agendar cita
+            </a>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
 
             <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
         </nav>
     </header>
 
+    <div class="nav__overlay" id="nav-overlay">
+        <a href="#home" class="nav__logo" aria-label="soul:23">
+            <span class="nav__logo-mark"></span>
+        </a>
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a href="#home" class="nav__link active-link" aria-label="Inicio">INICIO</a>
+            </li>
+            <li class="nav__item">
+                <a href="acerca.html" class="nav__link" aria-label="Acerca">ACERCA</a>
+            </li>
+            <li class="nav__item">
+                <a href="#skills" class="nav__link" aria-label="Stack">STACK</a>
+            </li>
+            <li class="nav__item">
+                <a href="#services" class="nav__link" aria-label="Servicios">SERVICIOS</a>
+            </li>
+            <li class="nav__item">
+                <a href="servicios.html" class="nav__link" aria-label="Todos los servicios">TODOS</a>
+            </li>
+            <li class="nav__item">
+                <a href="paquetes.html" class="nav__link" aria-label="Paquetes">PAQUETES</a>
+            </li>
+            <li class="nav__item">
+                <a href="#work" class="nav__link" aria-label="Despliegues">DESPLIEGUES</a>
+            </li>
+        </ul>
+        <a href="https://calendly.com/alma_dev/30min" target="_blank" class="button" aria-label="Agendar cita">
+            Agendar cita
+        </a>
+    </div>
+
     <main class="main">
         <section class="home section" id="home">
             <div class="home__container container grid">
                 <div class="home__data">
-                    <div class="home__brand">
-                        <span class="home__brand-logo"></span>
-                    </div>
-                    <span class="home__greeting">Sistemas digitales para operar, vender y responder mejor</span>
-                    <h1 class="home__name">soul:23</h1>
-                    <h3 class="home__education">Sitios, ecommerce, plataformas de salud y automatización administrativa</h3>
+                    <span class="home__greeting">Operación más clara. Menos carga manual.</span>
+                    <span class="home__education">Sistemas para organizar citas, ventas, personal y comunicación sin depender de procesos manuales.</span>
 
                     <div class="home__buttons">
-                        <a href="#work" class="button">Revisar despliegues</a>
-                        <a href="#contact" class="button button--ghost">Levantar solicitud</a>
+                        <a href="#work" class="button">Ver sistemas</a>
+                        <a href="#contact" class="button button--ghost">Plantear caso</a>
                     </div>
                 </div>
 
@@ -95,44 +103,38 @@
         </section>
 
         <section class="about section" id="about">
-            <span class="section__subtitle">Resumen</span>
-            <h2 class="section__title">Construimos sistemas que ya quedan conectados</h2>
+<span class="section__subtitle">Resumen</span>
+                    <h2 class="section__title">Diseño de operación, no solo desarrollo</h2>
 
-            <div class="about__container container grid">
-                <span class="about__logo" aria-label="soul:23"></span>
+                    <div class="about__container container grid">
+                        <span class="about__logo" aria-label="soul:23"></span>
 
-                <div class="about__data">
-                    <div class="about__info">
-                        <div class="about__box">
-                            <i class="bx bx-window-alt about__icon"></i>
-                            <h3 class="about__title">Web</h3>
-                            <span class="about__subtitle">Sitios y landings</span>
-                        </div>
+                        <div class="about__data">
+                            <p class="about__description">
+                                La mayoría de los negocios ya tiene herramientas. El problema es que no están conectadas.
 
-                        <div class="about__box">
-                            <i class="bx bx-cart about__icon"></i>
-                            <h3 class="about__title">Venta</h3>
-                            <span class="about__subtitle">Ecommerce</span>
-                        </div>
+                                Se pierde tiempo en mensajes, registros manuales, validaciones y seguimiento.
+                                La información no fluye y la operación depende de estar revisando todo.
 
-                        <div class="about__box">
-                            <i class="bx bx-bot about__icon"></i>
-                            <h3 class="about__title">Ops</h3>
-                            <span class="about__subtitle">Procesos más lean</span>
+                                En soul:23 analizamos cómo funciona el negocio y detectamos:
+                                <ul class="about__list">
+                                    <li>¿Dónde se pierde tiempo?</li>
+                                    <li>¿Qué tareas se repiten?</li>
+                                    <li>¿Qué no se está registrando?</li>
+                                    <li>¿Qué decisiones se toman sin datos?</li>
+                                </ul>
+
+                                A partir de eso se diseña un sistema que puede incluir:
+                                sitios, agendas, automatización, reportes, control interno
+                                o incluso hardware si la operación lo requiere.
+
+                                El resultado es una operación más estable, medible y menos dependiente de intervención constante.
+                            </p>
+
+                            <a href="#work" class="button">Ver sistemas</a>
                         </div>
                     </div>
-
-                    <p class="about__description">
-                        En soul:23 desplegamos sitios, plataformas comerciales y automatizaciones conectadas a la
-                        operación real de cada cliente. El inventario actual incluye Vanity Experience, un ecommerce de
-                        tutoriales, plataformas de terapia con agenda y venta digital, landings médicas y formularios
-                        con reportes generados por IA para que la información fluya sin trabajo repetitivo.
-                    </p>
-
-                    <a href="#work" class="button">Revisar despliegues</a>
-                </div>
-            </div>
-        </section>
+                </section>
 
         <section class="skills section" id="skills">
             <span class="section__subtitle">Stack</span>
@@ -248,53 +250,55 @@
         </section>
 
         <section class="services section" id="services">
-            <span class="section__subtitle">Capacidades</span>
-            <h2 class="section__title">Lo que dejamos funcionando</h2>
+            <span class="section__subtitle">Operación</span>
+            <h2 class="section__title">Áreas que organizamos</h2>
 
             <div class="services__container container grid">
                 <div class="services__card">
                     <i class="bx bx-window-alt services__card-icon"></i>
-                    <h3 class="services__title">Sitios <br> web</h3>
-                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
-                </div>
-
-                <div class="services__card">
-                    <i class="bx bx-palette services__card-icon"></i>
-                    <h3 class="services__title">Branding <br> digital</h3>
-                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                    <h3 class="services__title">Captación <br> y presencia</h3>
+                    <p class="services__desc">Sitios y páginas que explican, filtran y dirigen a clientes sin depender de conversación.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
                 </div>
 
                 <div class="services__card">
                     <i class="bx bx-cart services__card-icon"></i>
-                    <h3 class="services__title">Ecommerce</h3>
-                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                    <h3 class="services__title">Venta <br> y registro</h3>
+                    <p class="services__desc">Cobros, pedidos y movimientos registrados automáticamente sin seguimiento manual.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
                 </div>
 
                 <div class="services__card">
                     <i class="bx bx-calendar-heart services__card-icon"></i>
-                    <h3 class="services__title">Salud <br> & agenda</h3>
-                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                    <h3 class="services__title">Agenda <br> y operación</h3>
+                    <p class="services__desc">Organización de citas, servicios y tiempos sin validaciones manuales constantes.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
                 </div>
 
                 <div class="services__card">
-                    <i class="bx bx-git-branch services__card-icon"></i>
-                    <h3 class="services__title">Automatización <br> administrativa</h3>
-                    <span class="services__button">Especificaciones <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                    <i class="bx bx-server services__card-icon"></i>
+                    <h3 class="services__title">Control <br> interno</h3>
+                    <p class="services__desc">Registro de actividad, asistencia, ventas y operación con reportes automáticos.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
                 </div>
+            </div>
+
+            <div class="services__more">
+                <a href="servicios.html" class="button">Ver todos los servicios</a>
+                <a href="paquetes.html" class="button button--ghost">Ver paquetes</a>
             </div>
 
             <div class="services__modal">
                 <div class="services__modal-content">
                     <i class="bx bx-x services__modal-close"></i>
-                    <h3 class="services__modal-title">Sitios web</h3>
+                    <h3 class="services__modal-title">Captación y presencia</h3>
                     <p class="services__modal-description">
-                        Presencia digital para presentar servicios, publicar información clave y dirigir el tráfico hacia
-                        contacto, compra, agenda o automatización.
+                        Sitios y páginas que explican, filtran y dirigen a clientes sin depender de conversación.
                     </p>
                     <ul class="services__modal-list">
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Sitio principal:</strong> estructura clara para presentar servicios, casos y llamadas a la acción.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Landings médicas:</strong> páginas enfocadas en redirigir flujo y capturar intención.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Integración:</strong> base lista para conectar formularios, WhatsApp, ecommerce o automatizaciones internas.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Landing:</strong> página enfocada en filtrar y capturar interés.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Formulario:</strong> captura de datos para seguimiento automático.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>WhatsApp:</strong> conexión directa para iniciar conversación.</p></li>
                     </ul>
                 </div>
             </div>
@@ -302,14 +306,14 @@
             <div class="services__modal">
                 <div class="services__modal-content">
                     <i class="bx bx-x services__modal-close"></i>
-                    <h3 class="services__modal-title">Branding digital</h3>
+                    <h3 class="services__modal-title">Venta y registro</h3>
                     <p class="services__modal-description">
-                        Sistema visual para que el sitio, campañas, redes y activos comerciales se sientan consistentes.
+                        Cobros, pedidos y movimientos registrados automáticamente sin seguimiento manual.
                     </p>
                     <ul class="services__modal-list">
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Identidad:</strong> uso de logo, color, tipografía y jerarquía visual para cada punto de contacto.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Contenido:</strong> estructura visual lista para campañas, redes y activos de venta.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Consistencia:</strong> componentes reutilizables para mantener la marca ordenada al crecer.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Catálogo:</strong> productos o servicios con precios actualizados.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Checkout:</strong> proceso de compra sin intervención.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Registro:</strong> cada venta guardada y trackeable.</p></li>
                     </ul>
                 </div>
             </div>
@@ -317,15 +321,14 @@
             <div class="services__modal">
                 <div class="services__modal-content">
                     <i class="bx bx-x services__modal-close"></i>
-                    <h3 class="services__modal-title">Ecommerce</h3>
+                    <h3 class="services__modal-title">Agenda y operación</h3>
                     <p class="services__modal-description">
-                        Plataformas para vender productos, servicios, tutoriales o activos digitales sin depender de
-                        procesos manuales para cada compra.
+                        Organización de citas, servicios y tiempos sin validaciones manuales constantes.
                     </p>
                     <ul class="services__modal-list">
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Catálogo:</strong> productos, servicios o activos digitales presentados con rutas de compra claras.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Checkout:</strong> experiencia enfocada en convertir tráfico de comunidad en venta.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Entrega:</strong> base lista para automatizar acceso, seguimiento y recompra.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Citas:</strong> solicitud y confirmación automática.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Recordatorios:</strong> WhatsApp o email sin seguir.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Gestión:</strong> reagendar, cancelar, reprogramar sin llamadas.</p></li>
                     </ul>
                 </div>
             </div>
@@ -333,38 +336,71 @@
             <div class="services__modal">
                 <div class="services__modal-content">
                     <i class="bx bx-x services__modal-close"></i>
-                    <h3 class="services__modal-title">Salud & agenda</h3>
+                    <h3 class="services__modal-title">Control interno</h3>
                     <p class="services__modal-description">
-                        Plataformas para terapeutas y doctoras con agenda, cursos, artículos digitales y rutas de atención claras.
+                        Registro de actividad, asistencia, ventas y operación con reportes automáticos.
                     </p>
                     <ul class="services__modal-list">
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Agenda:</strong> solicitud de citas y organización de servicios.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Venta digital:</strong> cursos y artículos digitales cuando el modelo lo requiere.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Confianza:</strong> estructura clara para perfiles profesionales, pacientes y comunidad.</p></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="services__modal">
-                <div class="services__modal-content">
-                    <i class="bx bx-x services__modal-close"></i>
-                    <h3 class="services__modal-title">Automatización administrativa</h3>
-                    <p class="services__modal-description">
-                        Procesos internos más ligeros para ahorrar tiempo, reducir capturas manuales y mover la
-                        información correcta entre personas, formularios y herramientas.
-                    </p>
-                    <ul class="services__modal-list">
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Captura:</strong> formularios que ordenan solicitudes, datos de clientes y pendientes desde el primer contacto.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Seguimiento:</strong> avisos, reportes y tareas automáticas para que nada dependa de copiar y pegar.</p></li>
-                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Operación lean:</strong> menos pasos manuales y más claridad sobre quién debe hacer qué después.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Asistencia:</strong> registro de entradas y salidas.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Reportes:</strong> ventas, métricas, actividad diaria.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Alertas:</strong> notificación de lo importante.</p></li>
                     </ul>
                 </div>
             </div>
         </section>
 
+        <section class="problems section" id="problems">
+            <span class="section__subtitle">Operación</span>
+            <h2 class="section__title">Puntos donde normalmente se pierde control</h2>
+
+            <div class="problems__container container grid">
+                <div class="problems__card">
+                    <i class="bx bx-message-detail"></i>
+                    <p>Mensajes constantes para agendar o confirmar</p>
+                </div>
+                <div class="problems__card">
+                    <i class="bx bx-calendar-x"></i>
+                    <p>Cancelaciones sin control</p>
+                </div>
+                <div class="problems__card">
+                    <i class="bx bx-credit-card"></i>
+                    <p>Ventas o pagos registrados manualmente</p>
+                </div>
+                <div class="problems__card">
+                    <i class="bx bx-hide"></i>
+                    <p>No saber qué pasa si no estás presente</p>
+                </div>
+                <div class="problems__card">
+                    <i class="bx bx-user-x"></i>
+                    <p>Control de personal sin sistema claro</p>
+                </div>
+                <div class="problems__card">
+                    <i class="bx bx-data"></i>
+                    <p>Datos dispersos o inexistentes</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="system section" id="system">
+            <span class="section__subtitle">Proceso</span>
+            <h2 class="section__title">Cómo se organiza la operación</h2>
+
+            <p class="system__description">
+                Cada acción dentro del negocio se convierte en un registro y dispara una respuesta.
+
+                <strong>Un cliente agenda</strong> → se valida → se confirma → se registra<br>
+                <strong>Una venta ocurre</strong> → se guarda → se calcula → se reporta<br>
+                <strong>Un empleado entra</strong> → se registra → se almacena → se analiza
+
+                <span class="system__highlight">Todo queda conectado. No depende de seguimiento manual.</span>
+            </p>
+        </section>
+
         <section class="work section" id="work">
             <span class="section__subtitle">Despliegues</span>
-            <h2 class="section__title">Proyectos activos y demostraciones</h2>
+            <h2 class="section__title">Sistemas implementados en operación real</h2>
+
+            <p class="work__intro">Cada caso resuelve una parte específica de la operación: captación, agenda, venta o control interno.</p>
 
             <div class="work__filters">
                 <span class="work__item active-work" data-filter="all">Todo</span>
@@ -439,43 +475,39 @@
         </section>
 
         <section class="pillars section" id="pillars">
-            <span class="section__subtitle">Pilares</span>
-            <h2 class="section__title">Cómo optimizamos procesos</h2>
+            <span class="section__subtitle">Proceso</span>
+            <h2 class="section__title">Cómo organizamos</h2>
 
             <div class="pillars__container container grid">
                 <article class="pillars__card">
                     <i class="bx bx-search-alt pillars__icon"></i>
-                    <h3 class="pillars__title">Diagnóstico operativo</h3>
+                    <h3 class="pillars__title">Diagnóstico</h3>
                     <p class="pillars__description">
-                        Identificamos dónde se pierde tiempo, qué tareas se repiten, qué información falta y qué parte
-                        del proceso está frenando al equipo.
+                        Identificación de tareas repetitivas, pérdidas de tiempo y falta de control.
                     </p>
                 </article>
 
                 <article class="pillars__card">
                     <i class="bx bx-git-merge pillars__icon"></i>
-                    <h3 class="pillars__title">Proceso más simple</h3>
+                    <h3 class="pillars__title">Simplificación</h3>
                     <p class="pillars__description">
-                        Quitamos pasos innecesarios, ordenamos responsabilidades y dejamos una ruta clara para que cada
-                        persona sepa qué hacer y cuándo hacerlo.
+                        Reducción de pasos y definición clara de flujo operativo.
                     </p>
                 </article>
 
                 <article class="pillars__card">
-                    <i class="bx bx-line-chart pillars__icon"></i>
-                    <h3 class="pillars__title">Medición útil</h3>
+                    <i class="bx bx-data pillars__icon"></i>
+                    <h3 class="pillars__title">Registro</h3>
                     <p class="pillars__description">
-                        Definimos los datos que sí importan para tomar decisiones: ventas, tiempos muertos, carga de
-                        trabajo, seguimiento y calidad del servicio.
+                        Cada acción relevante queda almacenada como dato.
                     </p>
                 </article>
 
                 <article class="pillars__card">
-                    <i class="bx bx-refresh pillars__icon"></i>
-                    <h3 class="pillars__title">Mejora continua</h3>
+                    <i class="bx bx-bot pillars__icon"></i>
+                    <h3 class="pillars__title">Automatización</h3>
                     <p class="pillars__description">
-                        Dejamos una base que puede revisarse, ajustarse y crecer conforme cambian la operación, el equipo
-                        y las necesidades del negocio.
+                        Ejecución de tareas sin intervención constante.
                     </p>
                 </article>
             </div>
@@ -561,12 +593,12 @@
         </section>
 
         <section class="contact section" id="contact">
-            <span class="section__subtitle">Solicitud</span>
-            <h2 class="section__title">Cuéntanos qué sistema necesitas</h2>
+            <span class="section__subtitle">Contacto</span>
+            <h2 class="section__title">Describe qué parte de tu operación quieres ordenar</h2>
 
             <div class="contact__container container grid">
                 <div class="contact__content">
-                    <h3 class="contact__title">Contacto directo</h3>
+                    <h3 class="contact__title">Punto de partida</h3>
 
                     <div class="contact__info">
                         <div class="contact__card">
@@ -580,13 +612,13 @@
                             <i class="bx bxl-whatsapp contact__card-icon"></i>
                             <h3 class="contact__card-title">WhatsApp</h3>
                             <span class="contact__card-data">Respuesta directa</span>
-                            <a href="https://wa.me/" target="_blank" class="contact__button">Abrir chat <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                            <a href="https://wa.me/528441026472?text=Hola%2C%20me%20gustar%C3%ADa%20plantear%20un%20caso" target="_blank" class="contact__button">Abrir chat <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="contact__content">
-                    <h3 class="contact__title">Brief inicial</h3>
+                    <h3 class="contact__title">Describe la situación</h3>
 
                     <form class="contact__form" data-webhook-url="https://flows.soul23.cloud/webhook/OvJ8A25svipYxC8OQ60tT1">
                         <div class="contact__form-div">
@@ -610,34 +642,57 @@
                         </div>
 
                         <div class="contact__form-div">
-                            <label for="contact-industry" class="contact__form-tag">Tipo de negocio</label>
+                            <label for="contact-industry" class="contact__form-tag">Tu negocio es...</label>
                             <select id="contact-industry" name="industry" class="contact__form-input" required>
                                 <option value="">Selecciona una opción</option>
-                                <option value="Tienda en linea">Tienda en línea</option>
-                                <option value="Cursos o educacion">Cursos o educación</option>
-                                <option value="Salud o bienestar">Salud o bienestar</option>
-                                <option value="Operacion interna">Operación interna</option>
-                                <option value="Otro">Otro</option>
+                                <option value="consultorio-medico">Consultorio médico / Clínica</option>
+                                <option value="salon-belleza">Salón de belleza / Spa</option>
+                                <option value="restaurante">Restaurante / Bar / Cafetería</option>
+                                <option value="tienda">Tienda en línea / Física</option>
+                                <option value="educacion">Escuela / Academia / Cursos</option>
+                                <option value="servicios">Empresa de servicios</option>
+                                <option value="consultoria">Consultoría / Profesional independiente</option>
+                                <option value="otro">Otro</option>
                             </select>
                         </div>
 
                         <div class="contact__form-div">
-                            <label for="contact-comment-type" class="contact__form-tag">Sistema requerido</label>
+                            <label for="contact-comment-type" class="contact__form-tag">¿Qué necesitas resolver?</label>
                             <select id="contact-comment-type" name="commentType" class="contact__form-input" required>
                                 <option value="">Selecciona una opción</option>
-                                <option value="sitio-web">Sitio web</option>
-                                <option value="branding-digital">Branding digital</option>
-                                <option value="ecommerce">Ecommerce</option>
-                                <option value="plataforma-salud">Plataforma de salud</option>
-                                <option value="landing">Landing de redirección</option>
-                                <option value="automatizacion-administrativa">Automatización administrativa</option>
-                                <option value="reporte-ia">Formulario con reporte IA</option>
+                                <optgroup label="Captación">
+                                    <option value="captacion-landing">Landing page para captar clientes</option>
+                                    <option value="captacion-web">Sitio web completo</option>
+                                </optgroup>
+                                <optgroup label="Venta">
+                                    <option value="venta-ecommerce">Tienda en línea</option>
+                                    <option value="venta-cobros">Sistema de cobros y pagos</option>
+                                </optgroup>
+                                <optgroup label="Agenda">
+                                    <option value="agenda-citas">Sistema de citas en línea</option>
+                                    <option value="agenda-multicitas">Agenda multi-servicio / empleado</option>
+                                </optgroup>
+                                <optgroup label="Operación">
+                                    <option value="operacion-interna">Control interno / Registro</option>
+                                    <option value="operacion-reportes">Reportes y métricas</option>
+                                    <option value="operacion-personal">Control de personal / Asistencia</option>
+                                </optgroup>
+                                <optgroup label="Inteligencia">
+                                    <option value="ia-bot">Bot de WhatsApp / IA</option>
+                                    <option value="ia-automatizacion">Automatización de procesos</option>
+                                </optgroup>
+                                <optgroup label="Paquetes">
+                                    <option value="paquete-startup">PACK STARTUP (Inicio)</option>
+                                    <option value="paquete-scale">PACK SCALE (Crecimiento)</option>
+                                    <option value="paquete-enterprise">PACK ENTERPRISE (Empresarial)</option>
+                                </optgroup>
+                                <option value="consulta">Solo quiero consultar</option>
                             </select>
                         </div>
 
                         <div class="contact__form-div contact__form-area">
-                            <label for="contact-message" class="contact__form-tag">Objetivo</label>
-                            <textarea id="contact-message" name="message" class="contact__form-input" required></textarea>
+                            <label for="contact-message" class="contact__form-tag">Describe qué está pasando</label>
+                            <textarea id="contact-message" name="message" class="contact__form-input" placeholder="Ej: pierdo tiempo respondedomessages para agendar..." required></textarea>
                         </div>
 
                         <div class="contact__form-trap" aria-hidden="true">
@@ -658,18 +713,23 @@
             <h2 class="footer__title">soul:23</h2>
 
             <ul class="footer__list">
-                <li><a href="#about" class="footer__link">Resumen</a></li>
-                <li><a href="#services" class="footer__link">Capacidades</a></li>
+                <li><a href="acerca.html" class="footer__link">Acerca</a></li>
+                <li><a href="#services" class="footer__link">Servicios</a></li>
+                <li><a href="paquetes.html" class="footer__link">Paquetes</a></li>
                 <li><a href="#work" class="footer__link">Despliegues</a></li>
             </ul>
+
+            <p class="footer__description">
+                Diseño de sistemas para operación: citas, ventas, control interno, reportes y procesos conectados.
+            </p>
 
             <div class="footer__social">
                 <a href="https://www.instagram.com/" target="_blank" class="footer__social-link" aria-label="Instagram"><i class="bx bxl-instagram"></i></a>
                 <a href="https://www.facebook.com/" target="_blank" class="footer__social-link" aria-label="Facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="https://wa.me/" target="_blank" class="footer__social-link" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
+                <a href="https://wa.me/528441026472" target="_blank" class="footer__social-link" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
             </div>
 
-            <span class="footer__copy">soul:23</span>
+            <span class="footer__copy">© 2026 · soul:23 · by Grupo AlMa™</span>
         </div>
     </footer>
 

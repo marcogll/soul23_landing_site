@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="assets/img/logos_soul23/favicon/s23_logo_wh.png" type="image/png">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <title>Servicios | soul:23</title>
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo" aria-label="soul:23">
+                <span class="nav__logo-mark"></span>
+            </a>
+
+            <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
+                Agendar cita
+            </a>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
+        </nav>
+    </header>
+
+    <div class="nav__overlay" id="nav-overlay">
+        <a href="index.html" class="nav__logo" aria-label="soul:23">
+            <span class="nav__logo-mark"></span>
+        </a>
+        <ul class="nav__list">
+            <li class="nav__item">
+                <a href="index.html" class="nav__link" aria-label="Inicio">INICIO</a>
+            </li>
+            <li class="nav__item">
+                <a href="acerca.html" class="nav__link" aria-label="Acerca">ACERCA</a>
+            </li>
+            <li class="nav__item">
+                <a href="#skills" class="nav__link" aria-label="Stack">STACK</a>
+            </li>
+            <li class="nav__item">
+                <a href="#services" class="nav__link active-link" aria-label="Servicios">SERVICIOS</a>
+            </li>
+            <li class="nav__item">
+                <a href="paquetes.html" class="nav__link" aria-label="Paquetes">PAQUETES</a>
+            </li>
+            <li class="nav__item">
+                <a href="index.html#work" class="nav__link" aria-label="Despliegues">DESPLIEGUES</a>
+            </li>
+        </ul>
+        <a href="https://calendly.com/alma_dev/30min" target="_blank" class="button" aria-label="Agendar cita">
+            Agendar cita
+        </a>
+    </div>
+
+    <main class="main">
+        <section class="services section" id="services">
+            <span class="section__subtitle">Capacidades</span>
+            <h2 class="section__title">Todos nuestros servicios</h2>
+
+            <div class="services__container container grid">
+                <div class="services__card">
+                    <i class="bx bx-window-alt services__card-icon"></i>
+                    <h3 class="services__title">Sitios <br> web</h3>
+                    <p class="services__desc">Presencia digital para presentar servicios, publicar información clave y dirigir el tráfico hacia contacto, compra o agenda.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-palette services__card-icon"></i>
+                    <h3 class="services__title">Branding <br> digital</h3>
+                    <p class="services__desc">Sistema visual consistente para sitio, campañas y redes que comunica autoridad y profesionalismo.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-cart services__card-icon"></i>
+                    <h3 class="services__title">Ecommerce</h3>
+                    <p class="services__desc">Plataformas para vender productos, servicios o activos digitales sin procesos manuales en cada venta.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-calendar-heart services__card-icon"></i>
+                    <h3 class="services__title">Salud <br> & agenda</h3>
+                    <p class="services__desc">Plataformas para médicos y terapeutas con agenda de citas, venta de servicios digitales y rutas de atención.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-git-branch services__card-icon"></i>
+                    <h3 class="services__title">Automatización <br> administrativa</h3>
+                    <p class="services__desc">Procesos internos más ligeros: menos capturas manuales, menos errores y más claridad operativa.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-bot services__card-icon"></i>
+                    <h3 class="services__title">Bots & <br> Agentes IA</h3>
+                    <p class="services__desc">Agentes conversacionales 24/7 que atienden, califican y agenda clientes automáticamente.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-book-open services__card-icon"></i>
+                    <h3 class="services__title">Plataformas <br> de cursos</h3>
+                    <p class="services__desc">LMS para vender, entregar y gestionar cursos digitales sin depender de terceros.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+
+                <div class="services__card">
+                    <i class="bx bx-support services__card-icon"></i>
+                    <h3 class="services__title">Soporte <br> IT</h3>
+                    <p class="services__desc">Dominios, hosting, correos y mantenimiento para que todo funcione sin fricciones técnicas.</p>
+                    <span class="services__button">Detalles <i class="bx bx-right-arrow-alt services__icon"></i></span>
+                </div>
+            </div>
+
+            <div class="services__more">
+                <a href="paquetes.html" class="button">Ver paquetes</a>
+                <a href="index.html#contact" class="button button--ghost">Solicitar servicio</a>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Sitios web</h3>
+                    <p class="services__modal-description">
+                        Presencia digital para presentar servicios, publicar información clave y dirigir el tráfico hacia
+                        contacto, compra, agenda o automatización.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Sitio principal:</strong> estructura clara para presentar servicios, casos y llamadas a la acción.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Landings de conversión:</strong> páginas enfocadas en redirigir flujo y capturar intención.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Integración:</strong> base lista para conectar formularios, WhatsApp, ecommerce o automatizaciones internas.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Branding digital</h3>
+                    <p class="services__modal-description">
+                        Sistema visual para que el sitio, campañas, redes y activos comerciales se sientan consistentes y comuniquen autoridad.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Identidad:</strong> logo, color, tipografía y jerarquía visual para cada punto de contacto.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Contenido visual:</strong> estructura lista para campañas, redes sociales y activos de venta.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Manual de marca:</strong> componentes reutilizables para mantener la identidad ordenada al crecer.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Ecommerce</h3>
+                    <p class="services__modal-description">
+                        Plataformas para vender productos, servicios o activos digitales sin depender de
+                        procesos manuales para cada compra.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Catálogo:</strong> productos o activos digitales con rutas de compra claras.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Checkout:</strong> experiencia enfocada en convertir tráfico en venta.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Entrega automática:</strong> acceso, seguimiento y recompra sin intervención humana.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Salud & agenda</h3>
+                    <p class="services__modal-description">
+                        Plataformas para médicos y terapeutas con agenda, venta de servicios digitales y rutas de atención claras.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Agenda:</strong> solicitud de citas y organización de servicios sin llamadas ni mensajes manuales.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Venta digital:</strong> cursos y artículos digitales integrados a la plataforma.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Confianza:</strong> estructura clara para perfiles profesionales, pacientes y comunidad.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Automatización administrativa</h3>
+                    <p class="services__modal-description">
+                        Procesos internos más ligeros: menos capturas manuales, menos errores, más claridad sobre quién hace qué y cuándo.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Captura:</strong> formularios que ordenan solicitudes, datos de clientes y pendientes desde el primer contacto.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Seguimiento:</strong> avisos, reportes y tareas automáticas — sin copiar y pegar.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Documentos:</strong> generación automática de contratos, órdenes y reportes según cada flujo.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Bots & Agentes IA</h3>
+                    <p class="services__modal-description">
+                        Agentes conversacionales entrenados en tu negocio. Atienden, califican y agendan clientes de forma autónoma — 24/7, sin intervención humana.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Omnicanal:</strong> WhatsApp, Instagram, web y Facebook desde un solo sistema.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Base de conocimiento:</strong> el bot responde con la información real de tu negocio, no respuestas genéricas.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Calificación de leads:</strong> filtra, prioriza y agenda prospectos sin que el equipo intervenga.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Plataformas de cursos</h3>
+                    <p class="services__modal-description">
+                        LMS y plataformas educativas para vender, entregar y gestionar cursos o contenido digital sin depender de terceros.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Venta integrada:</strong> checkout directo conectado a entrega automática de acceso.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Gestión de alumnos:</strong> progreso, accesos y comunicación centralizada.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Tu plataforma:</strong> sin comisiones de terceros ni límites de contenido.</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="services__modal">
+                <div class="services__modal-content">
+                    <i class="bx bx-x services__modal-close"></i>
+                    <h3 class="services__modal-title">Soporte IT</h3>
+                    <p class="services__modal-description">
+                        Infraestructura digital estable: dominios, hosting, correos, integraciones y mantenimiento para que todo funcione sin fricciones técnicas.
+                    </p>
+                    <ul class="services__modal-list">
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Infraestructura:</strong> dominios, hosting, servidores y correos corporativos configurados.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Mantenimiento:</strong> actualizaciones, monitoreo y resolución de fallas sin que el cliente tenga que intervenir.</p></li>
+                        <li class="services__modal-item"><i class="bx bx-check services__modal-icon"></i><p class="services__modal-info"><strong>Integraciones:</strong> conexión de APIs, herramientas externas y sistemas existentes.</p></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact section" id="contact">
+            <span class="section__subtitle">Solicitud</span>
+            <h2 class="section__title">Cuéntanos qué sistema necesitas</h2>
+
+            <div class="contact__container container grid">
+                <div class="contact__content">
+                    <h3 class="contact__title">Contacto directo</h3>
+
+                    <div class="contact__info">
+                        <div class="contact__card">
+                            <i class="bx bx-mail-send contact__card-icon"></i>
+                            <h3 class="contact__card-title">Email</h3>
+                            <span class="contact__card-data">hola@soul23.mx</span>
+                            <a href="mailto:hola@soul23.mx" class="contact__button">Escribir <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                        </div>
+
+                        <div class="contact__card">
+                            <i class="bx bxl-whatsapp contact__card-icon"></i>
+                            <h3 class="contact__card-title">WhatsApp</h3>
+                            <span class="contact__card-data">Respuesta directa</span>
+                            <a href="https://wa.me/528441026472?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20soul23." target="_blank" class="contact__button">Abrir chat <i class="bx bx-right-arrow-alt contact__button-icon"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact__content">
+                    <h3 class="contact__title">Brief inicial</h3>
+
+                    <form class="contact__form" data-webhook-url="https://flows.soul23.cloud/webhook/OvJ8A25svipYxC8OQ60tT1">
+                        <div class="contact__form-div">
+                            <label for="contact-name" class="contact__form-tag">Nombre</label>
+                            <input id="contact-name" name="name" type="text" class="contact__form-input" required>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-business" class="contact__form-tag">Negocio</label>
+                            <input id="contact-business" name="businessName" type="text" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-email" class="contact__form-tag">Email</label>
+                            <input id="contact-email" name="email" type="email" class="contact__form-input" required>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-phone" class="contact__form-tag">Teléfono</label>
+                            <input id="contact-phone" name="phone" type="tel" class="contact__form-input">
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-industry" class="contact__form-tag">Tipo de negocio</label>
+                            <select id="contact-industry" name="industry" class="contact__form-input" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="Tienda en linea">Tienda en línea</option>
+                                <option value="Cursos o educacion">Cursos o educación</option>
+                                <option value="Salud o bienestar">Salud o bienestar</option>
+                                <option value="Restaurante o hospitality">Restaurante / Hospitality</option>
+                                <option value="Operacion interna">Operación interna</option>
+                                <option value="Servicios profesionales">Servicios profesionales</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="contact__form-div">
+                            <label for="contact-comment-type" class="contact__form-tag">Sistema requerido</label>
+                            <select id="contact-comment-type" name="commentType" class="contact__form-input" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="sitio-web">Sitio web</option>
+                                <option value="branding-digital">Branding digital</option>
+                                <option value="ecommerce">Ecommerce</option>
+                                <option value="plataforma-salud">Plataforma de salud & agenda</option>
+                                <option value="bot-agente-ia">Bot / Agente de IA</option>
+                                <option value="plataforma-cursos">Plataforma de cursos (LMS)</option>
+                                <option value="automatizacion-administrativa">Automatización administrativa</option>
+                                <option value="soporte-it">Soporte IT</option>
+                                <option value="landing">Landing de conversión</option>
+                                <option value="reporte-ia">Formulario con reporte IA</option>
+                            </select>
+                        </div>
+
+                        <div class="contact__form-div contact__form-area">
+                            <label for="contact-message" class="contact__form-tag">Objetivo</label>
+                            <textarea id="contact-message" name="message" class="contact__form-input" required></textarea>
+                        </div>
+
+                        <div class="contact__form-trap" aria-hidden="true">
+                            <label for="contact-website">Website</label>
+                            <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <p class="contact__form-status" role="status"></p>
+                        <button type="submit" class="button contact__form-submit">Enviar solicitud</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <h2 class="footer__title">soul:23</h2>
+
+            <ul class="footer__list">
+                <li><a href="index.html#about" class="footer__link">Resumen</a></li>
+                <li><a href="#services" class="footer__link">Servicios</a></li>
+                <li><a href="paquetes.html" class="footer__link">Paquetes</a></li>
+                <li><a href="index.html#work" class="footer__link">Despliegues</a></li>
+                <li><a href="#contact" class="footer__link">Contacto</a></li>
+            </ul>
+
+            <div class="footer__social">
+                <a href="https://www.instagram.com/" target="_blank" class="footer__social-link" aria-label="Instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="https://www.facebook.com/" target="_blank" class="footer__social-link" aria-label="Facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="https://wa.me/528441026472" target="_blank" class="footer__social-link" aria-label="WhatsApp"><i class="bx bxl-whatsapp"></i></a>
+            </div>
+
+            <span class="footer__copy">© 2026 · soul:23 · by Grupo AlMa™</span>
+        </div>
+    </footer>
+
+    <script src="assets/js/scrollreveal.min.js"></script>
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/mixitup.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
