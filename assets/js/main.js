@@ -39,14 +39,18 @@ modalViews.forEach((mv) => {
 })
 
 /*=============== MIXITUP FILTER PORTFOLIO ===============*/
-let mixerPortfolio = mixitup('.work__container', {
-    selectors: {
-        target: '.work__card'
-    },
-    animation: {
-        duration: 300
-    }
-});
+const workContainer = document.querySelector('.work__container')
+
+if (workContainer && typeof mixitup === 'function') {
+    mixitup(workContainer, {
+        selectors: {
+            target: '.work__card'
+        },
+        animation: {
+            duration: 300
+        }
+    })
+}
 
 /* Link active work */
 const linkWork = document.querySelectorAll('.work__item')
@@ -90,7 +94,7 @@ function scrollActive() {
               sectionTop = current.offsetTop - 58,
               sectionId = current.getAttribute('id')
 
-        const navLink = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
+        const navLink = document.querySelector('.nav__overlay a[href*="' + sectionId + '"], .nav__menu a[href*="' + sectionId + '"]')
 
         if(!navLink) {
             return
@@ -164,47 +168,49 @@ if (navToggle && navOverlay) {
 }
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '60px',
-    duration: 2500,
-    delay: 400,
-})
+if (typeof ScrollReveal === 'function') {
+    const sr = ScrollReveal({
+        origin: 'top',
+        distance: '60px',
+        duration: 2500,
+        delay: 400,
+    })
 
-// Home
-sr.reveal(`.home__data`)
-sr.reveal(`.home__handle`, {delay: 700})
-sr.reveal(`.home__social, .home__scroll`, {delay: 900, origin: 'bottom'})
+    // Home
+    sr.reveal(`.home__intro, .home__data`)
+    sr.reveal(`.home__handle`, {delay: 700})
+    sr.reveal(`.home__social, .home__scroll`, {delay: 900, origin: 'bottom'})
 
-// About
-sr.reveal(`.about__logo`, {origin: 'left', delay: 500})
-sr.reveal(`.about__data`, {origin: 'right', delay: 600})
-sr.reveal(`.about__box`, {interval: 100, delay: 700})
+    // About
+    sr.reveal(`.about__logo`, {origin: 'left', delay: 500})
+    sr.reveal(`.about__data`, {origin: 'right', delay: 600})
+    sr.reveal(`.about__box`, {interval: 100, delay: 700})
 
-// Skills
-sr.reveal(`.skills__content`, {origin: 'left', interval: 200})
+    // Skills
+    sr.reveal(`.skills__content`, {origin: 'left', interval: 200})
 
-// Services
-sr.reveal(`.services__card`, {interval: 150})
+    // Services
+    sr.reveal(`.services__card`, {interval: 150})
 
-// Work
-sr.reveal(`.work__filters`, {delay: 300})
-sr.reveal(`.work__card`, {interval: 100, delay: 400})
+    // Work
+    sr.reveal(`.work__filters`, {delay: 300})
+    sr.reveal(`.work__card`, {interval: 100, delay: 400})
 
-// Pillars
-sr.reveal(`.pillars__card`, {interval: 100, delay: 300})
+    // Pillars
+    sr.reveal(`.pillars__card`, {interval: 100, delay: 300})
 
-// Testimonial
-sr.reveal(`.testimonial__container`, {delay: 300})
+    // Testimonial
+    sr.reveal(`.testimonial__container`, {delay: 300})
 
-// Contact
-sr.reveal(`.contact__title`, {delay: 300})
-sr.reveal(`.contact__card`, {interval: 100, delay: 400})
-sr.reveal(`.contact__form`, {origin: 'bottom', delay: 500})
+    // Contact
+    sr.reveal(`.contact__title`, {delay: 300})
+    sr.reveal(`.contact__card`, {interval: 100, delay: 400})
+    sr.reveal(`.contact__form`, {origin: 'bottom', delay: 500})
 
-// Section titles
-sr.reveal(`.section__subtitle`, {delay: 200})
-sr.reveal(`.section__title`, {delay: 300})
+    // Section titles
+    sr.reveal(`.section__subtitle`, {delay: 200})
+    sr.reveal(`.section__title`, {delay: 300})
+}
 
 /*=============== RANDOM HERO IMAGE ROTATION ===============*/
 const heroImg = document.getElementById('hero-img');

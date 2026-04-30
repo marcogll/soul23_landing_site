@@ -18,17 +18,19 @@
                 <span class="nav__logo-mark"></span>
             </a>
 
-            <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
-                Agendar cita
-            </a>
+            <div class="nav__actions">
+                <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
 
-            <div class="nav__toggle" id="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
+                    Agendar cita
+                </a>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-
-            <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
         </nav>
     </header>
 
@@ -70,9 +72,13 @@
     <main class="main">
         <section class="home section" id="home">
             <div class="home__container container grid">
+                <div class="home__intro">
+                    <span class="home__eyebrow">Sistemas digitales para operación real</span>
+                    <h1 class="home__tagline">Operación más clara. Menos carga manual.</h1>
+                </div>
+
                 <div class="home__data">
-                    <span class="home__greeting">Operación más clara. Menos carga manual.</span>
-                    <span class="home__education">Sistemas para organizar citas, ventas, personal y comunicación sin depender de procesos manuales.</span>
+                    <p class="home__education">Sistemas para organizar citas, ventas, personal y comunicación sin depender de procesos manuales.</p>
 
                     <div class="home__buttons">
                         <a href="#work" class="button">Ver sistemas</a>
@@ -112,27 +118,25 @@
                     <div class="about__container container grid">
                         <span class="about__logo" aria-label="soul:23"></span>
 
-                        <div class="about__data">
-                            <p class="about__description">
-                                La mayoría de los negocios ya tiene herramientas. El problema es que no están conectadas.
+                    <div class="about__data">
+                        <div class="about__description">
+                            <p>La mayoría de los negocios ya tiene herramientas. El problema es que no están conectadas.</p>
 
-                                Se pierde tiempo en mensajes, registros manuales, validaciones y seguimiento.
-                                La información no fluye y la operación depende de estar revisando todo.
+                            <p>Se pierde tiempo en mensajes, registros manuales, validaciones y seguimiento. La información no fluye y la operación depende de estar revisando todo.</p>
 
-                                En soul:23 analizamos cómo funciona el negocio y detectamos:
-                                <ul class="about__list">
-                                    <li>¿Dónde se pierde tiempo?</li>
-                                    <li>¿Qué tareas se repiten?</li>
-                                    <li>¿Qué no se está registrando?</li>
-                                    <li>¿Qué decisiones se toman sin datos?</li>
-                                </ul>
+                            <p>En soul:23 analizamos cómo funciona el negocio y detectamos:</p>
 
-                                A partir de eso se diseña un sistema que puede incluir:
-                                sitios, agendas, automatización, reportes, control interno
-                                o incluso hardware si la operación lo requiere.
+                            <ul class="about__list">
+                                <li>¿Dónde se pierde tiempo?</li>
+                                <li>¿Qué tareas se repiten?</li>
+                                <li>¿Qué no se está registrando?</li>
+                                <li>¿Qué decisiones se toman sin datos?</li>
+                            </ul>
 
-                                El resultado es una operación más estable, medible y menos dependiente de intervención constante.
-                            </p>
+                            <p>A partir de eso se diseña un sistema que puede incluir: sitios, agendas, automatización, reportes, control interno o incluso hardware si la operación lo requiere.</p>
+
+                            <p>El resultado es una operación más estable, medible y menos dependiente de intervención constante.</p>
+                        </div>
 
                             <a href="#work" class="button">Ver sistemas</a>
                         </div>
@@ -388,15 +392,44 @@
             <span class="section__subtitle">Proceso</span>
             <h2 class="section__title">Cómo se organiza la operación</h2>
 
-            <p class="system__description">
-                Cada acción dentro del negocio se convierte en un registro y dispara una respuesta.
+            <div class="system__shell container">
+                <p class="system__description">
+                    Cada acción dentro del negocio se convierte en un registro y dispara una respuesta. La operación puede arrancar por agenda, venta, personal, feedback o una idea nueva.
+                </p>
 
-                <strong>Un cliente agenda</strong> → se valida → se confirma → se registra<br>
-                <strong>Una venta ocurre</strong> → se guarda → se calcula → se reporta<br>
-                <strong>Un empleado entra</strong> → se registra → se almacena → se analiza
+                <div class="system__flows">
+                    <article class="system__flow">
+                        <span class="system__flow-label">Agenda</span>
+                        <p class="system__flow-line"><strong>Un cliente agenda</strong></p>
+                        <p class="system__flow-steps">se valida <span>→</span> se confirma <span>→</span> se registra</p>
+                    </article>
+
+                    <article class="system__flow">
+                        <span class="system__flow-label">Venta</span>
+                        <p class="system__flow-line"><strong>Una venta ocurre</strong></p>
+                        <p class="system__flow-steps">se guarda <span>→</span> se calcula <span>→</span> se reporta</p>
+                    </article>
+
+                    <article class="system__flow">
+                        <span class="system__flow-label">Personal</span>
+                        <p class="system__flow-line"><strong>Un empleado entra</strong></p>
+                        <p class="system__flow-steps">se registra <span>→</span> se almacena <span>→</span> se analiza</p>
+                    </article>
+
+                    <article class="system__flow">
+                        <span class="system__flow-label">Feedback</span>
+                        <p class="system__flow-line"><strong>Un cliente deja feedback</strong></p>
+                        <p class="system__flow-steps">se captura <span>→</span> se clasifica <span>→</span> se convierte en mejora</p>
+                    </article>
+                </div>
+
+                <div class="system__ideas">
+                    <span class="system__ideas-kicker">Las ideas son endless</span>
+                    <p class="system__ideas-text">Si aparece un nuevo proceso, canal o necesidad, se puede conectar al sistema y volverlo parte de la operación sin empezar desde cero.</p>
+                </div>
 
                 <span class="system__highlight">Todo queda conectado. No depende de seguimiento manual.</span>
-            </p>
+            </div>
         </section>
 
         <section class="work section" id="work">
@@ -411,7 +444,6 @@
                 <span class="work__item" data-filter=".commerce">Ecommerce</span>
                 <span class="work__item" data-filter=".health">Salud</span>
                 <span class="work__item" data-filter=".automation">Automatización</span>
-                <span class="work__item" data-filter=".clientes">Clientes</span>
             </div>
 
             <div class="work__container container grid">
@@ -436,42 +468,51 @@
                 </article>
 
                 <article class="work__card mix web health">
-                    <a href="https://daniela-flores.soul23.cloud/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir sitio de Daniela Flores">
+                    <a href="https://daniela-flores.soul23.mx/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir sitio de Daniela Flores">
                         <img src="assets/img/dradfg.jpg" alt="Landing médica" class="work__img">
                     </a>
                     <span class="work__tag">Landing médica</span>
                     <h3 class="work__title">Dra. DFG</h3>
                     <p class="work__description">Landing de redirección para consulta médica y contacto de pacientes.</p>
-                    <a href="https://daniela-flores.soul23.cloud/" target="_blank" rel="noopener" class="work__button">Abrir sitio <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                    <a href="https://daniela-flores.soul23.mx/" target="_blank" rel="noopener" class="work__button">Abrir sitio <i class="bx bx-right-arrow-alt work__icon"></i></a>
                 </article>
 
                 <article class="work__card mix web health">
-                    <a href="https://gloria.soul23.cloud/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir sitio de Gloria">
+                    <a href="https://gloria.soul23.mx/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir sitio de Gloria">
                         <img src="assets/img/gloria_demo.png" alt="Sitio Gloria" class="work__img">
                     </a>
                     <span class="work__tag">Salud · sitio web</span>
                     <h3 class="work__title">Gloria</h3>
                     <p class="work__description">Sitio de presentación para servicios de salud y contacto directo.</p>
-                    <a href="https://gloria.soul23.cloud/" target="_blank" rel="noopener" class="work__button">Abrir sitio <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                    <a href="https://gloria.soul23.mx/" target="_blank" rel="noopener" class="work__button">Abrir sitio <i class="bx bx-right-arrow-alt work__icon"></i></a>
                 </article>
 
                 <article class="work__card mix automation">
-                    <a href="https://feedback.soul23.cloud/s/cmnhxc6620000o401c7c874q7" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir muestra de survey automático con IA">
+                    <a href="https://feedback.soul23.mx/s/cmnhxc6620000o401c7c874q7" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir muestra de survey automático con IA">
                         <img src="assets/img/n8n.png" alt="Flujo de survey automático con IA" class="work__img">
                     </a>
                     <span class="work__tag">Survey · IA · reporte</span>
                     <h3 class="work__title">Surveys automáticos con IA</h3>
                     <p class="work__description">Muestra de un formulario que recibe respuestas, analiza la información y genera un reporte accionable sin captura manual.</p>
-                    <a href="https://feedback.soul23.cloud/s/cmnhxc6620000o401c7c874q7" target="_blank" rel="noopener" class="work__button">Probar survey <i class="bx bx-right-arrow-alt work__icon"></i></a>
+                    <a href="https://feedback.soul23.mx/s/cmnhxc6620000o401c7c874q7" target="_blank" rel="noopener" class="work__button">Probar survey <i class="bx bx-right-arrow-alt work__icon"></i></a>
                 </article>
+            </div>
+        </section>
 
-                <article class="work__card mix clientes">
-                    <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="work__media-frame" aria-label="Abrir Vanity Salon & Spa">
-                        <img src="assets/img/customers/logo.vanity.salon&spa.svg" alt="Vanity Salon & Spa" class="work__img client-logo client-logo--vanity">
+        <section class="clients section" id="clients">
+            <span class="section__subtitle">Clientes</span>
+            <h2 class="section__title">Clientes principales</h2>
+
+            <p class="clients__intro">Marcas con las que se ha trabajado presencia digital, experiencia operativa o sistemas conectados para crecer con más control.</p>
+
+            <div class="clients__container container grid">
+                <article class="clients__card">
+                    <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="clients__media-frame" aria-label="Abrir Vanity Salon & Spa">
+                        <img src="assets/img/customers/logo_vanity.svg" alt="Vanity Salon & Spa" class="clients__img clients__img--seal">
                     </a>
-                    <span class="work__tag">Cliente</span>
-                    <h3 class="work__title">Vanity Salon & Spa</h3>
-                    <p class="work__description">Presencia y sistemas digitales para una marca de belleza y bienestar.</p>
+                    <span class="clients__tag">Belleza · bienestar</span>
+                    <h3 class="clients__title">Vanity Salon & Spa</h3>
+                    <p class="clients__description">Marca con trabajo en presencia digital y conexión de sistemas alrededor de agenda, venta y experiencia del cliente.</p>
                     <a href="https://vanityexperience.mx/" target="_blank" rel="noopener" class="work__button">Ver alcance <i class="bx bx-right-arrow-alt work__icon"></i></a>
                 </article>
             </div>

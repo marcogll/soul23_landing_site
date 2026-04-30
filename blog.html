@@ -18,17 +18,19 @@
                 <span class="nav__logo-mark"></span>
             </a>
 
-            <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
-                Agendar cita
-            </a>
+            <div class="nav__actions">
+                <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
 
-            <div class="nav__toggle" id="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <a href="https://calendly.com/alma_dev/30min" target="_blank" class="nav__cta" aria-label="Agendar cita">
+                    Agendar cita
+                </a>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-
-            <i class="bx bx-moon change-theme" id="theme-button" aria-label="Cambiar tema"></i>
         </nav>
     </header>
 
@@ -72,8 +74,18 @@
 
         <section class="blog-list section">
             <div class="container">
+                <div class="blog-filters" aria-label="Filtrar artículos">
+                    <button type="button" class="blog-filter active" data-filter="all">Todo</button>
+                    <button type="button" class="blog-filter" data-filter="citas">Citas</button>
+                    <button type="button" class="blog-filter" data-filter="mensajes">Mensajes</button>
+                    <button type="button" class="blog-filter" data-filter="ventas">Ventas</button>
+                    <button type="button" class="blog-filter" data-filter="datos">Datos</button>
+                    <button type="button" class="blog-filter" data-filter="tech">Tech</button>
+                    <button type="button" class="blog-filter" data-filter="infra">Infra</button>
+                </div>
+
                 <div class="blog-grid">
-                    <article class="blog-card" onclick="showBlogPost(1)">
+                    <article class="blog-card" data-category="citas">
                         <div class="blog-card__image">
                             <i class="bx bx-calendar-x"></i>
                         </div>
@@ -81,11 +93,11 @@
                             <span class="blog-card__tag">Citas</span>
                             <h3 class="blog-card__title">Cómo evitar cancelaciones de citas sin estar persiguiendo clientes</h3>
                             <p class="blog-card__excerpt">El problema no es que la gente cancele. Es que el sistema permite que lo hagan sin fricción.</p>
-                            <span class="blog-card__read">Leer →</span>
+                            <a href="blog/blog-cancelaciones-citas.html" class="blog-card__read">Leer <i class="bx bx-right-arrow-alt"></i></a>
                         </div>
                     </article>
 
-                    <article class="blog-card" onclick="showBlogPost(2)">
+                    <article class="blog-card" data-category="mensajes">
                         <div class="blog-card__image">
                             <i class="bx bx-message-dots"></i>
                         </div>
@@ -93,11 +105,11 @@
                             <span class="blog-card__tag">Mensajes</span>
                             <h3 class="blog-card__title">Cómo dejar de perder tiempo respondiendo mensajes para agendar citas</h3>
                             <p class="blog-card__excerpt">El ajuste real es eliminar la necesidad de responder. Todo lo que se repite, se automatiza.</p>
-                            <span class="blog-card__read">Leer →</span>
+                            <a href="blog/blog-mensajes-agendar.html" class="blog-card__read">Leer <i class="bx bx-right-arrow-alt"></i></a>
                         </div>
                     </article>
 
-                    <article class="blog-card" onclick="showBlogPost(3)">
+                    <article class="blog-card" data-category="ventas">
                         <div class="blog-card__image">
                             <i class="bx bx-money"></i>
                         </div>
@@ -105,11 +117,11 @@
                             <span class="blog-card__tag">Ventas</span>
                             <h3 class="blog-card__title">Cómo organizar pagos y ventas sin usar libretas</h3>
                             <p class="blog-card__excerpt">Ahora todo se calcula solo. Se elimina la reconstrucción y con eso, la incertidumbre.</p>
-                            <span class="blog-card__read">Leer →</span>
+                            <a href="blog/blog-pagos-ventas.html" class="blog-card__read">Leer <i class="bx bx-right-arrow-alt"></i></a>
                         </div>
                     </article>
 
-                    <article class="blog-card" onclick="showBlogPost(4)">
+                    <article class="blog-card" data-category="datos">
                         <div class="blog-card__image">
                             <i class="bx bx-bar-chart-alt-2"></i>
                         </div>
@@ -117,11 +129,11 @@
                             <span class="blog-card__tag">Datos</span>
                             <h3 class="blog-card__title">Cómo saber qué pasa en tu negocio sin estar presente todo el día</h3>
                             <p class="blog-card__excerpt">El sistema no necesita que alguien esté mirando. Porque ya está observando por sí mismo.</p>
-                            <span class="blog-card__read">Leer →</span>
+                            <a href="blog/blog-datos-operacion.html" class="blog-card__read">Leer <i class="bx bx-right-arrow-alt"></i></a>
                         </div>
                     </article>
 
-                    <article class="blog-card" onclick="showBlogPost(5)">
+                    <article class="blog-card" data-category="tech">
                         <div class="blog-card__image">
                             <i class="bx bx-git-merge"></i>
                         </div>
@@ -129,11 +141,11 @@
                             <span class="blog-card__tag">Tech</span>
                             <h3 class="blog-card__title">Qué es n8n y por qué permite que un negocio funcione sin intervención</h3>
                             <p class="blog-card__excerpt">n8n funciona como el punto donde se define qué pasa cuando algo ocurre.</p>
-                            <span class="blog-card__read">Leer →</span>
+                            <a href="blog/blog-que-es-n8n.html" class="blog-card__read">Leer <i class="bx bx-right-arrow-alt"></i></a>
                         </div>
                     </article>
 
-                    <article class="blog-card" onclick="showBlogPost(6)">
+                    <article class="blog-card" data-category="infra">
                         <div class="blog-card__image">
                             <i class="bx bx-server"></i>
                         </div>
@@ -141,147 +153,12 @@
                             <span class="blog-card__tag">Infra</span>
                             <h3 class="blog-card__title">Por qué necesitas un VPS para que tu sistema funcione 24/7</h3>
                             <p class="blog-card__excerpt">El sistema deja de ser algo que ejecutas. Y pasa a ser algo que siempre está corriendo.</p>
-                            <span class="blog-card__read">Leer →</span>
+                            <a href="blog/blog-vps-24-7.html" class="blog-card__read">Leer <i class="bx bx-right-arrow-alt"></i></a>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
-
-        <div class="blog-modal" id="blog-modal">
-            <div class="blog-modal__content">
-                <button class="blog-modal__close" onclick="closeBlogPost()">
-                    <i class="bx bx-x"></i>
-                </button>
-                <article id="blog-post-1" class="blog-post" style="display:none;">
-                    <span class="blog-card__tag">Citas</span>
-                    <h2>Cómo evitar cancelaciones de citas sin estar persiguiendo clientes</h2>
-                    <p class="blog-post__meta">Por Marco G. · soul:23</p>
-                    <div class="blog-post__content">
-                        <p>Hay una escena que se repite más de lo que parece.</p>
-                        <p>Una agenda completamente llena en la mañana. Todo reservado. Todo aparentemente bajo control. Incluso hay una sensación de saturación, como si ya no hubiera espacio para más trabajo.</p>
-                        <p>Horas después, esa misma agenda empieza a romperse.</p>
-                        <p>Primero una cancelación. Luego alguien que "no alcanzó a llegar". Luego un espacio que simplemente queda vacío sin explicación clara.</p>
-                        <p>A mitad del día, lo que parecía demanda real se convierte en huecos que ya no se pueden recuperar.</p>
-                        <p>Ese fue el punto donde se vuelve evidente algo que normalmente se ignora:</p>
-                        <blockquote>El problema no es que la gente cancele. El problema es que el sistema permite que lo hagan sin ningún tipo de fricción.</blockquote>
-                        <p>Cuando una cita se crea sin costo, sin validación y sin compromiso real, también se abandona de la misma forma.</p>
-                        <p>"Ahora mis pacientes entran, ven de qué trata la terapia y agendan su cita sin que yo tenga que estar enviando mensajes de ida y vuelta." — Gloria, terapeuta</p>
-                        <p>Antes, todo dependía de conversación. Mensajes que iban y venguan. Confirmaciones ambiguas. Horarios "apartados" sin certeza. Nada de eso es estructura. Es coordinación manual.</p>
-                        <p>Lo que se hizo fue intervenir ese punto exacto. No se cambió al cliente. Se cambió la forma en la que el sistema acepta una cita.</p>
-                        <p>Ahora el flujo tiene una lógica distinta. El cliente entra y ve únicamente horarios disponibles. No hay negociación. No hay ambigüedad.</p>
-                        <p>Selecciona un espacio. En ese momento, el sistema no confirma. Hace algo más importante: valida intención.</p>
-                        <p>Se genera un enlace de pago. Ese paso introduce una condición que antes no existía.</p>
-                        <p>Si el pago ocurre, la cita se confirma y el espacio se bloquea. Si no ocurre, el sistema no asume nada. El espacio sigue disponible.</p>
-                        <p>A partir de ahí, todo lo demás se automatiza: recordatorios programados, confirmaciones sin intervención, reglas de cancelación aplicadas automáticamente.</p>
-                        <p>Técnicamente, lo que se hizo fue convertir una acción informal en un evento transaccional. La cita dejó de ser una promesa. Se volvió un estado validado.</p>
-                        <p>El efecto es directo. La agenda deja de fluctuar porque ya no depende de intención verbal, sino de acciones verificables.</p>
-                    </div>
-                </article>
-
-                <article id="blog-post-2" class="blog-post" style="display:none;">
-                    <span class="blog-card__tag">Mensajes</span>
-                    <h2>Cómo dejar de perder tiempo respondiendo mensajes para agendar citas</h2>
-                    <p class="blog-post__meta">Por Marco G. · soul:23</p>
-                    <div class="blog-post__content">
-                        <p>Hubo un momento donde la carga de trabajo no venía del servicio en sí, sino de todo lo que pasaba antes de llegar a él.</p>
-                        <p>El teléfono no dejaba de vibrar. Mensajes nuevos, respuestas pendientes, conversaciones abiertas que nunca terminaban.</p>
-                        <p>Pero cuando se observa con detalle, no eran conversaciones complejas. Eran repeticiones. Las mismas preguntas, una y otra vez:</p>
-                        <ul>
-                            <li>¿Qué horarios tienes?</li>
-                            <li>¿Cuánto cuesta?</li>
-                            <li>¿Qué incluye?</li>
-                        </ul>
-                        <p>Nada de eso requería análisis. Solo requería repetir información que ya existía.</p>
-                        <blockquote>"Ahora la gente agenda sola y yo solo atiendo las citas ya confirmadas."</blockquote>
-                        <p>El error común es intentar responder más rápido. El ajuste real es eliminar la necesidad de responder.</p>
-                        <p>Lo que se hizo fue mover la información fuera del canal de mensajes. Se tomó todo lo que normalmente se explicaba manualmente y se estructuró en un sistema accesible.</p>
-                        <p>Se construyó una interfaz donde el cliente puede entender: qué servicios existen, cómo funciona el proceso, qué opciones tiene disponibles. Sin depender de alguien respondiendo.</p>
-                        <p>Encima de eso, se integró un agente conversacional. No uno que improvisa o intenta persuadir. Uno que opera sobre información ya definida: responde preguntas frecuentes, elimina fricción, redirige al flujo correcto.</p>
-                        <p>En el momento en que el cliente decide avanzar, ya no necesita interacción humana. Solo ejecuta.</p>
-                        <p>Desde el punto de vista técnico, esto es una sustitución directa: conversaciones → endpoints de información, preguntas → respuestas estructuradas, decisiones simples → lógica automatizada.</p>
-                        <p>El resultado no es solo menos mensajes. Es que el sistema absorbe la carga cognitiva que antes estaba distribuida en múltiples conversaciones.</p>
-                    </div>
-                </article>
-
-                <article id="blog-post-3" class="blog-post" style="display:none;">
-                    <span class="blog-card__tag">Ventas</span>
-                    <h2>Cómo organizar pagos y ventas sin usar libretas</h2>
-                    <p class="blog-post__meta">Por Marco G. · soul:23</p>
-                    <div class="blog-post__content">
-                        <p>Hay un momento al final del día que define mucho más de lo que parece.</p>
-                        <p>Alguien sentado intentando reconstruir lo que pasó. No ejecutando el negocio. Intentando entenderlo.</p>
-                        <p>Libretas abiertas. Números que no cuadran. Cálculos repetidos más de una vez para asegurarse.</p>
-                        <p>Ese proceso no agrega valor. Solo corrige la falta de sistema durante el día.</p>
-                        <blockquote>"Ahora todo se calcula solo y por fin sé qué onda con los tiempos muertos sin estar pegada ahí." — Alejandra, salón de belleza</blockquote>
-                        <p>El cambio no fue mejorar la libreta. Fue eliminar la necesidad de usarla.</p>
-                        <p>Se dejó de registrar información después del hecho. Se empezó a registrar en el momento en que ocurre.</p>
-                        <p>Cada venta se convierte en un evento. Ese evento entra al sistema automáticamente.</p>
-                        <p>Y no se queda ahí. Activa cálculos: comisiones individuales, totales diarios, distribución por empleado. Nada se vuelve a escribir. Nada se vuelve a calcular manualmente.</p>
-                        <p>Técnicamente, cada punto donde ocurre una transacción se conecta a un sistema central. Ese sistema convierte acciones en datos estructurados. Y esos datos alimentan lógica automática.</p>
-                        <p>El efecto es claro. Se elimina la reconstrucción. Y con eso, se elimina la incertidumbre.</p>
-                    </div>
-                </article>
-
-                <article id="blog-post-4" class="blog-post" style="display:none;">
-                    <span class="blog-card__tag">Datos</span>
-                    <h2>Cómo saber qué pasa en tu negocio sin estar presente todo el día</h2>
-                    <p class="blog-post__meta">Por Marco G. · soul:23</p>
-                    <div class="blog-post__content">
-                        <p>Hay una dependencia que aparece sin darse cuenta.</p>
-                        <p>El negocio funciona… siempre y cuando alguien esté presente. En el momento en que esa persona se va, aparece la duda.</p>
-                        <p>¿Cuántas ventas hubo? ¿Se cumplió lo que estaba agendado?</p>
-                        <p>Ese tipo de operación no escala. Porque no es un sistema. Es supervisión constante.</p>
-                        <blockquote>"Si no estaba ahí, no sabía qué estaba pasando. Ahora todo se reporta solo."</blockquote>
-                        <p>La solución no fue observar más. Fue dejar de depender de observar.</p>
-                        <p>Se instrumentó la operación. Cada acción relevante se convierte en un evento: una venta, una cancelación, una nueva cita.</p>
-                        <p>Ese evento se registra automáticamente. Pero más importante, dispara otras acciones: notificaciones, actualización de métricas, generación de alertas.</p>
-                        <p>Todo eso converge en un punto central. Un dashboard que no interpreta. Solo muestra lo que está ocurriendo.</p>
-                        <p>Técnicamente, esto es trazabilidad. Cada acción deja un rastro. Cada rastro se procesa. El sistema no necesita que alguien esté mirando. Porque ya está observando por sí mismo.</p>
-                    </div>
-                </article>
-
-                <article id="blog-post-5" class="blog-post" style="display:none;">
-                    <span class="blog-card__tag">Tech</span>
-                    <h2>Qué es n8n y por qué permite que un negocio funcione sin intervención</h2>
-                    <p class="blog-post__meta">Por Marco G. · soul:23</p>
-                    <div class="blog-post__content">
-                        <p>Cuando todos estos cambios empiezan a conectarse, aparece una pregunta inevitable.</p>
-                        <p>Si ya no hay alguien ejecutando manualmente cada paso… ¿qué lo está haciendo?</p>
-                        <p>La respuesta no es una persona. Es una estructura.</p>
-                        <p>n8n funciona como ese punto donde se define qué pasa cuando algo ocurre. No ejecuta tareas aisladas. Ejecuta secuencias. Flujos completos.</p>
-                        <p>Por ejemplo: Un cliente agenda. Ese evento no se queda aislado. Activa una cadena:</p>
-                        <ol>
-                            <li>Se valida disponibilidad</li>
-                            <li>Se genera un enlace de pago</li>
-                            <li>Se envía un mensaje</li>
-                            <li>Se espera confirmación</li>
-                            <li>Se programan recordatorios</li>
-                        </ol>
-                        <p>Cada paso depende del anterior. Todo ocurre sin intervención.</p>
-                        <p>Desde el punto de vista técnico, n8n conecta sistemas que normalmente no están conectados. Y permite definir lógica entre ellos.</p>
-                        <p>No es una herramienta de automatización simple. Es un orquestador de procesos. Y esa diferencia es la que permite que un negocio deje de depender de ejecución manual constante.</p>
-                    </div>
-                </article>
-
-                <article id="blog-post-6" class="blog-post" style="display:none;">
-                    <span class="blog-card__tag">Infra</span>
-                    <h2>Por qué necesitas un VPS para que tu sistema funcione 24/7</h2>
-                    <p class="blog-post__meta">Por Marco G. · soul:23</p>
-                    <div class="blog-post__content">
-                        <p>Todo lo anterior puede estar perfectamente diseñado. Pero hay un punto donde falla si la base no es correcta.</p>
-                        <p>Intentar correr todo desde una computadora personal. Funciona al inicio. Hasta que deja de funcionar.</p>
-                        <p>Se apaga la máquina. Se pierde la conexión. Y con eso, todo el sistema deja de existir temporalmente.</p>
-                        <p>Para entenderlo mejor, piensa en un restaurante. El cliente hace un pedido. El mesero lo recibe. La cocina lo ejecuta. Si el mesero no está, la cocina nunca recibe la orden.</p>
-                        <p>Tu computadora es el cliente. El VPS es el mesero. Tu sistema es la cocina.</p>
-                        <p>El VPS está siempre activo. No depende de tu red local. No depende de si alguien lo prende o lo apaga.</p>
-                        <p>Recibe solicitudes en cualquier momento. Mantiene procesos activos. Ejecuta lógica en tiempo real.</p>
-                        <p>Técnicamente, permite que herramientas como n8n operen de forma continua.</p>
-                        <p>Ese es el cambio real. El sistema deja de ser algo que ejecutas. Y pasa a ser algo que siempre está corriendo.</p>
-                    </div>
-                </article>
-            </div>
-        </div>
     </main>
 
     <div class="cookies-banner" id="cookies-banner">
@@ -321,21 +198,23 @@
     <script src="assets/js/mixitup.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-        function showBlogPost(id) {
-            document.querySelectorAll('.blog-post').forEach(post => post.style.display = 'none');
-            document.getElementById('blog-post-' + id).style.display = 'block';
-            document.getElementById('blog-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        const blogFilters = document.querySelectorAll('.blog-filter')
+        const blogCards = document.querySelectorAll('.blog-card')
 
-        function closeBlogPost() {
-            document.getElementById('blog-modal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
+        blogFilters.forEach((filterButton) => {
+            filterButton.addEventListener('click', () => {
+                const selectedFilter = filterButton.dataset.filter
 
-        document.getElementById('blog-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeBlogPost();
-        });
+                blogFilters.forEach((button) => button.classList.remove('active'))
+                filterButton.classList.add('active')
+
+                blogCards.forEach((card) => {
+                    const category = card.dataset.category
+                    const shouldShow = selectedFilter === 'all' || category === selectedFilter
+                    card.style.display = shouldShow ? '' : 'none'
+                })
+            })
+        })
     </script>
 </body>
 </html>
