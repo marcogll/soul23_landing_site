@@ -1,19 +1,23 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://soul23.mx/logo/s23_logo_wh.png">
-    <img src="https://soul23.mx/logo/s23_logo_blk.png" alt="Soul23" width="110">
-  </picture>
+<div align="center">
+
+<img src="https://soul23.mx/logo/soul23_logo.svg" width="90" alt="Soul23">
+
+# Soul23 Server
+
+Backend service for application data and business logic ⚙️
+
+<p>
+    <img src="https://img.shields.io/badge/Soul23-111111?style=flat-square&logo=github&logoColor=white" alt="Soul23">
+
 </p>
+
+</div>
+
+---
 
 <h1 align="center">soul23_landing_site.git</h1>
 
-<p align="center">
-  Sistema de operación para negocios que buscan eliminar el caos operativo mediante tecnología autónoma.
-</p>
 
-<p align="center">
-  [![Soul23](https://img.shields.io/badge/Soul23-000000?style=for-the-badge)](https://github.com/marcogll)
-</p>
 
 
 ## Identidad
@@ -111,3 +115,4 @@ python3 -m http.server 8080
 ---
 
 © 2026 · soul:23 · by Grupo AlMa™
+
