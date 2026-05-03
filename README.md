@@ -7,16 +7,15 @@
 </picture>
 </a>
 
+</div>
+
 # Soul23 Server
 
-Backend service for application data and business logic ⚙️
+Servidor backend para gestión de datos y lógica de negocio ⚙️
 
 <p>
-    <img src="https://img.shields.io/badge/Soul23-111111?style=flat-square&logo=github&logoColor=white" alt="Soul23">
-
+  <img src="https://img.shields.io/badge/español-111111?style=flat-square&logo=googletranslate&logoColor=white" alt="Español">
 </p>
-
-</div>
 
 ---
 
@@ -120,4 +119,5 @@ python3 -m http.server 8080
 ---
 
 © 2026 · soul:23 · by Grupo AlMa™
+
 
