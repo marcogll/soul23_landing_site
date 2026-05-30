@@ -1,0 +1,272 @@
+SOUL:23 - INVENTARIO PARA FLUJO N8N
+Actualizado: 2026-05-30
+
+VARIABLE DEL SITIO
+VITE_S23_WEBHOOK_URL=
+
+Todas las formas/surveys envian POST JSON al mismo webhook configurado en VITE_S23_WEBHOOK_URL.
+El ruteo en n8n debe hacerse con:
+- payload.type
+- payload.form_type, cuando exista
+- payload.metadata.source
+- payload.metadata.survey_name
+
+CONTACTOS DEL SITIO
+- Contacto general: hi@soul23.mx
+- Asistente / citas: talia@soul23.mx
+- Privacidad: privacy@soul23.mx
+- Sitio: https://soul23.mx
+- Logo para emails: https://soul23.mx/images/logo_soul23_cream.svg
+- CTA llamada: https://calendly.com/alma_dev/30min
+
+ESTRUCTURA BASE DEL PAYLOAD
+{
+  "type": "contact_inquiry | client_onboarding | service_feedback | event_rsvp | staff_evaluation | project_feedback | survey_abandoned",
+  "form_type": "opcional; solo contacto lo usa ahora",
+  "status": "opcional",
+  "answers": {},
+  "ratings_summary": [
+    { "category": "string", "score": 0, "max": 5 }
+  ],
+  "open_text_responses": [
+    {
+      "question_id": "string",
+      "text": "string",
+      "sentiment": "positive | neutral | negative",
+      "tags": ["string"]
+    }
+  ],
+  "email_report": {
+    "enabled": true,
+    "recipient_email": "cliente@dominio.com",
+    "subject": "string",
+    "headline": "string",
+    "summary": "string",
+    "insights": ["string"],
+    "next_steps": ["string"],
+    "recommended_services": ["string"],
+    "cta": {
+      "label": "string",
+      "url": "string"
+    },
+    "templates": {
+      "client": "email-templates/.../client.html",
+      "internal": "email-templates/.../internal.html"
+    }
+  },
+  "metadata": {
+    "submittedAt": "ISO date",
+    "userAgent": "string",
+    "source": "string",
+    "language": "string",
+    "phoneNumber": "opcional",
+    "survey_name": "string"
+  }
+}
+
+REGLA GENERAL N8N
+1. Webhook recibe cualquier payload.
+2. Switch por payload.type.
+3. Si payload.email_report.templates.client existe y payload.email_report.enabled = true:
+   - Renderizar template client con payload completo.
+   - Enviar a payload.email_report.recipient_email.
+   - From name sugerido: Talia | soul:23
+   - Reply-To: talia@soul23.mx
+4. Siempre enviar interno si existe payload.email_report.templates.internal:
+   - Renderizar template internal con payload completo.
+   - Enviar a hi@soul23.mx o al correo operativo que definas.
+5. Si ratings_summary contiene score bajo o open_text_responses.sentiment = negative:
+   - Crear alerta interna prioritaria.
+6. Guardar todo en DB/Sheet/CRM con payload.type, metadata.source, submittedAt, email, telefono, tags.
+
+SALIDAS / FORMAS ACTUALES
+
+1. HOME MINI SURVEY DE CONTACTO
+- Ruta visual: home, seccion #contacto
+- type: contact_inquiry
+- form_type: homepage_contact_mini_survey
+- metadata.source: homepage_contact_mini_survey
+- metadata.survey_name: Mini diagnóstico de encuestas
+- recipient_email: answers.email
+- telefono: answers.telefono
+- templates:
+  - cliente: email-templates/contact/client.html
+  - interno: email-templates/contact/internal.html
+- campos answers esperados:
+  - nombre
+  - negocio
+  - email
+  - telefono
+  - tipo_negocio
+  - tipo_encuesta[]
+  - canal_encuesta[]
+  - necesidad[]
+  - urgencia
+  - descripcion
+- accion n8n:
+  - Email cliente: primer diagnostico desde Talia.
+  - Email interno: lead calificado.
+  - Si necesidad incluye "alertas", "dashboard" o "whatsapp_followup", marcar como oportunidad alta.
+  - Si urgencia = "ya", notificar a Talia/hi como prioridad.
+
+2. CONTACT SURVEY FULL
+- Ruta: /contact-survey
+- type: contact_inquiry
+- form_type: contact_survey_full
+- metadata.source: contact_survey
+- metadata.survey_name: Formulario de Contacto
+- recipient_email: answers.email
+- telefono: answers.telefono
+- templates:
+  - cliente: email-templates/contact/client.html
+  - interno: email-templates/contact/internal.html
+- campos similares al home mini survey.
+- accion n8n:
+  - Igual que contacto, pero marcar origen como formulario largo.
+
+3. CLIENT ONBOARDING
+- Ruta: /client-onboarding
+- type: client_onboarding
+- form_type: no configurado actualmente
+- metadata.source: client_onboarding_survey
+- metadata.survey_name: Onboarding de Cliente
+- recipient_email: answers.email si existe
+- telefono: answers.telefono
+- templates:
+  - cliente: email-templates/client-onboarding/client.html
+  - interno: email-templates/client-onboarding/internal.html
+- accion n8n:
+  - Email cliente: confirmacion de contexto inicial.
+  - Email interno: preparar propuesta, alcance y llamada.
+  - Guardar como etapa "onboarding".
+
+4. SERVICE FEEDBACK
+- Ruta: /survey-service
+- type: service_feedback
+- status: completed cuando termina
+- metadata.source: service_feedback_survey
+- metadata.survey_name: Encuesta de Servicio
+- telefono: answers.telefono_contacto
+- recipient_email: si answers.email/correo existe; si no, solo interno.
+- templates:
+  - cliente: email-templates/service-feedback/client.html
+  - interno: email-templates/service-feedback/internal.html
+- incluye ratings_summary y open_text_responses.
+- accion n8n:
+  - Email interno siempre.
+  - Email cliente solo si hay email.
+  - Si score bajo o sentiment negative, crear alerta inmediata.
+  - Si status = abandoned o payload.type = survey_abandoned, usar flujo de abandono.
+
+5. EVENT RSVP
+- Ruta: /rsvp
+- type: event_rsvp
+- metadata.source: event_rsvp_survey
+- metadata.survey_name: RSVP Evento
+- telefono: answers.telefono
+- recipient_email: answers.email si existe
+- templates:
+  - cliente: email-templates/event-rsvp/client.html
+  - interno: email-templates/event-rsvp/internal.html
+- accion n8n:
+  - Email cliente: confirmacion de registro.
+  - Email interno: actualizar lista/asistencia/preferencias.
+  - Guardar en lista de evento.
+
+6. STAFF EVALUATION
+- Ruta: /staff-evaluation
+- type: staff_evaluation
+- metadata.source: staff_evaluation_survey
+- metadata.survey_name: Evaluación de Personal
+- recipient_email: si answers.email/correo existe; normalmente interno.
+- templates:
+  - cliente: email-templates/staff-evaluation/client.html
+  - interno: email-templates/staff-evaluation/internal.html
+- incluye ratings_summary y open_text_responses.
+- accion n8n:
+  - Email interno a equipo autorizado.
+  - No enviar a evaluado salvo que explicitamente exista recipient_email y se quiera confirmacion.
+  - Tratar como informacion sensible.
+  - Si rating bajo en liderazgo/carga/desempeno, marcar seguimiento interno.
+
+7. PROJECT FEEDBACK
+- Ruta: /project-feedback
+- type: project_feedback
+- metadata.source: project_feedback_survey
+- metadata.survey_name: Feedback Post-Proyecto
+- recipient_email: si answers.email/correo existe
+- templates:
+  - cliente: email-templates/project-feedback/client.html
+  - interno: email-templates/project-feedback/internal.html
+- incluye ratings_summary y NPS_Category.
+- accion n8n:
+  - Email cliente: gracias/cierre.
+  - Email interno: leer NPS, entrega, comunicacion y oportunidad de segunda fase.
+  - Si NPS_Category detractor, alerta interna.
+  - Si promoter, crear follow-up/testimonio.
+
+8. SURVEY ABANDONED
+- Se dispara desde localStorage cuando el usuario abandona una encuesta parcial.
+- type: survey_abandoned
+- metadata.source: nombre de encuesta o unknown_survey
+- metadata.surveyId: configId del survey
+- metadata.startedAt: fecha inicio
+- metadata.answeredCount: numero de respuestas capturadas
+- metadata.reason: user_navigated_away
+- templates:
+  - cliente: email-templates/survey-abandoned/client.html
+  - interno: email-templates/survey-abandoned/internal.html
+- accion n8n:
+  - Email interno: revisar friccion.
+  - Email cliente solo si recipient_email existe y conviene recuperar.
+  - Registrar paso de abandono para optimizar UX.
+
+PLANTILLAS DISPONIBLES
+- email-templates/contact/client.html
+- email-templates/contact/internal.html
+- email-templates/client-onboarding/client.html
+- email-templates/client-onboarding/internal.html
+- email-templates/service-feedback/client.html
+- email-templates/service-feedback/internal.html
+- email-templates/event-rsvp/client.html
+- email-templates/event-rsvp/internal.html
+- email-templates/staff-evaluation/client.html
+- email-templates/staff-evaluation/internal.html
+- email-templates/project-feedback/client.html
+- email-templates/project-feedback/internal.html
+- email-templates/survey-abandoned/client.html
+- email-templates/survey-abandoned/internal.html
+
+VARIABLES QUE USAN LOS TEMPLATES
+- {{email_report.subject}}
+- {{email_report.headline}}
+- {{email_report.summary}}
+- {{email_report.cta.url}}
+- {{email_report.cta.label}}
+- {{#each email_report.insights}}{{this}}{{/each}}
+- {{#each email_report.next_steps}}{{this}}{{/each}}
+- {{#each email_report.recommended_services}}{{this}}{{/each}}
+- {{answers.nombre}}
+- {{answers.negocio}}
+- {{answers.email}}
+- {{answers.telefono}}
+- {{answers.tipo_negocio}}
+- {{answers.tipo_encuesta}}
+- {{answers.canal_encuesta}}
+- {{answers.necesidad}}
+- {{answers.urgencia}}
+- {{answers.descripcion}}
+- {{ratings_summary}}
+- {{open_text_responses}}
+- {{metadata.source}}
+- {{metadata.survey_name}}
+- {{metadata.submittedAt}}
+- {{metadata.phoneNumber}}
+
+NOTAS PARA N8N
+- Si arrays llegan como arrays reales, convertirlos a texto para plantillas: join(", ").
+- Si se usa Handlebars, registrar helper each y sanitizar valores.
+- Para pre tags internos, se puede usar JSON.stringify(payload.answers, null, 2).
+- El frontend no renderiza templates; n8n debe leerlos/copiar su HTML o usar estos paths como referencia.
+- Si no hay VITE_S23_WEBHOOK_URL, el sitio hace console.warn y simula success; no llega a n8n.
+- Todos los envios deberian incluir type y, cuando aplique, form_type.
