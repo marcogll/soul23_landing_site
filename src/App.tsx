@@ -27,10 +27,44 @@ import Section10Footer from './sections/Section10Footer'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const HOME_SCROLL_KEY = 's23-home-scroll-y'
+
 function HomePage() {
   useEffect(() => {
-    const timer = setTimeout(() => ScrollTrigger.refresh(), 100)
-    return () => clearTimeout(timer)
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+
+    const restoreTimer = window.setTimeout(() => {
+      const hash = window.location.hash.slice(1)
+      if (hash) {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'auto', block: 'start' })
+        window.history.replaceState(null, '', '/')
+      } else {
+        const savedY = Number(window.sessionStorage.getItem(HOME_SCROLL_KEY) || '0')
+        window.scrollTo({ top: Number.isFinite(savedY) ? savedY : 0, behavior: 'auto' })
+      }
+      ScrollTrigger.refresh()
+    }, 120)
+
+    let ticking = false
+    const saveScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(() => {
+        window.sessionStorage.setItem(HOME_SCROLL_KEY, String(Math.max(0, Math.round(window.scrollY))))
+        ticking = false
+      })
+    }
+
+    window.addEventListener('scroll', saveScroll, { passive: true })
+    window.addEventListener('pagehide', saveScroll)
+
+    return () => {
+      window.clearTimeout(restoreTimer)
+      window.removeEventListener('scroll', saveScroll)
+      window.removeEventListener('pagehide', saveScroll)
+    }
   }, [])
 
   return (

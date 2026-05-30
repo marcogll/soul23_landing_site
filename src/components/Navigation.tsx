@@ -27,6 +27,9 @@ export default function Navigation() {
     const id = location.hash.slice(1)
     const timer = window.setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      if (location.pathname === '/') {
+        window.history.replaceState(null, '', '/')
+      }
     }, 80)
     return () => window.clearTimeout(timer)
   }, [location.pathname, location.hash])
@@ -39,7 +42,6 @@ export default function Navigation() {
     const el = document.getElementById(id)
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      window.history.replaceState(null, '', `/#${id}`)
     }
   }
 
