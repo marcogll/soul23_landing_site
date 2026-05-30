@@ -1,4 +1,5 @@
 import { submitToWebhook } from './webhook';
+import { buildSurveyEmailReport } from './emailReport';
 
 const SURVEY_PREFIX = 's23-survey-';
 
@@ -53,6 +54,7 @@ export async function submitSurveyOnExit(): Promise<boolean> {
     const result = await submitToWebhook({
       type: 'survey_abandoned',
       answers: mostRecent.answers,
+      email_report: buildSurveyEmailReport('survey-abandoned', mostRecent.answers),
       metadata: {
         submittedAt: new Date().toISOString(),
         userAgent: navigator.userAgent,

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{email_report.subject}}</title></head>
+<body style="margin:0;background:#0f0e13;color:#f4f2ea;font-family:Inter,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#0f0e13;padding:30px 14px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#17151b;border:1px solid rgba(244,242,234,.14);">
+        <tr><td style="padding:30px 32px 22px;border-bottom:1px solid rgba(244,242,234,.12);">
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#c8b26b;margin-bottom:12px;">Talia · soul:23</div>
+          <h1 style="margin:0;font-family:Georgia,serif;font-size:34px;line-height:1.05;color:#f4f2ea;">{{email_report.headline}}</h1>
+          <p style="margin:14px 0 0;color:#aaa49a;font-size:14px;line-height:1.7;">Hola {{answers.nombre}}, soy Talia. Ya lei lo que compartiste sobre {{answers.negocio}} y te dejo un primer mapa para convertirlo en una encuesta util.</p>
+        </td></tr>
+        <tr><td style="padding:28px 32px;">
+          <p style="margin:0 0 24px;color:#d8d1c1;font-size:15px;line-height:1.75;">{{email_report.summary}}</p>
+          <h2 style="margin:0 0 12px;color:#c8b26b;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;">Lo que aprendimos</h2>
+          <ul style="margin:0 0 24px;padding-left:20px;color:#d8d1c1;font-size:14px;line-height:1.75;">{{#each email_report.insights}}<li>{{this}}</li>{{/each}}</ul>
+          <h2 style="margin:0 0 12px;color:#c8b26b;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;">Servicios que hacen sentido</h2>
+          <ul style="margin:0 0 26px;padding-left:20px;color:#d8d1c1;font-size:14px;line-height:1.75;">{{#each email_report.recommended_services}}<li>{{this}}</li>{{/each}}</ul>
+          <a href="{{email_report.cta.url}}" style="display:inline-block;background:#c8b26b;color:#111014;text-decoration:none;padding:14px 18px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;">{{email_report.cta.label}}</a>
+        </td></tr>
+        <tr><td style="padding:18px 32px;background:#111014;color:#aaa49a;font-size:12px;line-height:1.7;">Talia envia este resumen con la informacion capturada. El reporte completo se arma cuando conectamos tus datos reales, canales y reglas de seguimiento.</td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

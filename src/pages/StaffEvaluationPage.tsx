@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
+import { buildSurveyEmailReport } from '@/services/emailReport';
 
 const evaluationConfig: SurveyConfig = {
   id: 's23_staff_evaluation',
@@ -247,6 +248,7 @@ export default function StaffEvaluationPage() {
         answers,
         ratings_summary: ratingsSummary,
         open_text_responses: openTextResponses,
+        email_report: buildSurveyEmailReport('staff-evaluation', answers),
         metadata: {
           ...metadata,
           submittedAt: new Date().toISOString(),

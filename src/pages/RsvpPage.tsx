@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
+import { buildSurveyEmailReport } from '@/services/emailReport';
 
 const rsvpConfig: SurveyConfig = {
   id: 's23_event_rsvp',
@@ -156,6 +157,7 @@ export default function RsvpPage() {
         answers,
         ratings_summary: ratingsSummary,
         open_text_responses: openTextResponses,
+        email_report: buildSurveyEmailReport('event-rsvp', answers),
         metadata: {
           ...metadata,
           submittedAt: new Date().toISOString(),

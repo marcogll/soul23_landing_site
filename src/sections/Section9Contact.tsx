@@ -38,7 +38,7 @@ const contactConfig: SurveyConfig = {
       headline: '¿Tu WhatsApp?',
       required: true,
       placeholder: '8441234567',
-      validation: { pattern: '^\\d{10}$', message: 'Debe tener 10 dígitos.' },
+      validation: { pattern: '^\\d{10,13}$', message: 'Debe tener entre 10 y 13 dígitos.' },
     },
     {
       id: 'tipo_negocio',

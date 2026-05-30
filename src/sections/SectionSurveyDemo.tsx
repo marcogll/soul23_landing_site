@@ -19,11 +19,87 @@ interface SurveyQ {
   aiTags?: string[]
 }
 
-const surveyQuestions: SurveyQ[] = [
-  { id: 1, text: '¿Cómo fue tu experiencia hoy?', type: 'emoji', aiTags: ['experiencia', 'cx'] },
-  { id: 2, text: '¿El servicio llegó a tiempo?', type: 'options', options: ['Sí, rápido', 'Regular', 'Se tardó'], aiTags: ['tiempo', 'cumplimiento'] },
-  { id: 3, text: '¿Qué fue lo más destacado?', type: 'options', options: ['Calidad', 'Trato personal', 'Rapidez'], aiTags: ['calidad', 'servicio'] },
-  { id: 4, text: '¿Volverías?', type: 'options', options: ['Definitivamente', 'Tal vez', 'No'], aiTags: ['retención', 'satisfacción'] },
+interface UseCase {
+  id: string
+  label: string
+  title: string
+  reportFocus: string
+  questions: SurveyQ[]
+}
+
+const useCases: UseCase[] = [
+  {
+    id: 'restaurante',
+    label: 'Restaurante',
+    title: 'Post-consumo y reputacion',
+    reportFocus: 'detectar quejas, platillos fuertes y riesgo de mala reseña',
+    questions: [
+      { id: 1, text: '¿Cómo fue tu experiencia hoy?', type: 'emoji', aiTags: ['experiencia', 'cx'] },
+      { id: 2, text: '¿El pedido llegó a tiempo?', type: 'options', options: ['Sí, rápido', 'Regular', 'Se tardó'], aiTags: ['tiempo', 'cumplimiento'] },
+      { id: 3, text: '¿Qué fue lo más destacado?', type: 'options', options: ['Sabor', 'Atención', 'Ambiente'], aiTags: ['producto', 'servicio'] },
+      { id: 4, text: '¿Volverías o nos recomendarías?', type: 'options', options: ['Definitivamente', 'Tal vez', 'No'], aiTags: ['retención', 'nps'] },
+    ],
+  },
+  {
+    id: 'belleza',
+    label: 'Belleza',
+    title: 'Post-cita y recompra',
+    reportFocus: 'medir trato, resultado, puntualidad y siguiente cita',
+    questions: [
+      { id: 1, text: '¿Cómo te sentiste con el resultado?', type: 'emoji', aiTags: ['resultado', 'satisfacción'] },
+      { id: 2, text: '¿Te atendieron a tiempo?', type: 'options', options: ['Sí', 'Casi', 'Esperé mucho'], aiTags: ['puntualidad'] },
+      { id: 3, text: '¿Qué te gustaría recibir después?', type: 'options', options: ['Tip de cuidado', 'Promo', 'Agendar siguiente cita'], aiTags: ['followup', 'retención'] },
+      { id: 4, text: '¿Recomendarías el servicio?', type: 'options', options: ['Sí', 'Tal vez', 'No'], aiTags: ['nps'] },
+    ],
+  },
+  {
+    id: 'clinica',
+    label: 'Clínica',
+    title: 'Experiencia de paciente',
+    reportFocus: 'separar calidad médica, espera, recepción y seguimiento',
+    questions: [
+      { id: 1, text: '¿Cómo fue tu atención?', type: 'emoji', aiTags: ['paciente', 'atención'] },
+      { id: 2, text: '¿El tiempo de espera fue adecuado?', type: 'options', options: ['Sí', 'Regular', 'Muy largo'], aiTags: ['espera'] },
+      { id: 3, text: '¿Qué parte debemos mejorar?', type: 'options', options: ['Recepción', 'Seguimiento', 'Claridad'], aiTags: ['operación'] },
+      { id: 4, text: '¿Volverías a atenderte aquí?', type: 'options', options: ['Sí', 'Tal vez', 'No'], aiTags: ['retención'] },
+    ],
+  },
+  {
+    id: 'cursos',
+    label: 'Cursos',
+    title: 'Cursos y alumnos',
+    reportFocus: 'medir claridad, avance, dudas y potencial de recompra',
+    questions: [
+      { id: 1, text: '¿Qué tan claro fue el contenido?', type: 'emoji', aiTags: ['aprendizaje', 'claridad'] },
+      { id: 2, text: '¿En qué necesitas apoyo?', type: 'options', options: ['Material', 'Práctica', 'Seguimiento'], aiTags: ['soporte'] },
+      { id: 3, text: '¿Comprarías otro curso?', type: 'options', options: ['Sí', 'Tal vez', 'No'], aiTags: ['recompra'] },
+      { id: 4, text: '¿Qué formato prefieres?', type: 'options', options: ['Online', 'Presencial', 'Híbrido'], aiTags: ['producto'] },
+    ],
+  },
+  {
+    id: 'staff',
+    label: 'Staff',
+    title: 'Clima y desempeño',
+    reportFocus: 'identificar carga, bloqueos, liderazgo y entrenamiento',
+    questions: [
+      { id: 1, text: '¿Cómo estuvo tu carga esta semana?', type: 'emoji', aiTags: ['clima', 'carga'] },
+      { id: 2, text: '¿Qué te bloqueó más?', type: 'options', options: ['Herramientas', 'Comunicación', 'Tiempo'], aiTags: ['bloqueos'] },
+      { id: 3, text: '¿Dónde necesitas apoyo?', type: 'options', options: ['Capacitación', 'Prioridades', 'Equipo'], aiTags: ['entrenamiento'] },
+      { id: 4, text: '¿Te sientes escuchado?', type: 'options', options: ['Sí', 'A veces', 'No'], aiTags: ['liderazgo'] },
+    ],
+  },
+  {
+    id: 'leads',
+    label: 'Leads',
+    title: 'Calificación comercial',
+    reportFocus: 'priorizar prospectos por necesidad, urgencia y canal',
+    questions: [
+      { id: 1, text: '¿Qué tan urgente es resolverlo?', type: 'emoji', aiTags: ['urgencia', 'lead'] },
+      { id: 2, text: '¿Qué necesitas primero?', type: 'options', options: ['Agenda', 'Ventas', 'Dashboard'], aiTags: ['necesidad'] },
+      { id: 3, text: '¿Qué canal prefieres?', type: 'options', options: ['WhatsApp', 'Correo', 'Llamada'], aiTags: ['canal'] },
+      { id: 4, text: '¿Cuándo quieres empezar?', type: 'options', options: ['Ya', 'Este mes', 'Después'], aiTags: ['prioridad'] },
+    ],
+  },
 ]
 
 const aiCapabilities = [
@@ -51,6 +127,9 @@ export default function SectionSurveyDemo() {
   const [sentiment, setSentiment] = useState<'positive' | 'neutral' | 'negative'>('neutral')
   const [typingText, setTypingText] = useState('')
   const [demoStarted, setDemoStarted] = useState(false)
+  const [selectedUseCase, setSelectedUseCase] = useState(useCases[0].id)
+  const activeUseCase = useCases.find((item) => item.id === selectedUseCase) || useCases[0]
+  const surveyQuestions = activeUseCase.questions
 
   useLayoutEffect(() => {
     const section = sectionRef.current
@@ -127,6 +206,17 @@ export default function SectionSurveyDemo() {
     setDemoStarted(false)
   }
 
+  const changeUseCase = (id: string) => {
+    setSelectedUseCase(id)
+    setPhase('intro')
+    setCurrentQ(0)
+    setAnswers({})
+    setAiTags([])
+    setSentiment('neutral')
+    setTypingText('')
+    setDemoStarted(false)
+  }
+
   const startDemo = () => {
     setDemoStarted(true)
     setPhase('survey')
@@ -144,7 +234,24 @@ export default function SectionSurveyDemo() {
             <p className="text-cream-muted text-[13px] mb-6 max-w-xs mx-auto">
               Tómate 30 segundos para responder como lo haría tu cliente. La IA analiza todo al instante.
             </p>
+            <div className="grid grid-cols-2 gap-2 mb-6 text-left">
+              {useCases.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => changeUseCase(item.id)}
+                  className={`border px-3 py-2 text-[11px] transition-colors ${selectedUseCase === item.id ? 'border-gold bg-gold/10 text-cream' : 'border-cream/10 bg-cream/[0.02] text-cream-muted hover:border-gold/40'}`}
+                >
+                  <span className="font-mono uppercase tracking-[0.12em]">{item.label}</span>
+                </button>
+              ))}
+            </div>
+            <div className="mb-6 border border-cream/10 bg-cream/[0.03] p-4 text-left">
+              <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-gold mb-2">{activeUseCase.title}</p>
+              <p className="text-[12px] text-cream-muted leading-relaxed">Reporte enfocado en {activeUseCase.reportFocus}.</p>
+            </div>
             <button
+              type="button"
               onClick={startDemo}
               className="w-full py-3 bg-gold text-dark-primary font-mono text-[11px] uppercase tracking-[0.14em] hover:bg-gold-light transition-colors"
             >
@@ -162,7 +269,7 @@ export default function SectionSurveyDemo() {
               ))}
             </div>
             <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-cream-muted/50 mb-4">
-              Pregunta {currentQ + 1} de {surveyQuestions.length}
+              {activeUseCase.label} · Pregunta {currentQ + 1} de {surveyQuestions.length}
             </p>
             <h4 className="font-serif font-semibold text-cream text-lg mb-6">
               {surveyQuestions[currentQ].text}
@@ -273,6 +380,9 @@ export default function SectionSurveyDemo() {
               {/* Email body */}
               <div className="p-5">
                 <h4 className="font-serif font-semibold text-cream text-lg mb-4">Resumen del análisis</h4>
+                <p className="text-[11px] text-cream-muted/60 leading-relaxed mb-4">
+                  Caso: {activeUseCase.title}. El reporte busca {activeUseCase.reportFocus}.
+                </p>
                 <div className="grid grid-cols-3 gap-3 mb-5">
                   <div className="text-center p-2 bg-cream/[0.03]">
                     <p className="font-serif text-xl text-gold">{sentiment === 'negative' ? 'Alta' : 'Media'}</p>

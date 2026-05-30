@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
+import { buildSurveyEmailReport } from '@/services/emailReport';
 import { classifySentiment, extractTags } from '@/services/aiTags';
 
 const serviceConfig: SurveyConfig = {
@@ -236,6 +237,7 @@ export default function SurveyServicePage() {
         answers,
         ratings_summary: ratingsSummary,
         open_text_responses: openTextResponses,
+        email_report: buildSurveyEmailReport('service-feedback', answers),
         metadata: {
           ...metadata,
           submittedAt: new Date().toISOString(),

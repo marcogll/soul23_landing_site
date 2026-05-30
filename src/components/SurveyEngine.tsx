@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
+import type { KeyboardEvent, RefObject } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight, ArrowLeft, Check, Star, Send, Loader2,
@@ -113,6 +114,7 @@ function RatingQuestion({
           return (
             <motion.button
               key={val}
+              type="button"
               whileHover={{ scale: 1.15 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => onChange(val)}
@@ -156,6 +158,7 @@ function ChoiceSingleQuestion({
         return (
           <motion.button
             key={choice.id}
+            type="button"
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onChange(choice.id)}
@@ -204,6 +207,7 @@ function ChoiceMultiQuestion({
         return (
           <motion.button
             key={choice.id}
+            type="button"
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => toggle(choice.id)}
@@ -234,18 +238,36 @@ function OpenTextQuestion({
   placeholder,
   longAnswer,
   inputType = 'text',
+  inputRef,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
   longAnswer?: boolean;
   inputType?: 'text' | 'phone' | 'email';
+  inputRef?: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
 }) {
+  const handleChange = (rawValue: string) => {
+    if (inputType === 'phone') {
+      onChange(rawValue.replace(/\D/g, '').slice(0, 13));
+      return;
+    }
+    onChange(rawValue);
+  };
+
+  const preventEnterSubmit = (event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !longAnswer) {
+      event.preventDefault();
+    }
+  };
+
   if (longAnswer) {
     return (
       <textarea
+        ref={inputRef as RefObject<HTMLTextAreaElement>}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
+        onKeyDown={preventEnterSubmit}
         placeholder={placeholder}
         rows={4}
         className="w-full px-5 py-4 bg-cream/[0.04] border border-cream/15 rounded-none text-cream text-[14px] placeholder:text-cream-muted/25 outline-none focus:border-gold/50 transition-colors resize-none"
@@ -255,9 +277,13 @@ function OpenTextQuestion({
 
   return (
     <input
+      ref={inputRef as RefObject<HTMLInputElement>}
       type={inputType === 'phone' ? 'tel' : inputType}
+      inputMode={inputType === 'phone' ? 'numeric' : inputType === 'email' ? 'email' : 'text'}
+      autoComplete={inputType === 'phone' ? 'tel' : inputType === 'email' ? 'email' : 'off'}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => handleChange(e.target.value)}
+      onKeyDown={preventEnterSubmit}
       placeholder={placeholder}
       className="w-full px-5 py-4 bg-cream/[0.04] border border-cream/15 rounded-none text-cream text-[14px] placeholder:text-cream-muted/25 outline-none focus:border-gold/50 transition-colors"
     />
@@ -319,6 +345,7 @@ function BranchSelectQuestion({
         return (
           <motion.button
             key={branch.id}
+            type="button"
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onChange(branch.id)}
@@ -387,12 +414,16 @@ export default function SurveyEngine({
         const data = JSON.parse(saved);
         if (data.answers && Object.keys(data.answers).length > 0) {
           setAnswers((prev) => ({ ...prev, ...data.answers }));
-          if (typeof data.currentIndex === 'number') setCurrentIndex(data.currentIndex);
+          if (typeof data.currentIndex === 'number') {
+            setCurrentIndex(Math.min(Math.max(data.currentIndex, 0), config.questions.length - 1));
+          }
           if (data.step === 'questions') setStep('questions');
         }
       }
-    } catch { /* ignore */ }
-  }, [storageKey]);
+    } catch {
+      localStorage.removeItem(storageKey);
+    }
+  }, [storageKey, config.questions.length]);
 
   // Persist answers as user progresses
   useEffect(() => {
@@ -562,6 +593,7 @@ export default function SurveyEngine({
             placeholder={q.placeholder}
             longAnswer={q.longAnswer}
             inputType={q.inputType}
+            inputRef={inputRef}
           />
         );
       case 'date':
@@ -623,6 +655,7 @@ export default function SurveyEngine({
             />
           )}
           <motion.button
+            type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={startSurvey}
@@ -690,7 +723,27 @@ export default function SurveyEngine({
 
   // ─── Questions Screen ──────────────────────────────────────────────
 
-  if (!currentQuestion) return null;
+  if (!currentQuestion) {
+    return (
+      <div className="w-full max-w-[560px] mx-auto bg-dark-primary border border-cream/10 p-6 text-center">
+        <p className="text-cream-muted text-sm mb-4">
+          La encuesta tenia progreso guardado de una version anterior.
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            clearStorage();
+            setAnswers({ ...prefillData });
+            setCurrentIndex(0);
+            setStep(hasWelcome ? 'welcome' : 'questions');
+          }}
+          className="px-5 py-2.5 bg-gold text-dark-primary font-mono text-[11px] uppercase tracking-[0.12em]"
+        >
+          Reiniciar encuesta
+        </button>
+      </div>
+    );
+  }
 
   const answerValid = isCurrentAnswerValid();
 
