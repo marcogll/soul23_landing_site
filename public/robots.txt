@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /privacidad
+Disallow: /reembolso
+
+Sitemap: https://soul23.mx/sitemap.xml

@@ -1,0 +1,30 @@
+# soul:23
+
+> Sistemas digitales para operación real. Automatización, agendas, ventas, control interno y bots de WhatsApp.
+
+## Sobre soul:23
+
+soul:23 diseña sistemas digitales para negocios que quieren operar con más claridad y menos carga manual. No es desarrollo web genérico — es diseño de operación conectando herramientas.
+
+## Servicios principales
+
+- **Captación y presencia**: Sitios web, landing pages, formularios y conexión a WhatsApp
+- **Venta y registro**: Ecommerce, catálogos, checkout automatizado
+- **Agenda y operación**: Sistema de citas, confirmaciones, recordatorios
+- **Control interno**: Asistencia, reportes, métricas de negocio
+- **Automatización**: Flujos de trabajo sin intervención manual
+- **IA aplicada**: Bots de WhatsApp, surveys automáticos, clasificación
+
+## Tecnologías
+
+HTML, CSS, JavaScript, React, Node.js, n8n, Formbricks, WhatsApp API, hosting estático, SEO técnico.
+
+## Clientes
+
+Vanity Salon & Spa, Dra. DFG, Gloria (Terapeuta), entre otros.
+
+## Contacto
+
+- Email: hola@soul23.mx
+- WhatsApp: https://wa.me/528441026472
+- Web: https://soul23.mx

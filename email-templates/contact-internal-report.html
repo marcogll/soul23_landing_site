@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nuevo lead · {{answers.negocio}}</title>
+</head>
+<body style="margin:0;background:#0f0e13;color:#f4f2ea;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#0f0e13;padding:28px 14px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:760px;background:#17151b;border:1px solid rgba(244,242,234,.14);">
+          <tr>
+            <td style="padding:26px 30px;border-bottom:1px solid rgba(244,242,234,.12);">
+              <div style="font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:#c8b26b;margin-bottom:10px;">Nuevo formulario · {{form_type}}</div>
+              <h1 style="margin:0;font-family:Georgia,serif;font-size:30px;line-height:1.1;color:#f4f2ea;">{{answers.negocio}}</h1>
+              <p style="margin:10px 0 0;color:#a7a29a;font-size:14px;">{{answers.nombre}} · {{answers.email}} · {{answers.telefono}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 30px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="padding:12px;border:1px solid rgba(244,242,234,.12);width:33%;">
+                    <div style="font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#a7a29a;">Giro</div>
+                    <div style="margin-top:6px;color:#f4f2ea;font-size:16px;">{{answers.tipo_negocio}}</div>
+                  </td>
+                  <td style="padding:12px;border:1px solid rgba(244,242,234,.12);width:33%;">
+                    <div style="font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#a7a29a;">Urgencia</div>
+                    <div style="margin-top:6px;color:#f4f2ea;font-size:16px;">{{answers.urgencia}}</div>
+                  </td>
+                  <td style="padding:12px;border:1px solid rgba(244,242,234,.12);width:33%;">
+                    <div style="font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#a7a29a;">Presupuesto</div>
+                    <div style="margin-top:6px;color:#f4f2ea;font-size:16px;">{{answers.presupuesto}}</div>
+                  </td>
+                </tr>
+              </table>
+
+              <h2 style="margin:26px 0 10px;font-size:14px;letter-spacing:1.3px;text-transform:uppercase;color:#c8b26b;">Encuestas solicitadas</h2>
+              <p style="margin:0 0 18px;color:#d6d0c0;line-height:1.6;">{{answers.tipo_encuesta}}</p>
+
+              <h2 style="margin:22px 0 10px;font-size:14px;letter-spacing:1.3px;text-transform:uppercase;color:#c8b26b;">Canales</h2>
+              <p style="margin:0 0 18px;color:#d6d0c0;line-height:1.6;">{{answers.canal_encuesta}}</p>
+
+              <h2 style="margin:22px 0 10px;font-size:14px;letter-spacing:1.3px;text-transform:uppercase;color:#c8b26b;">Automatizaciones deseadas</h2>
+              <p style="margin:0 0 18px;color:#d6d0c0;line-height:1.6;">{{answers.necesidad}}</p>
+
+              <h2 style="margin:22px 0 10px;font-size:14px;letter-spacing:1.3px;text-transform:uppercase;color:#c8b26b;">Objetivo declarado</h2>
+              <p style="margin:0 0 22px;color:#f4f2ea;line-height:1.7;">{{answers.descripcion}}</p>
+
+              <h2 style="margin:22px 0 10px;font-size:14px;letter-spacing:1.3px;text-transform:uppercase;color:#c8b26b;">Recomendación automática</h2>
+              <ul style="margin:0 0 24px;padding-left:20px;color:#d6d0c0;line-height:1.7;">
+                {{#each email_report.recommended_services}}
+                <li>{{this}}</li>
+                {{/each}}
+              </ul>
+
+              <a href="https://wa.me/52{{answers.telefono}}" style="display:inline-block;background:#c8b26b;color:#0f0e13;text-decoration:none;padding:13px 18px;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;font-weight:bold;">Contactar por WhatsApp</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
