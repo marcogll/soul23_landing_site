@@ -27,7 +27,7 @@ import Section10Footer from './sections/Section10Footer'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HOME_SCROLL_KEY = 's23-home-scroll-y'
+const HOME_SCROLL_KEY = 's23-home-scroll-y-v2'
 
 function HomePage() {
   useEffect(() => {
@@ -35,11 +35,17 @@ function HomePage() {
       window.history.scrollRestoration = 'manual'
     }
 
+    const navEntry = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    const isReload = navEntry?.type === 'reload'
+
     const restoreTimer = window.setTimeout(() => {
       const hash = window.location.hash.slice(1)
-      if (hash) {
+      if (hash && !isReload) {
         document.getElementById(hash)?.scrollIntoView({ behavior: 'auto', block: 'start' })
         window.history.replaceState(null, '', '/')
+      } else if (hash && isReload) {
+        window.history.replaceState(null, '', '/')
+        window.scrollTo({ top: 0, behavior: 'auto' })
       } else {
         const savedY = Number(window.sessionStorage.getItem(HOME_SCROLL_KEY) || '0')
         window.scrollTo({ top: Number.isFinite(savedY) ? savedY : 0, behavior: 'auto' })
