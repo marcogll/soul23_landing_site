@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
   QrCode, Smartphone, Brain, AlertTriangle, Star, ThumbsUp, ThumbsDown, Meh,
   Send, Check, ChevronRight, RotateCcw, TrendingUp, MessageSquare, Eye,
-  Zap, Database, BarChart3
+  Zap, Database, BarChart3, ClipboardList, Users, CalendarCheck, UserCheck, BriefcaseBusiness
 } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -115,6 +115,57 @@ const dataFlowSteps = [
   { icon: Brain, label: 'IA Procesa', desc: 'Analiza sentimiento, detecta tags, identifica patrones' },
   { icon: Database, label: 'Data Estructurada', desc: 'Cada respuesta se convierte en datos accionables' },
   { icon: BarChart3, label: 'Reporte / Alerta', desc: 'Dashboard diario + alertas inmediatas para decidir' },
+]
+
+const liveSurveyForms = [
+  {
+    href: '/contact-survey',
+    icon: ClipboardList,
+    label: 'Diagnóstico',
+    title: 'Quiero crear una encuesta para mi negocio',
+    desc: 'Pregunta giro, tipo de encuesta, canales y automatizaciones.',
+    type: 'contact_inquiry',
+  },
+  {
+    href: '/survey-service',
+    icon: Star,
+    label: 'Clientes',
+    title: 'Encuesta post-servicio',
+    desc: 'Para QR, WhatsApp o link después de una compra/cita.',
+    type: 'service_feedback',
+  },
+  {
+    href: '/onboarding',
+    icon: BriefcaseBusiness,
+    label: 'Proyecto',
+    title: 'Onboarding de cliente',
+    desc: 'Para levantar contexto antes de construir un sistema.',
+    type: 'client_onboarding',
+  },
+  {
+    href: '/rsvp',
+    icon: CalendarCheck,
+    label: 'Eventos',
+    title: 'RSVP / confirmación',
+    desc: 'Para asistencia, invitados, preferencias y seguimiento.',
+    type: 'event_rsvp',
+  },
+  {
+    href: '/evaluate',
+    icon: UserCheck,
+    label: 'Staff',
+    title: 'Evaluación de personal',
+    desc: 'Para desempeño, clima, bloqueos y capacitación.',
+    type: 'staff_evaluation',
+  },
+  {
+    href: '/project-feedback',
+    icon: Users,
+    label: 'Cierre',
+    title: 'Feedback post-proyecto',
+    desc: 'Para NPS, entrega, comunicación y segunda fase.',
+    type: 'project_feedback',
+  },
 ]
 
 export default function SectionSurveyDemo() {
@@ -557,6 +608,48 @@ export default function SectionSurveyDemo() {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Real form launcher */}
+        <div className="reveal mt-16 lg:mt-20" style={{ opacity: 0 }}>
+          <div className="mb-8 text-center">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-4 block">
+              Formularios reales
+            </span>
+            <h3 className="font-serif font-semibold text-cream leading-[1.08] mb-3" style={{ fontSize: 'clamp(22px, 2.6vw, 34px)' }}>
+              Elige qué flujo quieres probar.
+            </h3>
+            <p className="text-sm text-cream-muted max-w-xl mx-auto leading-relaxed">
+              Estos sí son los formularios que mandan al webhook con su <span className="text-cream">type</span>, reporte y plantillas de correo para Talia.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {liveSurveyForms.map(({ href, icon: Icon, label, title, desc, type }) => (
+              <a
+                key={href}
+                href={href}
+                className="group block border border-cream/10 bg-dark-primary p-5 hover:border-gold/50 hover:bg-cream/[0.035] transition-colors"
+              >
+                <div className="flex items-start justify-between gap-4 mb-5">
+                  <div className="w-11 h-11 border border-cream/10 bg-cream/[0.03] flex items-center justify-center group-hover:border-gold/50 transition-colors">
+                    <Icon className="w-5 h-5 text-gold" strokeWidth={1.5} />
+                  </div>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-gold/80 border border-gold/25 px-2 py-1">
+                    {label}
+                  </span>
+                </div>
+                <h4 className="font-serif text-cream text-xl leading-tight mb-3">{title}</h4>
+                <p className="text-[13px] text-cream-muted leading-relaxed mb-5">{desc}</p>
+                <div className="flex items-center justify-between gap-3 pt-4 border-t border-cream/10">
+                  <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-cream-muted/45">
+                    type: {type}
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-gold transition-transform group-hover:translate-x-1" />
+                </div>
+              </a>
+            ))}
           </div>
         </div>
 
