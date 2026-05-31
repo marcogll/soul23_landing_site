@@ -264,7 +264,7 @@ export default function Section9Contact() {
                 </a>
               </div>
             ) : (
-              <SurveyEngine config={contactConfig} onSubmit={handleSubmit} />
+              <SurveyEngine config={contactConfig} onSubmit={handleSubmit} autoFocus={false} />
             )}
           </div>
         </div>

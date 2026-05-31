@@ -84,6 +84,7 @@ export interface SurveyEngineProps {
   onClose?: () => void;
   prefillData?: Record<string, unknown>;
   className?: string;
+  autoFocus?: boolean;
 }
 
 // ─── Question Components ─────────────────────────────────────────────
@@ -394,6 +395,7 @@ export default function SurveyEngine({
   onSubmit,
   onClose,
   prefillData = {},
+  autoFocus = true,
 }: SurveyEngineProps) {
   const hasWelcome = Boolean(config.welcomeCard && config.welcomeCard.enabled !== false);
   const [step, setStep] = useState<'welcome' | 'questions' | 'ending'>(hasWelcome ? 'welcome' : 'questions');
@@ -454,10 +456,10 @@ export default function SurveyEngine({
 
   // Auto-focus input when question changes
   useEffect(() => {
-    if (step === 'questions' && inputRef.current) {
+    if (autoFocus && step === 'questions' && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
-  }, [currentIndex, step]);
+  }, [autoFocus, currentIndex, step]);
 
   const getAnswerValue = useCallback(
     (q: Question): unknown => {
