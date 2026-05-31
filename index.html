@@ -24,6 +24,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <script>
+      history.scrollRestoration = 'manual';
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      window.scrollTo(0, 0);
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",

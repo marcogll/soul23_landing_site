@@ -18,6 +18,7 @@ dist-ssr
 hostinger-dist/
 hostinger-dist.zip
 migration_assets/
+.codegraph/
 
 # Editor directories and files
 .vscode/*

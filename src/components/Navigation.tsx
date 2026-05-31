@@ -24,19 +24,12 @@ export default function Navigation() {
 
   useEffect(() => {
     if (!location.hash) return
-    const id = location.hash.slice(1)
-    const timer = window.setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      if (location.pathname === '/') {
-        window.history.replaceState(null, '', '/')
-      }
-    }, 80)
-    return () => window.clearTimeout(timer)
+    window.history.replaceState(null, '', location.pathname || '/')
   }, [location.pathname, location.hash])
 
   const scrollTo = (id: string) => {
     if (!isHome) {
-      navigate(`/#${id}`)
+      navigate('/', { state: { scrollTo: id } })
       return
     }
     const el = document.getElementById(id)

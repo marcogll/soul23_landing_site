@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -27,35 +27,43 @@ import Section10Footer from './sections/Section10Footer'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const HOME_SCROLL_KEY = 's23-home-scroll-y-v2'
+const HOME_SCROLL_KEY = 's23-home-scroll-y-v3'
+
+interface HomeRouteState {
+  scrollTo?: string
+}
 
 function HomePage() {
+  const location = useLocation()
+
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
     }
 
-    const navEntry = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
-    const isReload = navEntry?.type === 'reload'
+    const routeState = location.state as HomeRouteState | null
+    const targetSection = routeState?.scrollTo
+    let ready = false
+
+    if (window.location.hash) {
+      window.history.replaceState(null, '', '/')
+    }
 
     const restoreTimer = window.setTimeout(() => {
-      const hash = window.location.hash.slice(1)
-      if (hash && !isReload) {
-        document.getElementById(hash)?.scrollIntoView({ behavior: 'auto', block: 'start' })
+      if (targetSection) {
+        document.getElementById(targetSection)?.scrollIntoView({ behavior: 'auto', block: 'start' })
         window.history.replaceState(null, '', '/')
-      } else if (hash && isReload) {
-        window.history.replaceState(null, '', '/')
-        window.scrollTo({ top: 0, behavior: 'auto' })
       } else {
         const savedY = Number(window.sessionStorage.getItem(HOME_SCROLL_KEY) || '0')
         window.scrollTo({ top: Number.isFinite(savedY) ? savedY : 0, behavior: 'auto' })
       }
+      ready = true
       ScrollTrigger.refresh()
-    }, 120)
+    }, 160)
 
     let ticking = false
     const saveScroll = () => {
-      if (ticking) return
+      if (!ready || ticking) return
       ticking = true
       window.requestAnimationFrame(() => {
         window.sessionStorage.setItem(HOME_SCROLL_KEY, String(Math.max(0, Math.round(window.scrollY))))
@@ -71,7 +79,7 @@ function HomePage() {
       window.removeEventListener('scroll', saveScroll)
       window.removeEventListener('pagehide', saveScroll)
     }
-  }, [])
+  }, [location.state])
 
   return (
     <>
