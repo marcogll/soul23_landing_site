@@ -6,8 +6,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 const images = [
   { src: '/images/ai-bot-dashboard.jpg', alt: 'AI Bot Dashboard', span: 'col-span-2 row-span-2' },
-  { src: '/images/control-panel.jpg', alt: 'Control Panel', span: 'col-span-1 row-span-1' },
-  { src: '/images/integrations.jpg', alt: 'System Integrations', span: 'col-span-1 row-span-1' },
+  { src: '/images/demo-dashboard.jpg', alt: 'Dashboard operativo en laptop', span: 'col-span-1 row-span-1' },
+  { src: '/images/data-flow.jpg', alt: 'Flujo de datos automatizado', span: 'col-span-1 row-span-1' },
 ]
 
 export default function Section4Gallery() {

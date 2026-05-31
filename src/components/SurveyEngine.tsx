@@ -3,7 +3,7 @@ import type { KeyboardEvent, RefObject } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight, ArrowLeft, Check, Star, Send, Loader2,
-  MapPin, Sparkles
+  MapPin, Sparkles, X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -406,7 +406,54 @@ export default function SurveyEngine({
   const [validationError, setValidationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
   const lastAnswerTimestamp = useRef<Record<string, number>>({});
+  const historyEntryArmed = useRef(false);
   const storageKey = `s23-survey-${config.id}`;
+
+  const requestClose = useCallback(() => {
+    if (!onClose) return;
+    if (historyEntryArmed.current) {
+      window.history.back();
+      return;
+    }
+    onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (!onClose) return;
+
+    window.history.pushState(
+      { ...(window.history.state || {}), s23SurveyOpen: config.id },
+      '',
+      window.location.href
+    );
+    historyEntryArmed.current = true;
+
+    const handlePopState = () => {
+      if (!historyEntryArmed.current) return;
+      historyEntryArmed.current = false;
+      onClose();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      historyEntryArmed.current = false;
+    };
+  }, [config.id, onClose]);
+
+  useEffect(() => {
+    if (!onClose) return;
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        requestClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose, requestClose]);
 
   // Load persisted state on mount
   useEffect(() => {
@@ -630,7 +677,17 @@ export default function SurveyEngine({
         transition={{ duration: 0.5, ease: EASE_OUT }}
         className="w-full max-w-[560px] mx-auto"
       >
-        <div className="bg-dark-primary border border-cream/10 p-8 md:p-10 shadow-2xl">
+        <div className="relative bg-dark-primary border border-cream/10 p-8 md:p-10 shadow-2xl">
+          {onClose && (
+            <button
+              type="button"
+              onClick={requestClose}
+              aria-label="Cerrar encuesta"
+              className="absolute right-3 top-3 w-8 h-8 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
           {config.welcomeCard.imageUrl && (
             <div className="mb-6 flex justify-center">
               <img
@@ -681,7 +738,17 @@ export default function SurveyEngine({
         transition={{ duration: 0.5, ease: EASE_OUT }}
         className="w-full max-w-[560px] mx-auto"
       >
-        <div className="bg-dark-primary border border-cream/10 p-8 md:p-10 shadow-2xl text-center">
+        <div className="relative bg-dark-primary border border-cream/10 p-8 md:p-10 shadow-2xl text-center">
+          {onClose && (
+            <button
+              type="button"
+              onClick={requestClose}
+              aria-label="Cerrar encuesta"
+              className="absolute right-3 top-3 w-8 h-8 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
           {config.ending.imageUrl && (
             <div className="mb-6 flex justify-center">
               <img src={config.ending.imageUrl} alt="Thank you" className="h-20 object-contain" />
@@ -712,7 +779,7 @@ export default function SurveyEngine({
           )}
           {onClose && (
             <button
-              onClick={onClose}
+              onClick={requestClose}
               className="mt-4 text-cream-muted text-[12px] hover:text-gold transition-colors font-mono uppercase tracking-wide"
             >
               Cerrar
@@ -783,8 +850,18 @@ export default function SurveyEngine({
           animate="center"
           exit="exit"
           transition={{ duration: 0.35, ease: EASE_OUT }}
-          className="bg-dark-primary border border-cream/10 p-6 md:p-8 shadow-2xl"
+          className="relative bg-dark-primary border border-cream/10 p-6 md:p-8 shadow-2xl"
         >
+          {onClose && (
+            <button
+              type="button"
+              onClick={requestClose}
+              aria-label="Cerrar encuesta"
+              className="absolute right-3 top-3 w-8 h-8 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
           {/* Question header */}
           <div className="mb-6">
             <h3

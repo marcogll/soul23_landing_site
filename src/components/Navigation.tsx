@@ -46,8 +46,9 @@ export default function Navigation() {
 
       <div className="hidden md:flex items-center gap-6">
         <button onClick={() => scrollTo('como-funciona')} className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Cómo funciona</button>
-        <button onClick={() => scrollTo('feedback')} className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Feedback</button>
+        <Link to="/demos" className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Demos</Link>
         <button onClick={() => scrollTo('proyectos')} className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Proyectos</button>
+        <Link to="/precios" className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Precios</Link>
         <button onClick={() => scrollTo('contacto')} className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Contacto</button>
         {!isHome && (
           <Link to="/" className="text-[11px] uppercase tracking-[0.14em] text-cream-muted hover:text-cream transition-colors">Inicio</Link>

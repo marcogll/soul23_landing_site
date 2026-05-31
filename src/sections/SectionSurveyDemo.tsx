@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
   QrCode, Smartphone, Brain, AlertTriangle, Star, ThumbsUp, ThumbsDown, Meh,
   Send, Check, ChevronRight, RotateCcw, TrendingUp, MessageSquare, Eye,
-  Zap, Database, BarChart3, ClipboardList, Users, CalendarCheck, UserCheck, BriefcaseBusiness
+  Zap, Database, BarChart3, ClipboardList, Users, CalendarCheck, UserCheck, BriefcaseBusiness, X
 } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -89,6 +89,30 @@ const useCases: UseCase[] = [
     ],
   },
   {
+    id: 'legal',
+    label: 'Despacho legal',
+    title: 'Intake y seguimiento legal',
+    reportFocus: 'calificar asuntos, urgencia, documentos y siguiente acción del despacho',
+    questions: [
+      { id: 1, text: '¿Qué tan urgente es tu asunto?', type: 'emoji', aiTags: ['urgencia', 'legal'] },
+      { id: 2, text: '¿Qué tipo de caso necesitas revisar?', type: 'options', options: ['Civil', 'Laboral', 'Mercantil'], aiTags: ['tipo_caso'] },
+      { id: 3, text: '¿Ya tienes documentos o evidencia?', type: 'options', options: ['Sí', 'Parcial', 'No'], aiTags: ['documentos'] },
+      { id: 4, text: '¿Cómo prefieres seguimiento?', type: 'options', options: ['WhatsApp', 'Correo', 'Llamada'], aiTags: ['seguimiento'] },
+    ],
+  },
+  {
+    id: 'rrhh',
+    label: 'Recursos humanos',
+    title: 'Candidatos y clima laboral',
+    reportFocus: 'medir experiencia de candidato, carga laboral, bloqueos y riesgo de rotación',
+    questions: [
+      { id: 1, text: '¿Cómo fue tu experiencia en el proceso?', type: 'emoji', aiTags: ['candidato', 'experiencia'] },
+      { id: 2, text: '¿En qué etapa estás?', type: 'options', options: ['Postulación', 'Entrevista', 'Oferta'], aiTags: ['etapa'] },
+      { id: 3, text: '¿Qué tan claro fue el seguimiento?', type: 'options', options: ['Claro', 'Regular', 'Confuso'], aiTags: ['comunicación'] },
+      { id: 4, text: '¿Qué debería mejorar RRHH?', type: 'options', options: ['Tiempo', 'Claridad', 'Comunicación'], aiTags: ['mejora'] },
+    ],
+  },
+  {
     id: 'leads',
     label: 'Leads',
     title: 'Calificación comercial',
@@ -168,7 +192,11 @@ const liveSurveyForms = [
   },
 ]
 
-export default function SectionSurveyDemo() {
+interface SectionSurveyDemoProps {
+  showLiveForms?: boolean
+}
+
+export default function SectionSurveyDemo({ showLiveForms = true }: SectionSurveyDemoProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [phase, setPhase] = useState<Phase>('intro')
   const [currentQ, setCurrentQ] = useState(0)
@@ -179,6 +207,7 @@ export default function SectionSurveyDemo() {
   const [typingText, setTypingText] = useState('')
   const [demoStarted, setDemoStarted] = useState(false)
   const [selectedUseCase, setSelectedUseCase] = useState(useCases[0].id)
+  const [selectedLiveForm, setSelectedLiveForm] = useState<typeof liveSurveyForms[number] | null>(null)
   const activeUseCase = useCases.find((item) => item.id === selectedUseCase) || useCases[0]
   const surveyQuestions = activeUseCase.questions
 
@@ -508,7 +537,7 @@ export default function SectionSurveyDemo() {
         {/* Main grid */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left: Explanation */}
-          <div>
+          <div className="text-center lg:text-left">
             <div className="reveal mb-10" style={{ opacity: 0 }}>
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-4 block">
                 El problema
@@ -532,7 +561,7 @@ export default function SectionSurveyDemo() {
               </h3>
               <div className="space-y-4 mt-6">
                 {aiCapabilities.map(({ icon: Icon, title, desc }, i) => (
-                  <div key={i} className="flex items-start gap-4">
+                  <div key={i} className="flex flex-col items-center gap-3 text-center sm:grid sm:grid-cols-[40px_1fr] sm:items-start sm:text-left">
                     <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-4 h-4 text-gold" strokeWidth={1.5} />
                     </div>
@@ -551,9 +580,9 @@ export default function SectionSurveyDemo() {
               </span>
               <div className="relative">
                 {dataFlowSteps.map(({ icon: Icon, label, desc }, i) => (
-                  <div key={i} className="flex items-start gap-4 mb-4 last:mb-0 relative">
+                  <div key={i} className="flex flex-col items-center gap-3 text-center mb-5 last:mb-0 relative sm:grid sm:grid-cols-[40px_1fr] sm:items-start sm:text-left sm:gap-4 sm:mb-4">
                     {i < dataFlowSteps.length - 1 && (
-                      <div className="absolute left-5 top-10 w-px h-full bg-cream/10" />
+                      <div className="hidden sm:block absolute left-5 top-10 w-px h-full bg-cream/10" />
                     )}
                     <div className="w-10 h-10 rounded-full bg-cream/[0.05] border border-cream/10 flex items-center justify-center flex-shrink-0 relative z-10">
                       <Icon className="w-4 h-4 text-gold/70" strokeWidth={1.5} />
@@ -594,14 +623,14 @@ export default function SectionSurveyDemo() {
 
             {/* Mini features */}
             {demoStarted && (
-              <div className="grid grid-cols-2 gap-3 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                 {[
                   'Sin formularios largos',
                   'Alertas en tiempo real',
                   'Reporte diario automático',
                   'Detección de patrones IA',
                 ].map((f, i) => (
-                  <div key={i} className="flex items-center gap-2 text-[11px] text-cream-muted/50">
+                  <div key={i} className="flex items-center justify-center gap-2 text-center text-[11px] text-cream-muted/50 sm:justify-start sm:text-left">
                     <Check className="w-3 h-3 text-gold flex-shrink-0" />
                     {f}
                   </div>
@@ -611,47 +640,85 @@ export default function SectionSurveyDemo() {
           </div>
         </div>
 
-        {/* Real form launcher */}
-        <div className="reveal mt-16 lg:mt-20" style={{ opacity: 0 }}>
-          <div className="mb-8 text-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-4 block">
-              Formularios reales
-            </span>
-            <h3 className="font-serif font-semibold text-cream leading-[1.08] mb-3" style={{ fontSize: 'clamp(22px, 2.6vw, 34px)' }}>
-              Elige qué flujo quieres probar.
-            </h3>
-            <p className="text-sm text-cream-muted max-w-xl mx-auto leading-relaxed">
-              Estos sí son los formularios que mandan al webhook con su <span className="text-cream">type</span>, reporte y plantillas de correo para Talia.
-            </p>
-          </div>
+        {showLiveForms && (
+          <div className="reveal mt-16 lg:mt-20" style={{ opacity: 0 }}>
+            <div className="mb-8 text-center">
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-4 block">
+                Formularios reales
+              </span>
+              <h3 className="font-serif font-semibold text-cream leading-[1.08] mb-3" style={{ fontSize: 'clamp(22px, 2.6vw, 34px)' }}>
+                Elige qué flujo quieres probar.
+              </h3>
+              <p className="text-sm text-cream-muted max-w-xl mx-auto leading-relaxed">
+                Estos sí son los formularios que mandan al webhook con su <span className="text-cream">type</span>, reporte y plantillas de correo para Talia.
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {liveSurveyForms.map(({ href, icon: Icon, label, title, desc, type }) => (
-              <a
-                key={href}
-                href={href}
-                className="group block border border-cream/10 bg-dark-primary p-5 hover:border-gold/50 hover:bg-cream/[0.035] transition-colors"
-              >
-                <div className="flex items-start justify-between gap-4 mb-5">
-                  <div className="w-11 h-11 border border-cream/10 bg-cream/[0.03] flex items-center justify-center group-hover:border-gold/50 transition-colors">
-                    <Icon className="w-5 h-5 text-gold" strokeWidth={1.5} />
+            <div className="mb-6 border border-cream/10 bg-dark-primary">
+              {selectedLiveForm ? (
+                <div>
+                  <div className="flex items-center justify-between gap-4 border-b border-cream/10 px-4 py-3">
+                    <div className="min-w-0">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-gold">{selectedLiveForm.label}</p>
+                      <h4 className="font-serif text-cream text-lg truncate">{selectedLiveForm.title}</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedLiveForm(null)}
+                      aria-label="Cerrar formulario"
+                      className="w-9 h-9 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
-                  <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-gold/80 border border-gold/25 px-2 py-1">
-                    {label}
-                  </span>
+                  <iframe
+                    key={selectedLiveForm.href}
+                    src={selectedLiveForm.href}
+                    title={selectedLiveForm.title}
+                    className="h-[720px] w-full bg-dark-primary"
+                  />
                 </div>
-                <h4 className="font-serif text-cream text-xl leading-tight mb-3">{title}</h4>
-                <p className="text-[13px] text-cream-muted leading-relaxed mb-5">{desc}</p>
-                <div className="flex items-center justify-between gap-3 pt-4 border-t border-cream/10">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-cream-muted/45">
-                    type: {type}
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-gold transition-transform group-hover:translate-x-1" />
+              ) : (
+                <div className="px-5 py-8 text-center">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-3">
+                    Ventana de prueba
+                  </p>
+                  <p className="text-sm text-cream-muted max-w-lg mx-auto leading-relaxed">
+                    Elige un flujo de abajo y se abrirá aquí mismo, sin mandarte a otra sección ni sacar al usuario del contexto.
+                  </p>
                 </div>
-              </a>
-            ))}
+              )}
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {liveSurveyForms.map(({ href, icon: Icon, label, title, desc, type }) => (
+                <button
+                  key={href}
+                  type="button"
+                  onClick={() => setSelectedLiveForm({ href, icon: Icon, label, title, desc, type })}
+                  className={`group block text-center sm:text-left border bg-dark-primary p-5 hover:border-gold/50 hover:bg-cream/[0.035] transition-colors ${selectedLiveForm?.href === href ? 'border-gold/70' : 'border-cream/10'}`}
+                >
+                  <div className="flex flex-col items-center gap-3 mb-5 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                    <div className="w-11 h-11 border border-cream/10 bg-cream/[0.03] flex items-center justify-center group-hover:border-gold/50 transition-colors">
+                      <Icon className="w-5 h-5 text-gold" strokeWidth={1.5} />
+                    </div>
+                    <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-gold/80 border border-gold/25 px-2 py-1">
+                      {label}
+                    </span>
+                  </div>
+                  <h4 className="font-serif text-cream text-xl leading-tight mb-3">{title}</h4>
+                  <p className="text-[13px] text-cream-muted leading-relaxed mb-5">{desc}</p>
+                  <div className="flex flex-col items-center gap-3 pt-4 border-t border-cream/10 sm:flex-row sm:justify-between">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-cream-muted/45">
+                      type: {type}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-gold transition-transform group-hover:translate-x-1" />
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Bottom stats */}
         <div className="reveal mt-16 grid grid-cols-3 gap-8 text-center" style={{ opacity: 0 }}>

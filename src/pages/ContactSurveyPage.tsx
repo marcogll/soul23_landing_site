@@ -1,11 +1,22 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
 import { buildContactEmailReport } from '@/services/emailReport';
+import {
+  CONTACT_AUTOMATION_CHOICES,
+  CONTACT_AUDIENCE_CHOICES,
+  CONTACT_BUDGET_CHOICES,
+  CONTACT_CHANNEL_CHOICES,
+  CONTACT_MOMENT_CHOICES,
+  CONTACT_SECTOR_CHOICES,
+  CONTACT_SURVEY_TYPE_CHOICES,
+  enrichContactAnswers,
+  getContactTags,
+} from '@/services/contactSurveyPayload';
 
 const contactConfig: SurveyConfig = {
   id: 's23_contact_inquiry',
@@ -17,6 +28,22 @@ const contactConfig: SurveyConfig = {
   },
   showProgress: true,
   questions: [
+    {
+      id: 'tipo_negocio',
+      type: 'multipleChoiceSingle',
+      headline: '¿En qué sector está tu negocio?',
+      subheader: 'Talia adapta la encuesta, el reporte y las alertas según el giro.',
+      required: true,
+      choices: CONTACT_SECTOR_CHOICES,
+    },
+    {
+      id: 'tipo_encuesta',
+      type: 'multipleChoiceMulti',
+      headline: 'Elige el tipo de encuesta que quieres levantar',
+      subheader: 'Puedes elegir varias. Esta selección viaja completa al webhook para construir el email del cliente y el reporte interno.',
+      required: true,
+      choices: CONTACT_SURVEY_TYPE_CHOICES,
+    },
     {
       id: 'nombre',
       type: 'openText',
@@ -50,52 +77,27 @@ const contactConfig: SurveyConfig = {
       validation: { pattern: '^\\d{10}$', message: 'Debe tener 10 dígitos.' },
     },
     {
-      id: 'tipo_negocio',
-      type: 'multipleChoiceSingle',
-      headline: '¿En qué sector está tu negocio?',
-      required: true,
-      choices: [
-        { id: 'belleza', label: 'Salón de belleza / Spa' },
-        { id: 'restaurante', label: 'Restaurante / Bar / Cafetería' },
-        { id: 'salud', label: 'Consultorio médico / Clínica' },
-        { id: 'tienda', label: 'Tienda en línea / Física' },
-        { id: 'escuela', label: 'Escuela / Academia' },
-        { id: 'industrial', label: 'Industria / Manufactura' },
-        { id: 'inmobiliaria', label: 'Inmobiliaria / Construcción' },
-        { id: 'servicios', label: 'Servicios profesionales' },
-        { id: 'otro', label: 'Otro' },
-      ],
-    },
-    {
-      id: 'tipo_encuesta',
-      type: 'multipleChoiceMulti',
-      headline: '¿Qué tipo de encuestas quieres hacer?',
-      subheader: 'Así podemos adaptar preguntas, dashboard y alertas a tu operación.',
-      required: true,
-      choices: [
-        { id: 'satisfaccion_cliente', label: 'Satisfacción de clientes' },
-        { id: 'post_servicio', label: 'Post-servicio / post-compra' },
-        { id: 'nps', label: 'NPS / recomendación' },
-        { id: 'calidad', label: 'Calidad de producto o servicio' },
-        { id: 'empleados', label: 'Evaluación de empleados / clima laboral' },
-        { id: 'eventos', label: 'Eventos / RSVP / asistencia' },
-        { id: 'leads', label: 'Levantamiento de leads' },
-        { id: 'diagnostico', label: 'Diagnóstico interno de procesos' },
-      ],
-    },
-    {
       id: 'canal_encuesta',
       type: 'multipleChoiceMulti',
       headline: '¿Dónde quieres aplicar esas encuestas?',
       required: true,
-      choices: [
-        { id: 'whatsapp', label: 'WhatsApp' },
-        { id: 'qr', label: 'QR en sucursal o evento' },
-        { id: 'email', label: 'Email' },
-        { id: 'web', label: 'Sitio web / landing' },
-        { id: 'pos', label: 'Después de venta o pago' },
-        { id: 'manual', label: 'Captura interna por staff' },
-      ],
+      choices: CONTACT_CHANNEL_CHOICES,
+    },
+    {
+      id: 'audiencia_encuesta',
+      type: 'multipleChoiceMulti',
+      headline: '¿Quién responderá la encuesta?',
+      subheader: 'Mientras más claro sea esto, más personalizado puede ser el email y el reporte.',
+      required: true,
+      choices: CONTACT_AUDIENCE_CHOICES,
+    },
+    {
+      id: 'momento_encuesta',
+      type: 'multipleChoiceMulti',
+      headline: '¿En qué momento quieres pedir la respuesta?',
+      subheader: 'Esto define si conviene QR, WhatsApp, email, alerta automática o dashboard.',
+      required: true,
+      choices: CONTACT_MOMENT_CHOICES,
     },
     {
       id: 'necesidad',
@@ -103,16 +105,7 @@ const contactConfig: SurveyConfig = {
       headline: 'Además de encuestas, ¿qué te gustaría automatizar?',
       subheader: 'Marca todas las que apliquen.',
       required: true,
-      choices: [
-        { id: 'agenda', label: 'Agenda automática de citas' },
-        { id: 'ventas', label: 'Control de ventas y pagos' },
-        { id: 'dashboard', label: 'Dashboard para ver mi negocio' },
-        { id: 'bots', label: 'Bot de WhatsApp para clientes' },
-        { id: 'personal', label: 'Control de personal' },
-        { id: 'alertas', label: 'Alertas cuando una respuesta sea crítica' },
-        { id: 'reportes_encuestas', label: 'Reportes automáticos de encuestas' },
-        { id: 'todo', label: 'Quiero que mi negocio trabaje solo' },
-      ],
+      choices: CONTACT_AUTOMATION_CHOICES.filter((choice) => ['agenda', 'ventas', 'dashboard', 'bots', 'personal', 'alertas', 'reportes_encuestas', 'todo'].includes(choice.id)),
     },
     {
       id: 'presupuesto',
@@ -120,22 +113,52 @@ const contactConfig: SurveyConfig = {
       headline: '¿Tienes un presupuesto en mente?',
       subheader: 'Nos ayuda a dimensionar la solución.',
       required: false,
-      choices: [
-        { id: '<10k', label: 'Menos de $10,000 MXN' },
-        { id: '10-25k', label: '$10,000 - $25,000 MXN' },
-        { id: '25-50k', label: '$25,000 - $50,000 MXN' },
-        { id: '>50k', label: 'Más de $50,000 MXN' },
-        { id: 'no_se', label: 'No sé, quiero opciones' },
-      ],
+      choices: CONTACT_BUDGET_CHOICES,
+    },
+    {
+      id: 'decision_principal',
+      type: 'openText',
+      headline: '¿Qué decisión quieres tomar con esas respuestas?',
+      subheader: 'Ejemplo: mejorar atención, reducir cancelaciones, saber qué curso vender, detectar empleados saturados.',
+      required: true,
+      longAnswer: true,
+      placeholder: 'Quiero decidir...',
+    },
+    {
+      id: 'pregunta_clave',
+      type: 'openText',
+      headline: '¿Cuál sería la pregunta más importante para tu negocio?',
+      subheader: 'No tiene que estar perfecta; Talia la convierte en una estructura de encuesta.',
+      required: false,
+      longAnswer: true,
+      placeholder: 'Necesito saber si...',
+    },
+    {
+      id: 'alerta_critica',
+      type: 'openText',
+      headline: '¿Qué respuesta debería activar una alerta interna?',
+      subheader: 'Esto ayuda a n8n a decidir cuándo mandar aviso urgente y no solo guardar datos.',
+      required: false,
+      longAnswer: true,
+      placeholder: 'Alertar si...',
+    },
+    {
+      id: 'seguimiento_cliente',
+      type: 'openText',
+      headline: '¿Qué debería recibir la persona después de contestar?',
+      subheader: 'Ejemplo: agradecimiento, cupón, instrucciones, llamada, reporte, confirmación de cita.',
+      required: false,
+      longAnswer: true,
+      placeholder: 'Después de responder debería recibir...',
     },
     {
       id: 'descripcion',
       type: 'openText',
-      headline: 'Cuéntanos qué quieres aprender con esas encuestas',
-      subheader: 'Ejemplo: por qué cancelan, qué servicio falla, cómo atiende mi equipo, qué producto gusta más.',
+      headline: 'Cuéntanos más contexto para personalizar el reporte',
+      subheader: 'Cómo lo miden hoy, volumen aproximado, sucursales, sistema actual o problema principal.',
       required: false,
       longAnswer: true,
-      placeholder: 'Quiero medir...',
+      placeholder: 'Hoy medimos esto así...',
     },
   ],
   ending: {
@@ -158,7 +181,7 @@ function analyzeAnswers(answers: Record<string, unknown>) {
       question_id: t.id,
       text: t.text,
       sentiment: classifySentiment(t.text, sentimentWords),
-      tags: extractTags(t.text),
+      tags: [...getContactTags(answers), ...extractTags(t.text)],
     }));
 
   return { ratingsSummary: [], openTextResponses };
@@ -197,17 +220,20 @@ function extractTags(text: string): string[] {
 
 export default function ContactSurveyPage() {
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const closeSurvey = useCallback(() => navigate('/', { replace: true }), [navigate]);
 
   const handleSubmit = useCallback(
     async (answers: Record<string, unknown>, metadata: Record<string, unknown>) => {
       const { ratingsSummary, openTextResponses } = analyzeAnswers(answers);
+      const enrichedAnswers = enrichContactAnswers(answers);
       await submitToWebhook({
         type: 'contact_inquiry',
         form_type: 'contact_survey_full',
-        answers,
+        answers: enrichedAnswers,
         ratings_summary: ratingsSummary,
         open_text_responses: openTextResponses,
-        email_report: buildContactEmailReport(answers),
+        email_report: buildContactEmailReport(enrichedAnswers),
         metadata: {
           ...metadata,
           submittedAt: new Date().toISOString(),
@@ -271,6 +297,7 @@ export default function ContactSurveyPage() {
             <SurveyEngine
               config={contactConfig}
               onSubmit={handleSubmit}
+              onClose={closeSurvey}
             />
           )}
         </motion.div>

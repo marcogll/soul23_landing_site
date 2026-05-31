@@ -6,6 +6,17 @@ import SurveyEngine from '@/components/SurveyEngine'
 import type { SurveyConfig } from '@/components/SurveyEngine'
 import { submitToWebhook } from '@/services/webhook'
 import { buildContactEmailReport } from '@/services/emailReport'
+import {
+  CONTACT_AUTOMATION_CHOICES,
+  CONTACT_CHANNEL_CHOICES,
+  CONTACT_AUDIENCE_CHOICES,
+  CONTACT_MOMENT_CHOICES,
+  CONTACT_SECTOR_CHOICES,
+  CONTACT_SURVEY_TYPE_CHOICES,
+  CONTACT_URGENCY_CHOICES,
+  enrichContactAnswers,
+  getContactTags,
+} from '@/services/contactSurveyPayload'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,6 +31,22 @@ const contactConfig: SurveyConfig = {
   },
   showProgress: true,
   questions: [
+    {
+      id: 'tipo_negocio',
+      type: 'multipleChoiceSingle',
+      headline: 'Primero: ¿en qué giro está tu negocio?',
+      subheader: 'Esto cambia el lenguaje, métricas y preguntas que conviene usar.',
+      required: true,
+      choices: CONTACT_SECTOR_CHOICES,
+    },
+    {
+      id: 'tipo_encuesta',
+      type: 'multipleChoiceMulti',
+      headline: 'Ahora elige qué tipo de encuesta quieres hacer',
+      subheader: 'Puedes elegir más de una. Esto se manda al webhook como selección completa para generar emails y reporte.',
+      required: true,
+      choices: CONTACT_SURVEY_TYPE_CHOICES,
+    },
     { id: 'nombre', type: 'openText', headline: '¿Cómo te llamas?', required: true, placeholder: 'Tu nombre' },
     { id: 'negocio', type: 'openText', headline: '¿Cómo se llama tu negocio?', required: true, placeholder: 'Nombre del negocio' },
     {
@@ -41,86 +68,77 @@ const contactConfig: SurveyConfig = {
       validation: { pattern: '^\\d{10,13}$', message: 'Debe tener entre 10 y 13 dígitos.' },
     },
     {
-      id: 'tipo_negocio',
-      type: 'multipleChoiceSingle',
-      headline: '¿En qué giro está tu negocio?',
-      required: true,
-      choices: [
-        { id: 'belleza', label: 'Belleza / Spa / Salón' },
-        { id: 'salud', label: 'Salud / Clínica / Consultorio' },
-        { id: 'restaurante', label: 'Restaurante / Alimentos' },
-        { id: 'retail', label: 'Retail / Ecommerce' },
-        { id: 'educacion', label: 'Educación / Cursos' },
-        { id: 'industrial', label: 'Industria / Manufactura' },
-        { id: 'servicios', label: 'Servicios profesionales' },
-        { id: 'otro', label: 'Otro' },
-      ],
-    },
-    {
-      id: 'tipo_encuesta',
-      type: 'multipleChoiceMulti',
-      headline: '¿Qué tipo de encuesta quieres implementar?',
-      subheader: 'Puedes elegir más de una.',
-      required: true,
-      choices: [
-        { id: 'satisfaccion_cliente', label: 'Satisfacción de clientes' },
-        { id: 'post_servicio', label: 'Post-servicio / post-compra' },
-        { id: 'nps', label: 'NPS / recomendación' },
-        { id: 'calidad', label: 'Calidad de producto o servicio' },
-        { id: 'empleados', label: 'Empleados / clima laboral' },
-        { id: 'eventos', label: 'Eventos / RSVP' },
-        { id: 'leads', label: 'Captura y calificación de leads' },
-        { id: 'diagnostico', label: 'Diagnóstico interno de procesos' },
-      ],
-    },
-    {
       id: 'canal_encuesta',
       type: 'multipleChoiceMulti',
       headline: '¿Dónde quieres levantar respuestas?',
       required: true,
-      choices: [
-        { id: 'whatsapp', label: 'WhatsApp' },
-        { id: 'qr', label: 'QR en sucursal / evento' },
-        { id: 'email', label: 'Email' },
-        { id: 'web', label: 'Sitio web / landing' },
-        { id: 'pos', label: 'Después de venta o pago' },
-        { id: 'staff', label: 'Captura interna por staff' },
-      ],
+      choices: CONTACT_CHANNEL_CHOICES,
+    },
+    {
+      id: 'audiencia_encuesta',
+      type: 'multipleChoiceMulti',
+      headline: '¿Quién va a responder esa encuesta?',
+      subheader: 'Esto ayuda a que el correo no suene genérico y use el contexto correcto.',
+      required: true,
+      choices: CONTACT_AUDIENCE_CHOICES,
+    },
+    {
+      id: 'momento_encuesta',
+      type: 'multipleChoiceMulti',
+      headline: '¿En qué momento quieres pedir la respuesta?',
+      subheader: 'El momento define automatizaciones, recordatorios y alertas.',
+      required: true,
+      choices: CONTACT_MOMENT_CHOICES,
     },
     {
       id: 'necesidad',
       type: 'multipleChoiceMulti',
       headline: '¿Qué debería pasar después de responder?',
       required: true,
-      choices: [
-        { id: 'email_cliente', label: 'Enviar correo con resumen al cliente' },
-        { id: 'alertas', label: 'Alertar si hay una respuesta crítica' },
-        { id: 'dashboard', label: 'Actualizar dashboard' },
-        { id: 'whatsapp_followup', label: 'Dar seguimiento por WhatsApp' },
-        { id: 'crm', label: 'Guardar lead o cliente en CRM' },
-        { id: 'reporte_semanal', label: 'Enviar reporte semanal interno' },
-      ],
+      choices: CONTACT_AUTOMATION_CHOICES.filter((choice) => ['email_cliente', 'alertas', 'dashboard', 'whatsapp_followup', 'crm', 'reporte_semanal'].includes(choice.id)),
     },
     {
       id: 'urgencia',
       type: 'multipleChoiceSingle',
       headline: '¿Cuándo te gustaría tenerlo funcionando?',
       required: true,
-      choices: [
-        { id: 'ya', label: 'Lo antes posible' },
-        { id: '30_dias', label: 'Este mes' },
-        { id: 'trimestre', label: 'Este trimestre' },
-        { id: 'explorando', label: 'Estoy explorando' },
-      ],
+      choices: CONTACT_URGENCY_CHOICES,
+    },
+    {
+      id: 'decision_principal',
+      type: 'openText',
+      headline: '¿Qué decisión quieres poder tomar con esas respuestas?',
+      subheader: 'Ejemplo: saber por qué cancelan, qué curso vender más, qué empleado necesita apoyo.',
+      required: true,
+      longAnswer: true,
+      placeholder: 'Quiero decidir...',
+    },
+    {
+      id: 'pregunta_clave',
+      type: 'openText',
+      headline: '¿Cuál es la pregunta que no te puedes quitar de la cabeza?',
+      subheader: 'La usaremos como centro del reporte que recibe el cliente.',
+      required: false,
+      longAnswer: true,
+      placeholder: 'Necesito saber si...',
+    },
+    {
+      id: 'alerta_critica',
+      type: 'openText',
+      headline: '¿Qué respuesta debería prender una alerta inmediata?',
+      subheader: 'Ejemplo: mala atención, cancelación, queja grave, empleado saturado, lead urgente.',
+      required: false,
+      longAnswer: true,
+      placeholder: 'Alertar si alguien responde...',
     },
     {
       id: 'descripcion',
       type: 'openText',
-      headline: '¿Qué decisión quieres tomar con esos datos?',
-      subheader: 'Ejemplo: mejorar atención, detectar quejas, medir empleados, vender más cursos, reducir cancelaciones.',
+      headline: '¿Algo más que deba saber Talia para personalizar el reporte?',
+      subheader: 'Contexto operativo, sucursales, volumen, problema actual o cómo hoy levantan feedback.',
       required: false,
       longAnswer: true,
-      placeholder: 'Quiero saber...',
+      placeholder: 'Hoy lo hacemos así...',
     },
   ],
   ending: {
@@ -129,18 +147,10 @@ const contactConfig: SurveyConfig = {
   },
 }
 
-function extractTags(answers: Record<string, unknown>) {
-  return [
-    answers.tipo_negocio && `sector:${answers.tipo_negocio}`,
-    ...(Array.isArray(answers.tipo_encuesta) ? answers.tipo_encuesta.map((v) => `survey:${v}`) : []),
-    ...(Array.isArray(answers.canal_encuesta) ? answers.canal_encuesta.map((v) => `channel:${v}`) : []),
-    ...(Array.isArray(answers.necesidad) ? answers.necesidad.map((v) => `automation:${v}`) : []),
-  ].filter(Boolean) as string[]
-}
-
 export default function Section9Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const [submitted, setSubmitted] = useState(false)
+  const [contactOpen, setContactOpen] = useState(true)
 
   useLayoutEffect(() => {
     const section = sectionRef.current
@@ -157,10 +167,11 @@ export default function Section9Contact() {
   }, [])
 
   const handleSubmit = async (answers: Record<string, unknown>, metadata: Record<string, unknown>) => {
+    const enrichedAnswers = enrichContactAnswers(answers)
     const result = await submitToWebhook({
       type: 'contact_inquiry',
       form_type: 'homepage_contact_mini_survey',
-      answers,
+      answers: enrichedAnswers,
       ratings_summary: [],
       open_text_responses: typeof answers.descripcion === 'string' && answers.descripcion.trim()
         ? [
@@ -168,11 +179,11 @@ export default function Section9Contact() {
               question_id: 'descripcion',
               text: answers.descripcion.trim(),
               sentiment: 'neutral',
-              tags: extractTags(answers),
+              tags: getContactTags(answers),
             },
           ]
         : [],
-      email_report: buildContactEmailReport(answers),
+      email_report: buildContactEmailReport(enrichedAnswers),
       metadata: {
         ...metadata,
         submittedAt: new Date().toISOString(),
@@ -263,8 +274,29 @@ export default function Section9Contact() {
                   Agendar llamada
                 </a>
               </div>
+            ) : contactOpen ? (
+              <SurveyEngine
+                config={contactConfig}
+                onSubmit={handleSubmit}
+                onClose={() => setContactOpen(false)}
+                autoFocus={false}
+              />
             ) : (
-              <SurveyEngine config={contactConfig} onSubmit={handleSubmit} autoFocus={false} />
+              <div className="bg-dark-primary border border-cream/10 p-8 md:p-10 shadow-2xl text-center">
+                <h3 className="font-serif font-semibold text-cream text-2xl mb-3">
+                  Diagnóstico cerrado
+                </h3>
+                <p className="text-cream-muted text-[14px] leading-relaxed mb-8">
+                  Puedes volver a abrirlo cuando quieras para elegir giro, tipo de encuesta y automatizaciones.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setContactOpen(true)}
+                  className="inline-flex items-center gap-2 py-3 px-6 bg-gold text-dark-primary font-mono text-[11px] uppercase tracking-[0.12em] hover:bg-gold-light transition-colors"
+                >
+                  Abrir diagnóstico
+                </button>
+              </div>
             )}
           </div>
         </div>

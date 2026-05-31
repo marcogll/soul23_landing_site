@@ -33,7 +33,7 @@ const projects = [
     title: 'Control de flota y rutas',
     description: 'Dashboard de monitoreo de flota en tiempo real con alertas de desviación, reportes de combustible y integración con GPS.',
     tags: ['Control Operativo', 'GPS', 'Reportes'],
-    image: '/images/control-panel.jpg',
+    image: '/images/operacion-flow.jpg',
   },
   {
     client: 'Lumina Capital',

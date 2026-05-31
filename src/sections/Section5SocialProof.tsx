@@ -52,7 +52,7 @@ export default function Section5SocialProof() {
 
           {/* Right: Dashboard image */}
           <div className="reveal" style={{ opacity: 0 }}>
-            <img src="/images/control-panel.jpg" alt="Control Panel" className="w-full h-auto shadow-2xl" />
+            <img src="/images/manifesto.jpg" alt="Diseño con propósito" className="w-full h-auto shadow-2xl" />
           </div>
         </div>
       </div>

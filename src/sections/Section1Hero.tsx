@@ -84,39 +84,39 @@ export default function Section1Hero() {
           <div className="relative aspect-[1.05/1]">
             <div className="absolute inset-x-0 top-8 overflow-hidden border border-cream/10 bg-dark-secondary shadow-2xl">
               <img
-                src="/images/business-dashboard.png"
-                alt="Dashboard operativo de negocio"
-                className="h-64 lg:h-80 w-full object-cover object-top"
+                src="/images/cursos_vanity.png"
+                alt="Cursos de Vanity Academy"
+                className="h-72 lg:h-[360px] w-full object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-primary/45 via-transparent to-transparent" />
             </div>
 
-            <div className="absolute right-0 top-0 w-[52%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
+            <div className="absolute right-0 top-0 w-[56%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
+              <img
+                src="/images/project-dashboard.jpg"
+                alt="Dashboard visual de operación"
+                className="h-40 lg:h-52 w-full object-cover object-top"
+              />
+            </div>
+
+            <div className="absolute left-0 bottom-8 w-[44%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
                 src="/images/dradfg.jpg"
                 alt="Sitio de Dra. DFG"
-                className="h-36 lg:h-44 w-full object-cover object-top"
-              />
-            </div>
-
-            <div className="absolute left-0 bottom-8 w-[48%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
-              <img
-                src="/images/cursos_vanity.png"
-                alt="Cursos de Vanity Experience"
-                className="h-36 lg:h-44 w-full object-cover object-top"
-              />
-            </div>
-
-            <div className="absolute right-6 bottom-0 w-[42%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
-              <img
-                src="/images/n8n.png"
-                alt="Automatización n8n"
                 className="h-32 lg:h-40 w-full object-cover object-top"
               />
             </div>
 
+            <div className="absolute right-6 bottom-0 w-[38%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
+              <img
+                src="/images/n8n.png"
+                alt="Automatización n8n"
+                className="h-28 lg:h-36 w-full object-cover object-top"
+              />
+            </div>
+
             <div className="absolute left-8 top-2 border border-gold/30 bg-dark-primary/85 px-3 py-2 backdrop-blur-sm">
-              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold">dashboards · cursos · n8n</p>
+              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold">vanity academy · dashboard · n8n</p>
             </div>
           </div>
         </div>

@@ -12,16 +12,15 @@ import ClientOnboardingPage from './pages/ClientOnboardingPage'
 import RsvpPage from './pages/RsvpPage'
 import StaffEvaluationPage from './pages/StaffEvaluationPage'
 import ProjectFeedbackPage from './pages/ProjectFeedbackPage'
+import PricingPage from './pages/PricingPage'
+import DemosPage from './pages/DemosPage'
 
 import Section1Hero from './sections/Section1Hero'
 import Section2Problem from './sections/Section2Problem'
 import Section3HowItWorks from './sections/Section3HowItWorks'
 import SectionSurveyDemo from './sections/SectionSurveyDemo'
-import SectionEmailTemplate from './sections/SectionEmailTemplate'
 import Section4Projects from './sections/Section4Projects'
 import Section5Testimonials from './sections/Section5Testimonials'
-import Section9DemoDashboard from './sections/Section9DemoDashboard'
-import Section10DemoBots from './sections/Section10DemoBots'
 import Section9Contact from './sections/Section9Contact'
 import Section10Footer from './sections/Section10Footer'
 
@@ -90,12 +89,9 @@ function HomePage() {
       <Section1Hero />
       <Section2Problem />
       <Section3HowItWorks />
-      <SectionSurveyDemo />
-      <SectionEmailTemplate />
+      <SectionSurveyDemo showLiveForms={false} />
       <Section4Projects />
       <Section5Testimonials />
-      <Section9DemoDashboard />
-      <Section10DemoBots />
       <Section9Contact />
       <Section10Footer />
     </>
@@ -115,6 +111,8 @@ export default function App() {
         <Route path="/rsvp" element={<RsvpPage />} />
         <Route path="/evaluate" element={<StaffEvaluationPage />} />
         <Route path="/project-feedback" element={<ProjectFeedbackPage />} />
+        <Route path="/precios" element={<PricingPage />} />
+        <Route path="/demos" element={<DemosPage />} />
       </Route>
     </Routes>
   )

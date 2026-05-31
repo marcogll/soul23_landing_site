@@ -31,7 +31,7 @@ const taliaFlows: Record<string, Message[]> = {
     { id: 3, from: 'talia', text: '¿Cómo te llamas?' },
   ],
   businessType: [
-    { id: 4, from: 'talia', text: '¿Qué tipo de negocio tienes?', options: ['Consultorio médico / Clínica', 'Salón de belleza / Spa', 'Restaurante / Bar', 'Tienda física / Online', 'Escuela / Academia', 'Otro'] },
+    { id: 4, from: 'talia', text: '¿Qué tipo de negocio tienes?', options: ['Consultorio médico / Clínica', 'Salón de belleza / Spa', 'Despacho legal / Abogados', 'Recursos humanos / Reclutamiento', 'Restaurante / Bar', 'Tienda física / Online', 'Escuela / Academia', 'Otro'] },
   ],
   painPoints: [
     { id: 5, from: 'talia', text: 'Cuéntame, ¿cuál de estas situaciones te suena más familiar? 👇', options: ['Mensajes constantes para agendar', 'Ventas registradas manualmente', 'No sé qué pasa si no estoy', 'Control de personal difícil', 'Datos dispersos', 'Cancelaciones sin control'] },
@@ -100,6 +100,7 @@ export default function TaliaChatbot() {
   const chatEndRef = useRef<HTMLDivElement>(null)
   const widgetRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const historyEntryArmed = useRef(false)
 
   // No auto-open — button pulses subtly instead
 
@@ -138,6 +139,45 @@ export default function TaliaChatbot() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
+
+  const closeChat = () => {
+    if (historyEntryArmed.current) {
+      window.history.back()
+      return
+    }
+    setIsOpen(false)
+  }
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    window.history.pushState(
+      { ...(window.history.state || {}), s23ChatbotOpen: true },
+      '',
+      window.location.href
+    )
+    historyEntryArmed.current = true
+
+    const handlePopState = () => {
+      if (!historyEntryArmed.current) return
+      historyEntryArmed.current = false
+      setIsOpen(false)
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        closeChat()
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
 
   // Entrance animation
   useEffect(() => {
@@ -184,6 +224,8 @@ export default function TaliaChatbot() {
           break
         case 'Consultorio médico / Clínica':
         case 'Salón de belleza / Spa':
+        case 'Despacho legal / Abogados':
+        case 'Recursos humanos / Reclutamiento':
         case 'Restaurante / Bar':
         case 'Tienda física / Online':
         case 'Escuela / Academia':
@@ -367,6 +409,14 @@ export default function TaliaChatbot() {
       setMessages(prev => [...prev, { id: Date.now(), from: 'user', text: phone }])
       setLeadField(null)
       setLeadInput('')
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          from: 'talia',
+          text: 'Perfecto. Estoy preparando el resumen y enviándolo al webhook de soul:23.',
+        },
+      ])
       const result = await submitLead(nextData)
       setMessages(prev => [
         ...prev,
@@ -426,7 +476,7 @@ export default function TaliaChatbot() {
               </div>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={closeChat}
               className="w-7 h-7 flex items-center justify-center text-cream-muted hover:text-cream transition-colors"
             >
               <X className="w-4 h-4" />
@@ -555,7 +605,13 @@ export default function TaliaChatbot() {
       )}
       <button
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (isOpen) {
+            closeChat()
+            return
+          }
+          setIsOpen(true)
+        }}
         className={`fixed bottom-4 right-4 lg:right-8 z-[1001] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
           isOpen ? 'bg-cream/10 border border-cream/20' : 'bg-gold/90 hover:bg-gold border border-gold/40'
         }`}

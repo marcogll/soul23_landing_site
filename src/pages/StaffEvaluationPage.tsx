@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
@@ -18,6 +18,20 @@ const evaluationConfig: SurveyConfig = {
   showProgress: true,
   questions: [
     // ─── Datos generales ───
+    {
+      id: 'contexto_staff',
+      type: 'multipleChoiceSingle',
+      headline: '¿Qué tipo de equipo estás evaluando?',
+      subheader: 'Belleza y clínica comparten operación de citas/servicio, pero el análisis de staff se interpreta distinto por giro.',
+      required: true,
+      choices: [
+        { id: 'belleza', label: 'Belleza / Spa / Salón' },
+        { id: 'clinica', label: 'Clínica / Consultorio' },
+        { id: 'legal', label: 'Despacho legal / administrativo' },
+        { id: 'rrhh', label: 'Recursos humanos / reclutamiento' },
+        { id: 'operativo', label: 'Operación general' },
+      ],
+    },
     {
       id: 'nombre_evaluador',
       type: 'openText',
@@ -56,6 +70,20 @@ const evaluationConfig: SurveyConfig = {
         { id: 'trimestral', label: 'Último trimestre' },
         { id: 'semestral', label: 'Último semestre' },
         { id: 'anual', label: 'Último año' },
+      ],
+    },
+    {
+      id: 'rol_evaluado',
+      type: 'multipleChoiceSingle',
+      headline: '¿Qué rol o función estás evaluando?',
+      required: true,
+      choices: [
+        { id: 'atencion_cliente', label: 'Atención a cliente / recepción' },
+        { id: 'servicio_profesional', label: 'Servicio profesional / especialista' },
+        { id: 'ventas', label: 'Ventas / seguimiento comercial' },
+        { id: 'administracion', label: 'Administración / back office' },
+        { id: 'reclutamiento', label: 'Reclutamiento / selección' },
+        { id: 'liderazgo', label: 'Liderazgo / coordinación' },
       ],
     },
     // ─── Autoevaluación / Evaluación ───
@@ -155,6 +183,15 @@ const evaluationConfig: SurveyConfig = {
       placeholder: 'Algo más que quieras compartir...',
     },
     {
+      id: 'riesgo_operativo',
+      type: 'openText',
+      headline: '¿Hay algún riesgo operativo o de equipo que debamos detectar?',
+      subheader: 'Ejemplo: rotación, quejas, atrasos, saturación, mala comunicación o retrabajo.',
+      required: false,
+      longAnswer: true,
+      placeholder: 'Me preocupa...',
+    },
+    {
       id: 'recomendaria_trabajar',
       type: 'multipleChoiceSingle',
       headline: '¿Trabajarías de nuevo con esta persona?',
@@ -192,6 +229,9 @@ function extractTags(text: string): string[] {
     'organización': ['organizado', 'organización', 'orden', 'planifica'],
     'proactividad': ['proactivo', 'iniciativa', 'propone', 'mejora'],
     'calidad': ['calidad', 'detallista', 'cuidadoso', 'preciso'],
+    'rotación': ['rotación', 'renuncia', 'se va', 'retener'],
+    'sobrecarga': ['saturado', 'saturada', 'sobrecarga', 'carga', 'agotado'],
+    'reclutamiento': ['candidato', 'vacante', 'entrevista', 'reclutamiento'],
   };
   const lower = text.toLowerCase();
   return Object.entries(keywords)
@@ -219,6 +259,7 @@ function analyzeAnswers(answers: Record<string, unknown>) {
     { id: 'fortalezas', text: (answers.fortalezas as string) || '' },
     { id: 'areas_mejora', text: (answers.areas_mejora as string) || '' },
     { id: 'comentario_adicional', text: (answers.comentario_adicional as string) || '' },
+    { id: 'riesgo_operativo', text: (answers.riesgo_operativo as string) || '' },
   ];
 
   return {
@@ -239,6 +280,8 @@ function analyzeAnswers(answers: Record<string, unknown>) {
 
 export default function StaffEvaluationPage() {
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const closeSurvey = useCallback(() => navigate('/', { replace: true }), [navigate]);
 
   const handleSubmit = useCallback(
     async (answers: Record<string, unknown>, metadata: Record<string, unknown>) => {
@@ -310,6 +353,7 @@ export default function StaffEvaluationPage() {
             <SurveyEngine
               config={evaluationConfig}
               onSubmit={handleSubmit}
+              onClose={closeSurvey}
             />
           )}
         </motion.div>

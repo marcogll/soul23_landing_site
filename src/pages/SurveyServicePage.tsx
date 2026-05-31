@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
@@ -187,6 +186,8 @@ export default function SurveyServicePage() {
   const [searchParams] = useSearchParams();
   const [submitted, setSubmitted] = useState(false);
   const [prefillData, setPrefillData] = useState<Record<string, unknown>>({});
+  const navigate = useNavigate();
+  const closeSurvey = useCallback(() => navigate('/', { replace: true }), [navigate]);
 
   useEffect(() => {
     const r = searchParams.get('r');
@@ -303,6 +304,7 @@ export default function SurveyServicePage() {
               config={serviceConfig}
               onSubmit={handleSubmit}
               prefillData={prefillData}
+              onClose={closeSurvey}
             />
           )}
         </motion.div>

@@ -3,6 +3,7 @@ import FrameOverlay from './FrameOverlay'
 import GrainOverlay from './GrainOverlay'
 import Navigation from './Navigation'
 import TaliaChatbot from './TaliaChatbot'
+import NewsletterDiscountPopup from './NewsletterDiscountPopup'
 
 export default function Layout() {
   return (
@@ -14,6 +15,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <TaliaChatbot />
+      <NewsletterDiscountPopup />
     </div>
   )
 }

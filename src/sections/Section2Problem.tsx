@@ -60,9 +60,9 @@ export default function Section2Problem() {
 
         <div className="reveal grid grid-cols-3 gap-3 mt-12" style={{ opacity: 0 }}>
           {[
-            { src: '/images/work3.jpg', alt: 'Operación digital conectada' },
-            { src: '/images/work4.jpg', alt: 'Procesos de negocio automatizados' },
-            { src: '/images/work5.jpg', alt: 'Control visual de tareas' },
+            { src: '/images/collage-tr.jpg', alt: 'Planeación de procesos' },
+            { src: '/images/work4.jpg', alt: 'Seguimiento móvil de operación' },
+            { src: '/images/collage-tl.jpg', alt: 'Herramientas de trabajo conectadas' },
           ].map((image) => (
             <img
               key={image.src}

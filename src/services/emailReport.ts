@@ -4,12 +4,26 @@ export interface ContactReportInput {
   email?: unknown;
   tipo_negocio?: unknown;
   tipoNegocio?: unknown;
+  tipo_negocio_label?: unknown;
   tipo_encuesta?: unknown;
+  tipo_encuesta_labels?: unknown;
   canal_encuesta?: unknown;
+  canal_encuesta_labels?: unknown;
   necesidad?: unknown;
+  necesidad_labels?: unknown;
   presupuesto?: unknown;
+  presupuesto_label?: unknown;
   urgencia?: unknown;
+  urgencia_label?: unknown;
   descripcion?: unknown;
+  audiencia_encuesta?: unknown;
+  audiencia_encuesta_labels?: unknown;
+  momento_encuesta?: unknown;
+  momento_encuesta_labels?: unknown;
+  decision_principal?: unknown;
+  pregunta_clave?: unknown;
+  alerta_critica?: unknown;
+  seguimiento_cliente?: unknown;
 }
 
 export type SurveyEmailKind =
@@ -84,22 +98,31 @@ function labelList(items: string[]): string {
 
 export function buildContactEmailReport(answers: ContactReportInput) {
   const businessName = asText(answers.negocio) || 'tu negocio';
-  const sector = asText(answers.tipo_negocio) || asText(answers.tipoNegocio) || 'tu sector';
-  const surveyTypes = asList(answers.tipo_encuesta);
-  const channels = asList(answers.canal_encuesta);
-  const needs = asList(answers.necesidad);
+  const sector = asText(answers.tipo_negocio_label) || asText(answers.tipo_negocio) || asText(answers.tipoNegocio) || 'tu sector';
+  const surveyTypeIds = asList(answers.tipo_encuesta);
+  const channelIds = asList(answers.canal_encuesta);
+  const needIds = asList(answers.necesidad);
+  const surveyTypes = asList(answers.tipo_encuesta_labels).length ? asList(answers.tipo_encuesta_labels) : surveyTypeIds;
+  const channels = asList(answers.canal_encuesta_labels).length ? asList(answers.canal_encuesta_labels) : channelIds;
+  const needs = asList(answers.necesidad_labels).length ? asList(answers.necesidad_labels) : needIds;
+  const audience = asList(answers.audiencia_encuesta_labels).length ? asList(answers.audiencia_encuesta_labels) : asList(answers.audiencia_encuesta);
+  const moments = asList(answers.momento_encuesta_labels).length ? asList(answers.momento_encuesta_labels) : asList(answers.momento_encuesta);
   const need = labelList(needs);
-  const budget = asText(answers.presupuesto);
-  const urgency = asText(answers.urgencia);
+  const budget = asText(answers.presupuesto_label) || asText(answers.presupuesto);
+  const urgency = asText(answers.urgencia_label) || asText(answers.urgencia);
   const description = asText(answers.descripcion);
+  const decision = asText(answers.decision_principal);
+  const keyQuestion = asText(answers.pregunta_clave);
+  const criticalAlert = asText(answers.alerta_critica);
+  const followUp = asText(answers.seguimiento_cliente);
   const recipient = asText(answers.email);
   const recommendedServices = [
     surveyTypes.length > 0 && 'Diseño de encuesta a la medida por giro',
-    channels.includes('whatsapp') && 'Automatización por WhatsApp',
-    channels.includes('qr') && 'QR para sucursal, evento o punto de venta',
-    (needs.includes('dashboard') || needs.includes('reportes_encuestas')) && 'Dashboard de resultados y alertas',
-    needs.includes('alertas') && 'Alertas críticas por correo o WhatsApp',
-    needs.includes('bots') && 'Bot conversacional conectado al flujo',
+    channelIds.includes('whatsapp') && 'Automatización por WhatsApp',
+    channelIds.includes('qr') && 'QR para sucursal, evento o punto de venta',
+    (needIds.includes('dashboard') || needIds.includes('reportes_encuestas')) && 'Dashboard de resultados y alertas',
+    needIds.includes('alertas') && 'Alertas críticas por correo o WhatsApp',
+    needIds.includes('bots') && 'Bot conversacional conectado al flujo',
   ].filter(Boolean) as string[];
 
   return {
@@ -107,20 +130,31 @@ export function buildContactEmailReport(answers: ContactReportInput) {
     recipient_email: recipient || undefined,
     subject: `Lo que podemos medir para ${businessName}`,
     headline: `Primer diagnóstico para ${businessName}`,
-    summary: `Con la información compartida, el foco inicial es diseñar encuestas para ${sector}, enfocadas en ${labelList(surveyTypes)} y distribuidas por ${labelList(channels)}.`,
+    summary: `Con la información compartida, el foco inicial es diseñar encuestas para ${sector}, enfocadas en ${labelList(surveyTypes)} y distribuidas por ${labelList(channels)}. La decisión principal a resolver es: ${decision || 'pendiente de afinar en llamada'}.`,
     insights: [
       `Sector detectado: ${sector}. Esto define lenguaje, métricas y benchmarks del reporte.`,
       `Tipo de encuesta prioritaria: ${labelList(surveyTypes)}.`,
+      `Quién responderá: ${labelList(audience)}.`,
+      `Momento de captura: ${labelList(moments)}.`,
       `Canales sugeridos para captura: ${labelList(channels)}.`,
       needs.length ? `Automatización relacionada: ${need}.` : 'Automatización relacionada: pendiente de definir.',
+      decision ? `Decisión que quiere tomar: ${decision}.` : 'Decisión principal: pendiente de precisar.',
+      keyQuestion ? `Pregunta clave del negocio: ${keyQuestion}.` : 'Pregunta clave: pendiente de precisar.',
+      criticalAlert ? `Alerta crítica solicitada: ${criticalAlert}.` : 'Alerta crítica: pendiente de definir.',
+      followUp ? `Seguimiento esperado para quien responde: ${followUp}.` : 'Seguimiento post-respuesta: pendiente de definir.',
       budget ? `Presupuesto declarado: ${budget}.` : 'Presupuesto declarado: pendiente de definir.',
       urgency ? `Urgencia del proyecto: ${urgency}.` : 'Urgencia del proyecto: pendiente de definir.',
       description ? `Objetivo declarado: ${description}.` : 'Objetivo declarado: pendiente de ampliar en la llamada.',
     ],
     next_steps: [
-      'Definir las 5-8 preguntas mínimas para capturar información accionable.',
+      keyQuestion
+        ? `Convertir la pregunta clave en 5-8 preguntas medibles: ${keyQuestion}.`
+        : 'Definir las 5-8 preguntas mínimas para capturar información accionable.',
       'Conectar cada respuesta al webhook para guardar datos estructurados.',
-      'Enviar un resumen automático por correo con hallazgos, alertas y siguientes acciones.',
+      criticalAlert
+        ? `Configurar alerta automática cuando aparezca esta señal: ${criticalAlert}.`
+        : 'Definir qué respuesta debe detonar alerta interna.',
+      'Enviar un resumen automático por correo con hallazgos, lectura del caso y siguientes acciones.',
       'Activar dashboard o reporte semanal cuando exista volumen suficiente de respuestas.',
     ],
     recommended_services: recommendedServices.length

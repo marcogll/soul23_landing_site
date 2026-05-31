@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SurveyEngine from '@/components/SurveyEngine';
 import type { SurveyConfig } from '@/components/SurveyEngine';
 import { submitToWebhook } from '@/services/webhook';
@@ -148,6 +148,8 @@ function analyzeAnswers(answers: Record<string, unknown>) {
 
 export default function RsvpPage() {
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const closeSurvey = useCallback(() => navigate('/', { replace: true }), [navigate]);
 
   const handleSubmit = useCallback(
     async (answers: Record<string, unknown>, metadata: Record<string, unknown>) => {
@@ -220,6 +222,7 @@ export default function RsvpPage() {
             <SurveyEngine
               config={rsvpConfig}
               onSubmit={handleSubmit}
+              onClose={closeSurvey}
             />
           )}
         </motion.div>
