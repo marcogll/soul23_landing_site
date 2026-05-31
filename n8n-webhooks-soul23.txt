@@ -124,6 +124,34 @@ SALIDAS / FORMAS ACTUALES
 - accion n8n:
   - Igual que contacto, pero marcar origen como formulario largo.
 
+2B. TALIA CHATBOT FUNNEL
+- Ruta visual: widget flotante Talia, disponible en todo el sitio
+- type: contact_inquiry
+- form_type: talia_chatbot_funnel
+- metadata.source: talia_chatbot_funnel
+- metadata.survey_name: Talia Chatbot Funnel
+- recipient_email: answers.email
+- telefono: answers.telefono
+- templates:
+  - cliente: email-templates/contact/client.html
+  - interno: email-templates/contact/internal.html
+- campos answers esperados:
+  - nombre
+  - negocio
+  - email
+  - telefono
+  - tipo_negocio
+  - tipo_encuesta[] = chatbot_funnel, diagnostico_proyecto
+  - canal_encuesta[] = web, whatsapp
+  - necesidad[]
+  - urgencia = por_definir
+  - descripcion
+- accion n8n:
+  - Email cliente: resumen breve de lo que Talia entendio sobre su proyecto.
+  - Email interno: lead capturado por Talia con giro, necesidad, email y telefono.
+  - Tratar como lead de proyecto nuevo.
+  - Si necesidad menciona agenda, dashboard, ventas, personal o cancelaciones, asignar etiqueta comercial correspondiente.
+
 3. CLIENT ONBOARDING
 - Ruta: /client-onboarding
 - type: client_onboarding

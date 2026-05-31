@@ -17,6 +17,7 @@ dist-ssr
 *.zip
 hostinger-dist/
 hostinger-dist.zip
+hostinger/
 migration_assets/
 .codegraph/
 

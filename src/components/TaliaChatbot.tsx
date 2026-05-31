@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, X, Send, Bot, User, Sparkles } from 'lucide-react'
 import gsap from 'gsap'
+import { submitToWebhook } from '@/services/webhook'
+import { buildContactEmailReport } from '@/services/emailReport'
 
 interface Message {
   id: number
@@ -10,10 +12,20 @@ interface Message {
   delay?: number
 }
 
+interface LeadData {
+  nombre?: string
+  tipo_negocio?: string
+  necesidad?: string
+  email?: string
+  telefono?: string
+}
+
+type LeadField = 'email' | 'phone' | null
+
 const taliaFlows: Record<string, Message[]> = {
   welcome: [
     { id: 1, from: 'talia', text: '¡Hola! Soy Talia, asistente de soul:23.' },
-    { id: 2, from: 'talia', text: 'Estoy aquí para ayudarte a descubrir cómo tu negocio puede trabajar más eficiente y hablar solo. 🎯', options: ['Empezar', 'Solo estoy viendo'] },
+    { id: 2, from: 'talia', text: 'Estoy aquí para ayudarte a descubrir qué sistema, automatización o encuesta puede hacer más eficiente tu negocio.', options: ['Quiero cotizar un proyecto', 'Empezar diagnóstico', 'Solo estoy viendo'] },
   ],
   name: [
     { id: 3, from: 'talia', text: '¿Cómo te llamas?' },
@@ -26,27 +38,27 @@ const taliaFlows: Record<string, Message[]> = {
   ],
   solution_agenda: [
     { id: 6, from: 'talia', text: 'Eso es super común. Muchos negocios pierden horas al día respondiendo mensajes para agendar o confirmar citas.', delay: 800 },
-    { id: 7, from: 'talia', text: 'Con nuestro sistema de agenda, tus clientes agendan solos, se envían confirmaciones automáticas por WhatsApp, y tú solo ves el calendario actualizado.', options: ['¿Y las cancelaciones?', 'Ver más capacidades', 'Agendar una cita'], delay: 1200 },
+    { id: 7, from: 'talia', text: 'Con nuestro sistema de agenda, tus clientes agendan solos, se envían confirmaciones automáticas por WhatsApp, y tú solo ves el calendario actualizado.', options: ['Dejar mis datos', '¿Y las cancelaciones?', 'Ver más capacidades'], delay: 1200 },
   ],
   solution_sales: [
     { id: 8, from: 'talia', text: 'Registrar ventas a mano es una de las mayores fuentes de errores y pérdida de tiempo.', delay: 800 },
-    { id: 9, from: 'talia', text: 'Nuestro sistema registra cada venta automáticamente, calcula comisiones, genera reportes diarios y alerta si algo no cuadra. Todo sin tocar una calculadora.', options: ['¿Integra con mi sistema?', 'Ver más capacidades', 'Agendar una cita'], delay: 1200 },
+    { id: 9, from: 'talia', text: 'Nuestro sistema registra cada venta automáticamente, calcula comisiones, genera reportes diarios y alerta si algo no cuadra. Todo sin tocar una calculadora.', options: ['Dejar mis datos', '¿Integra con mi sistema?', 'Ver más capacidades'], delay: 1200 },
   ],
   solution_control: [
     { id: 10, from: 'talia', text: 'Ese es el problema #1 que resolvemos. Muchos dueños sienten que el negocio depende 100% de su presencia.', delay: 800 },
-    { id: 11, from: 'talia', text: 'Con nuestros dashboards en tiempo real puedes ver ventas, asistencia, citas y alertas desde tu celular. Tu negocio te habla, incluso cuando no estás.', options: ['¿Cómo funcionan las alertas?', 'Ver más capacidades', 'Agendar una cita'], delay: 1200 },
+    { id: 11, from: 'talia', text: 'Con nuestros dashboards en tiempo real puedes ver ventas, asistencia, citas y alertas desde tu celular. Tu negocio te habla, incluso cuando no estás.', options: ['Dejar mis datos', '¿Cómo funcionan las alertas?', 'Ver más capacidades'], delay: 1200 },
   ],
   solution_staff: [
     { id: 12, from: 'talia', text: 'Controlar personal sin un sistema claro es agotador. Cuadernos, Excel, mensajes... nada conecta.', delay: 800 },
-    { id: 13, from: 'talia', text: 'Registramos asistencia, calculamos nómina, medimos tiempos muertos y generamos reportes automáticos. Todo en un solo lugar.', options: ['¿Y si tengo varias sucursales?', 'Ver más capacidades', 'Agendar una cita'], delay: 1200 },
+    { id: 13, from: 'talia', text: 'Registramos asistencia, calculamos nómina, medimos tiempos muertos y generamos reportes automáticos. Todo en un solo lugar.', options: ['Dejar mis datos', '¿Y si tengo varias sucursales?', 'Ver más capacidades'], delay: 1200 },
   ],
   solution_data: [
     { id: 14, from: 'talia', text: 'Datos dispersos = decisiones a ciegas. Si no tienes números claros, no puedes mejorar.', delay: 800 },
-    { id: 15, from: 'talia', text: 'Centralizamos toda la información de tu operación en dashboards visuales. Ventas, citas, personal, feedback — todo conectado y visible.', options: ['¿Qué tipo de reportes?', 'Ver más capacidades', 'Agendar una cita'], delay: 1200 },
+    { id: 15, from: 'talia', text: 'Centralizamos toda la información de tu operación en dashboards visuales. Ventas, citas, personal, feedback — todo conectado y visible.', options: ['Dejar mis datos', '¿Qué tipo de reportes?', 'Ver más capacidades'], delay: 1200 },
   ],
   solution_cancellations: [
     { id: 16, from: 'talia', text: 'Las cancelaciones son frustrantes, pero peor aún es no tener un sistema para manejarlas.', delay: 800 },
-    { id: 17, from: 'talia', text: 'Nuestro sistema envía recordatorios automáticos, permite reagendar fácilmente, y con IA detecta patrones de cancelación para prevenirlas.', options: ['¿Cómo funciona la IA?', 'Ver más capacidades', 'Agendar una cita'], delay: 1200 },
+    { id: 17, from: 'talia', text: 'Nuestro sistema envía recordatorios automáticos, permite reagendar fácilmente, y con IA detecta patrones de cancelación para prevenirlas.', options: ['Dejar mis datos', '¿Cómo funciona la IA?', 'Ver más capacidades'], delay: 1200 },
   ],
   showcase: [
     { id: 18, from: 'talia', text: 'Esto es lo que puedo hacer por tu negocio:', delay: 600 },
@@ -66,7 +78,7 @@ const taliaFlows: Record<string, Message[]> = {
   ],
   closing: [
     { id: 24, from: 'talia', text: 'Creo que ya tengo una buena idea de lo que necesitas. 🎯', delay: 600 },
-    { id: 25, from: 'talia', text: 'El siguiente paso es agendar una llamada de 15 minutos con el equipo. También puedes escribirme a talia@soul23.mx para coordinar citas. Analizamos tu operación y te proponemos un sistema a la medida.', options: ['Agendar llamada', 'Contactar por WhatsApp', 'Ver más info'], delay: 1200 },
+    { id: 25, from: 'talia', text: 'Puedo dejar tus datos listos para el equipo y mandar un resumen al webhook, o puedes agendar directo.', options: ['Dejar mis datos', 'Agendar llamada', 'Contactar por WhatsApp'], delay: 1200 },
   ],
   just_looking: [
     { id: 26, from: 'talia', text: '¡Perfecto! Puedes explorar el sitio. Si tienes alguna pregunta, aquí estaré. También puedes probar las demos de dashboard y bots más abajo. 👇', options: ['Ver demo dashboard', 'Ver demo bots', 'Gracias'], delay: 600 },
@@ -78,6 +90,9 @@ export default function TaliaChatbot() {
   const [messages, setMessages] = useState<Message[]>([])
   const [currentFlow, setCurrentFlow] = useState<string>('welcome')
   const [userName, setUserName] = useState('')
+  const [leadData, setLeadData] = useState<LeadData>({})
+  const [leadField, setLeadField] = useState<LeadField>(null)
+  const [leadInput, setLeadInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [hasGreeted] = useState(false)
   const [isBotSectionActive, setIsBotSectionActive] = useState(false)
@@ -159,11 +174,22 @@ export default function TaliaChatbot() {
     // Route to next flow
     setTimeout(() => {
       switch (option) {
+        case 'Quiero cotizar un proyecto':
         case 'Empezar':
+        case 'Empezar diagnóstico':
           setCurrentFlow('name')
           break
         case 'Solo estoy viendo':
           setCurrentFlow('just_looking')
+          break
+        case 'Consultorio médico / Clínica':
+        case 'Salón de belleza / Spa':
+        case 'Restaurante / Bar':
+        case 'Tienda física / Online':
+        case 'Escuela / Academia':
+        case 'Otro':
+          setLeadData(prev => ({ ...prev, tipo_negocio: option }))
+          setCurrentFlow('painPoints')
           break
         case 'Gracias':
           setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: '¡Con gusto! Estoy aquí cuando me necesites. 💬' }])
@@ -177,43 +203,54 @@ export default function TaliaChatbot() {
           document.getElementById('demo-bots')?.scrollIntoView({ behavior: 'smooth' })
           break
         case 'Mensajes constantes para agendar':
+          setLeadData(prev => ({ ...prev, necesidad: option }))
           setCurrentFlow('solution_agenda')
           break
         case 'Ventas registradas manualmente':
+          setLeadData(prev => ({ ...prev, necesidad: option }))
           setCurrentFlow('solution_sales')
           break
         case 'No sé qué pasa si no estoy':
+          setLeadData(prev => ({ ...prev, necesidad: option }))
           setCurrentFlow('solution_control')
           break
         case 'Control de personal difícil':
+          setLeadData(prev => ({ ...prev, necesidad: option }))
           setCurrentFlow('solution_staff')
           break
         case 'Datos dispersos':
+          setLeadData(prev => ({ ...prev, necesidad: option }))
           setCurrentFlow('solution_data')
           break
         case 'Cancelaciones sin control':
+          setLeadData(prev => ({ ...prev, necesidad: option }))
           setCurrentFlow('solution_cancellations')
           break
         case '¿Y las cancelaciones?':
-          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'El sistema detecta cancelaciones, envía reagendamiento automático y con IA aprende patrones para prevenirlas. 🧠', options: ['Ver más capacidades', 'Agendar una cita'] }])
+          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'El sistema detecta cancelaciones, envía reagendamiento automático y con IA aprende patrones para prevenirlas. 🧠', options: ['Dejar mis datos', 'Ver más capacidades'] }])
           break
         case '¿Integra con mi sistema?':
-          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Sí. Integramos con CRMs, ERPs, plataformas de pago y cualquier sistema que ya uses. APIs y webhooks disponibles. 🔌', options: ['Ver más capacidades', 'Agendar una cita'] }])
+          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Sí. Integramos con CRMs, ERPs, plataformas de pago y cualquier sistema que ya uses. APIs y webhooks disponibles. 🔌', options: ['Dejar mis datos', 'Ver más capacidades'] }])
           break
         case '¿Cómo funcionan las alertas?':
-          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Alertas por WhatsApp, email o dashboard: stock bajo, venta anómala, empleado sin registrar, cita cancelada. Configuras lo que quieres vigilar. 🔔', options: ['Ver más capacidades', 'Agendar una cita'] }])
+          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Alertas por WhatsApp, email o dashboard: stock bajo, venta anómala, empleado sin registrar, cita cancelada. Configuras lo que quieres vigilar. 🔔', options: ['Dejar mis datos', 'Ver más capacidades'] }])
           break
         case '¿Y si tengo varias sucursales?':
-          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Multi-sucursal incluido. Dashboard central con vista por location. Reportes comparativos y alertas por sucursal. 🏢', options: ['Ver más capacidades', 'Agendar una cita'] }])
+          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Multi-sucursal incluido. Dashboard central con vista por location. Reportes comparativos y alertas por sucursal. 🏢', options: ['Dejar mis datos', 'Ver más capacidades'] }])
           break
         case '¿Qué tipo de reportes?':
-          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Ventas diarias/semanales/mensuales, análisis de tendencias, KPIs de personal, satisfacción de clientes, predicciones con IA. Todo exportable. 📈', options: ['Ver más capacidades', 'Agendar una cita'] }])
+          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Ventas diarias/semanales/mensuales, análisis de tendencias, KPIs de personal, satisfacción de clientes, predicciones con IA. Todo exportable. 📈', options: ['Dejar mis datos', 'Ver más capacidades'] }])
           break
         case '¿Cómo funciona la IA?':
-          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'La IA analiza patrones históricos: predice cancelaciones, detecta anomalías en ventas, clasifica feedback automáticamente y mejora con el tiempo. 🤖', options: ['Ver más capacidades', 'Agendar una cita'] }])
+          setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'La IA analiza patrones históricos: predice cancelaciones, detecta anomalías en ventas, clasifica feedback automáticamente y mejora con el tiempo. 🤖', options: ['Dejar mis datos', 'Ver más capacidades'] }])
           break
         case 'Ver más capacidades':
           setCurrentFlow('showcase')
+          break
+        case 'Dejar mis datos':
+          setLeadField('email')
+          setLeadInput('')
+          setMessages(prev => [...prev, { id: Date.now() + 1, from: 'talia', text: 'Perfecto. ¿A qué correo te mando el resumen de tu proyecto?' }])
           break
         case '💰 Ventas automáticas':
           setCurrentFlow('showcase_sales')
@@ -252,6 +289,7 @@ export default function TaliaChatbot() {
   const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!userName.trim()) return
+    setLeadData(prev => ({ ...prev, nombre: userName.trim() }))
     setMessages(prev => [...prev, { id: Date.now(), from: 'user', text: userName }])
     setTimeout(() => {
       setMessages(prev => [...prev, { id: Date.now() + 1, from: 'talia', text: `¡Mucho gusto, ${userName}! 👋` }])
@@ -261,8 +299,95 @@ export default function TaliaChatbot() {
 
   const handleTextSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (leadField) {
+      void handleLeadSubmit()
+      return
+    }
     if (!userName.trim()) return
     handleNameSubmit(e)
+  }
+
+  const submitLead = async (data: LeadData) => {
+    const answers = {
+      nombre: data.nombre || userName || 'Lead desde Talia',
+      negocio: `Proyecto desde chatbot - ${data.tipo_negocio || 'giro por definir'}`,
+      email: data.email || '',
+      telefono: data.telefono || '',
+      tipo_negocio: data.tipo_negocio || 'por definir',
+      tipo_encuesta: ['chatbot_funnel', 'diagnostico_proyecto'],
+      canal_encuesta: ['web', 'whatsapp'],
+      necesidad: data.necesidad ? [data.necesidad] : ['diagnostico_inicial'],
+      urgencia: 'por_definir',
+      descripcion: `Lead capturado por Talia. Giro: ${data.tipo_negocio || 'por definir'}. Necesidad: ${data.necesidad || 'por definir'}.`,
+    }
+
+    return submitToWebhook({
+      type: 'contact_inquiry',
+      form_type: 'talia_chatbot_funnel',
+      answers,
+      ratings_summary: [],
+      open_text_responses: [
+        {
+          question_id: 'chatbot_summary',
+          text: answers.descripcion,
+          sentiment: 'neutral',
+          tags: ['source:talia_chatbot', `sector:${answers.tipo_negocio}`, ...(data.necesidad ? [`need:${data.necesidad}`] : [])],
+        },
+      ],
+      email_report: buildContactEmailReport(answers),
+      metadata: {
+        submittedAt: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        source: 'talia_chatbot_funnel',
+        form_type: 'talia_chatbot_funnel',
+        survey_name: 'Talia Chatbot Funnel',
+        language: navigator.language,
+        phoneNumber: data.telefono || undefined,
+      },
+    })
+  }
+
+  const handleLeadSubmit = async () => {
+    const value = leadInput.trim()
+    if (!value) return
+
+    if (leadField === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Ese correo no se ve válido. ¿Me lo compartes otra vez?' }])
+      return
+    }
+
+    if (leadField === 'phone') {
+      const phone = value.replace(/\D/g, '').slice(0, 13)
+      if (phone.length < 10) {
+        setMessages(prev => [...prev, { id: Date.now(), from: 'talia', text: 'Necesito al menos 10 dígitos para WhatsApp. ¿Me lo compartes otra vez?' }])
+        return
+      }
+      const nextData = { ...leadData, telefono: phone }
+      setLeadData(nextData)
+      setMessages(prev => [...prev, { id: Date.now(), from: 'user', text: phone }])
+      setLeadField(null)
+      setLeadInput('')
+      const result = await submitLead(nextData)
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          from: 'talia',
+          text: result.success || result.queued
+            ? 'Listo. Ya envié tu información al equipo de soul:23 con el contexto del proyecto. Puedes agendar llamada o escribir por WhatsApp.'
+            : 'Guardé el contexto, pero no pude enviar al webhook en este momento. Puedes escribirnos por WhatsApp para no perder el seguimiento.',
+          options: ['Agendar llamada', 'Contactar por WhatsApp'],
+        },
+      ])
+      return
+    }
+
+    const nextData = { ...leadData, email: value }
+    setLeadData(nextData)
+    setMessages(prev => [...prev, { id: Date.now(), from: 'user', text: value }])
+    setLeadField('phone')
+    setLeadInput('')
+    setMessages(prev => [...prev, { id: Date.now() + 1, from: 'talia', text: 'Gracias. ¿Cuál es tu WhatsApp para que podamos dar seguimiento?' }])
   }
 
   const renderText = (text: string) => {
@@ -367,14 +492,18 @@ export default function TaliaChatbot() {
               </div>
             )}
 
-            {/* Name input form */}
-            {currentFlow === 'name' && messages.length > 0 && messages[messages.length - 1].from === 'talia' && !isTyping && (
+            {/* Funnel text input form */}
+            {((currentFlow === 'name' && messages.length > 0 && messages[messages.length - 1].from === 'talia') || leadField) && !isTyping && (
               <form onSubmit={handleTextSubmit} className="flex gap-2 mt-2">
                 <input
-                  type="text"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  placeholder="Tu nombre..."
+                  type={leadField === 'email' ? 'email' : leadField === 'phone' ? 'tel' : 'text'}
+                  inputMode={leadField === 'phone' ? 'numeric' : leadField === 'email' ? 'email' : 'text'}
+                  value={leadField ? leadInput : userName}
+                  onChange={(e) => {
+                    const value = leadField === 'phone' ? e.target.value.replace(/\D/g, '').slice(0, 13) : e.target.value
+                    leadField ? setLeadInput(value) : setUserName(value)
+                  }}
+                  placeholder={leadField === 'email' ? 'correo@ejemplo.com' : leadField === 'phone' ? '8441234567' : 'Tu nombre...'}
                   autoFocus
                   className="flex-1 text-xs bg-dark-primary border border-cream/15 px-3 py-2 text-cream placeholder:text-cream-muted/30 outline-none focus:border-gold/50"
                 />

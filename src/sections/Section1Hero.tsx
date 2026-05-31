@@ -93,30 +93,30 @@ export default function Section1Hero() {
 
             <div className="absolute right-0 top-0 w-[52%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/industry-dashboard.png"
-                alt="Dashboard industrial"
+                src="/images/dradfg.jpg"
+                alt="Sitio de Dra. DFG"
                 className="h-36 lg:h-44 w-full object-cover object-top"
               />
             </div>
 
             <div className="absolute left-0 bottom-8 w-[48%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/vanityexp.png"
-                alt="Proyecto Vanity Experience"
+                src="/images/cursos_vanity.png"
+                alt="Cursos de Vanity Experience"
                 className="h-36 lg:h-44 w-full object-cover object-top"
               />
             </div>
 
             <div className="absolute right-6 bottom-0 w-[42%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/ia_survey.png"
-                alt="Reporte de encuestas con IA"
+                src="/images/n8n.png"
+                alt="Automatización n8n"
                 className="h-32 lg:h-40 w-full object-cover object-top"
               />
             </div>
 
             <div className="absolute left-8 top-2 border border-gold/30 bg-dark-primary/85 px-3 py-2 backdrop-blur-sm">
-              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold">dashboards · surveys · bots</p>
+              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold">dashboards · cursos · n8n</p>
             </div>
           </div>
         </div>
