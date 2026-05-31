@@ -43,6 +43,8 @@ function HomePage() {
 
     const routeState = location.state as HomeRouteState | null
     const targetSection = routeState?.scrollTo
+    const navigationEntry = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    const shouldRestoreSavedPosition = navigationEntry?.type === 'back_forward'
     let ready = false
 
     if (window.location.hash) {
@@ -53,9 +55,11 @@ function HomePage() {
       if (targetSection) {
         document.getElementById(targetSection)?.scrollIntoView({ behavior: 'auto', block: 'start' })
         window.history.replaceState(null, '', '/')
-      } else {
+      } else if (shouldRestoreSavedPosition) {
         const savedY = Number(window.sessionStorage.getItem(HOME_SCROLL_KEY) || '0')
         window.scrollTo({ top: Number.isFinite(savedY) ? savedY : 0, behavior: 'auto' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'auto' })
       }
       ready = true
       ScrollTrigger.refresh()

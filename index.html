@@ -29,6 +29,9 @@
       if (window.location.hash) {
         history.replaceState(null, '', window.location.pathname + window.location.search);
       }
+      sessionStorage.removeItem('s23-home-scroll-y');
+      sessionStorage.removeItem('s23-home-scroll-y-v2');
+      sessionStorage.removeItem('s23-home-scroll-y-v3');
       window.scrollTo(0, 0);
     </script>
     <script type="application/ld+json">
