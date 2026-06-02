@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { BarChart3, Brain, Bot, ShieldCheck } from 'lucide-react'
+import { BarChart3, Brain, Bot, ShieldCheck, Workflow } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,6 +25,11 @@ const services = [
     icon: ShieldCheck,
     title: 'Control Operativo',
     description: 'Gestión de inventario, control de asistencia, seguimiento de ventas, administración de citas y alertas automáticas.',
+  },
+  {
+    icon: Workflow,
+    title: 'Consultoría en Procesos',
+    description: 'Diagnóstico, mapeo y optimización de procesos operativos. Identificamos cuellos de botella y diseñamos flujos automatizados con métricas de impacto real.',
   },
 ]
 
@@ -56,10 +61,10 @@ export default function Section6Services() {
         </h2>
 
         <p className="reveal text-center text-cream-muted text-sm max-w-xl mx-auto mb-16" style={{ opacity: 0 }}>
-          Cuatro pilares que integran datos, inteligencia artificial y automatización para darte control total de tu negocio.
+          Cinco pilares que integran datos, inteligencia artificial y automatización para darte control total de tu negocio.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-0">
           {services.map((service, i) => {
             const Icon = service.icon
             return (

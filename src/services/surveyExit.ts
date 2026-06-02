@@ -59,6 +59,7 @@ export async function submitSurveyOnExit(): Promise<boolean> {
         submittedAt: new Date().toISOString(),
         userAgent: navigator.userAgent,
         source: mostRecent.configName || 'unknown_survey',
+        survey_name: mostRecent.configName || 'Encuesta abandonada',
         language: navigator.language,
         surveyId: mostRecent.configId,
         startedAt: mostRecent.startedAt,

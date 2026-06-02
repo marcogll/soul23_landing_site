@@ -298,6 +298,7 @@ export default function ContactSurveyPage() {
               config={contactConfig}
               onSubmit={handleSubmit}
               onClose={closeSurvey}
+              i18nPrefix="survey.contact"
             />
           )}
         </motion.div>

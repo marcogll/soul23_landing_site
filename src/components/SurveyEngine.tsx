@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import type { KeyboardEvent, RefObject } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -6,6 +6,7 @@ import {
   MapPin, Sparkles, X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const EASE_OUT = [0.25, 0.46, 0.45, 0.94] as [number, number, number, number];
 
@@ -85,6 +86,7 @@ export interface SurveyEngineProps {
   prefillData?: Record<string, unknown>;
   className?: string;
   autoFocus?: boolean;
+  i18nPrefix?: string;
 }
 
 // ─── Question Components ─────────────────────────────────────────────
@@ -391,12 +393,68 @@ const slideVariants = {
 // ─── Main Engine ─────────────────────────────────────────────────────
 
 export default function SurveyEngine({
-  config,
+  config: rawConfig,
   onSubmit,
   onClose,
   prefillData = {},
   autoFocus = true,
+  i18nPrefix,
 }: SurveyEngineProps) {
+  const { t } = useLanguage();
+
+  // ─── Helpers de traducción ───
+  const tx = useCallback((key: string, fallback: string): string => {
+    if (!i18nPrefix) return fallback;
+    const translated = t(`${i18nPrefix}.${key}`);
+    return translated === `${i18nPrefix}.${key}` ? fallback : translated;
+  }, [i18nPrefix, t]);
+
+  const translateQuestion = useCallback((q: Question): Question => {
+    if (!i18nPrefix) return q;
+    return {
+      ...q,
+      headline: tx(`${q.id}.headline`, q.headline),
+      subheader: q.subheader ? tx(`${q.id}.subheader`, q.subheader) : undefined,
+      placeholder: q.placeholder ? tx(`${q.id}.placeholder`, q.placeholder) : undefined,
+      lowerLabel: q.lowerLabel ? tx(`${q.id}.lowerLabel`, q.lowerLabel) : undefined,
+      upperLabel: q.upperLabel ? tx(`${q.id}.upperLabel`, q.upperLabel) : undefined,
+      buttonLabel: q.buttonLabel ? tx(`${q.id}.buttonLabel`, q.buttonLabel) : undefined,
+      backButtonLabel: q.backButtonLabel ? tx(`${q.id}.backButtonLabel`, q.backButtonLabel) : undefined,
+      choices: q.choices?.map(c => ({
+        ...c,
+        label: tx(`${q.id}.choice.${c.id}`, c.label),
+      })),
+    };
+  }, [tx, i18nPrefix]);
+
+  const translateWelcome = useCallback((wc: WelcomeCard): WelcomeCard => {
+    if (!i18nPrefix) return wc;
+    return {
+      ...wc,
+      headline: tx('welcome.headline', wc.headline),
+      subheader: wc.subheader ? tx('welcome.subheader', wc.subheader) : undefined,
+      buttonLabel: tx('welcome.buttonLabel', wc.buttonLabel),
+    };
+  }, [tx, i18nPrefix]);
+
+  const translateEnding = useCallback((e: Ending): Ending => {
+    if (!i18nPrefix) return e;
+    return {
+      ...e,
+      headline: tx('ending.headline', e.headline),
+      subheader: e.subheader ? tx('ending.subheader', e.subheader) : undefined,
+      buttonLabel: e.buttonLabel ? tx('ending.buttonLabel', e.buttonLabel) : undefined,
+    };
+  }, [tx, i18nPrefix]);
+
+  const config = useMemo(() => ({
+    ...rawConfig,
+    name: i18nPrefix ? tx('name', rawConfig.name) : rawConfig.name,
+    welcomeCard: rawConfig.welcomeCard ? translateWelcome(rawConfig.welcomeCard) : rawConfig.welcomeCard,
+    questions: rawConfig.questions.map(translateQuestion),
+    ending: rawConfig.ending ? translateEnding(rawConfig.ending) : rawConfig.ending,
+  }), [rawConfig, tx, translateQuestion, translateWelcome, translateEnding, i18nPrefix]);
+
   const hasWelcome = Boolean(config.welcomeCard && config.welcomeCard.enabled !== false);
   const [step, setStep] = useState<'welcome' | 'questions' | 'ending'>(hasWelcome ? 'welcome' : 'questions');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -682,7 +740,7 @@ export default function SurveyEngine({
             <button
               type="button"
               onClick={requestClose}
-              aria-label="Cerrar encuesta"
+              aria-label={t('survey.close')}
               className="absolute right-3 top-3 w-8 h-8 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
             >
               <X size={16} />
@@ -700,7 +758,7 @@ export default function SurveyEngine({
           <div className="flex items-center gap-2 mb-4">
             <Sparkles size={16} className="text-gold" />
             <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-gold">
-              soul:23 Experience
+              {t('survey.welcome.badge')}
             </span>
           </div>
           <h2
@@ -743,7 +801,7 @@ export default function SurveyEngine({
             <button
               type="button"
               onClick={requestClose}
-              aria-label="Cerrar encuesta"
+              aria-label={t('survey.close')}
               className="absolute right-3 top-3 w-8 h-8 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
             >
               <X size={16} />
@@ -796,7 +854,7 @@ export default function SurveyEngine({
     return (
       <div className="w-full max-w-[560px] mx-auto bg-dark-primary border border-cream/10 p-6 text-center">
         <p className="text-cream-muted text-sm mb-4">
-          La encuesta tenia progreso guardado de una version anterior.
+          La encuesta tenía progreso guardado de una versión anterior.
         </p>
         <button
           type="button"
@@ -808,7 +866,7 @@ export default function SurveyEngine({
           }}
           className="px-5 py-2.5 bg-gold text-dark-primary font-mono text-[11px] uppercase tracking-[0.12em]"
         >
-          Reiniciar encuesta
+          {t('survey.restart')}
         </button>
       </div>
     );
@@ -856,7 +914,7 @@ export default function SurveyEngine({
             <button
               type="button"
               onClick={requestClose}
-              aria-label="Cerrar encuesta"
+              aria-label={t('survey.close')}
               className="absolute right-3 top-3 w-8 h-8 flex items-center justify-center text-cream-muted hover:text-gold transition-colors"
             >
               <X size={16} />
@@ -876,7 +934,7 @@ export default function SurveyEngine({
             )}
             {currentQuestion.required && (
               <span className="inline-block mt-2 font-mono text-[9px] uppercase tracking-[0.15em] text-gold/70">
-                Requerido
+                {t('survey.required')}
               </span>
             )}
           </div>
@@ -901,7 +959,7 @@ export default function SurveyEngine({
               className="flex items-center gap-1.5 text-cream-muted text-[12px] font-mono uppercase tracking-wide hover:text-cream disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ArrowLeft size={14} />
-              {currentQuestion.backButtonLabel || 'Atrás'}
+              {currentQuestion.backButtonLabel || t('survey.back')}
             </button>
 
             <motion.button
@@ -922,11 +980,11 @@ export default function SurveyEngine({
               ) : currentIndex === totalQuestions - 1 ? (
                 <>
                   <Send size={13} />
-                  {currentQuestion.buttonLabel || 'Enviar'}
+                  {currentQuestion.buttonLabel || t('survey.submit')}
                 </>
               ) : (
                 <>
-                  {currentQuestion.buttonLabel || 'Siguiente'}
+                  {currentQuestion.buttonLabel || t('survey.next')}
                   <ArrowRight size={14} />
                 </>
               )}

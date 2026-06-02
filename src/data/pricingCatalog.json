@@ -1,0 +1,939 @@
+{
+  "metadata": {
+    "brand": "Soul:23",
+    "version": "1.1.0",
+    "created_at": "2026-06-01",
+    "currency_primary": "MXN",
+    "currency_secondary": "USD",
+    "exchange_rate": {
+      "usd_to_mxn": 17.32,
+      "source": "Google Finance",
+      "date": "2026-06-01"
+    },
+    "market_reference": ["Monterrey", "Saltillo", "Zacatecas", "Norte-Centro México"],
+    "target_client": ["Startups", "Empresas medianas", "PyMEs en crecimiento"]
+  },
+
+  "discounts": {
+    "onboarding": {
+      "id": "DISC_ONBOARDING",
+      "label": "Onboarding discount",
+      "percentage": 30,
+      "description": "Aplica en el mes 1 de cualquier retainer o como precio de lanzamiento en proyectos",
+      "stackable": false,
+      "conditions": "No acumulable con early_adopter"
+    },
+    "early_adopter": {
+      "id": "DISC_EARLY",
+      "label": "Early adopter",
+      "percentage": 20,
+      "description": "Primeros 3 clientes por plan",
+      "stackable": false,
+      "conditions": "Cupo limitado a 3 clientes por plan, no acumulable con onboarding"
+    },
+    "annual_commitment": {
+      "id": "DISC_ANNUAL",
+      "label": "Compromiso anual",
+      "percentage": 15,
+      "description": "Pago de 12 meses por adelantado",
+      "stackable": false,
+      "conditions": "Pago único anticipado"
+    },
+    "referral": {
+      "id": "DISC_REFERRAL",
+      "label": "Referido activo",
+      "percentage": 10,
+      "description": "Cliente que refiere a otro cliente que firma",
+      "stackable": true,
+      "conditions": "Aplica cuando el referido firma contrato. Acumulable con annual_commitment"
+    }
+  },
+
+  "catalog": {
+
+    "retainers": {
+      "label": "Retainers mensuales",
+      "description": "Servicios continuos con pago mensual — eje operación + atracción",
+      "billing": "monthly",
+      "items": [
+        {
+          "id": "RET_STARTER",
+          "name": "Starter",
+          "slug": "starter",
+          "description": "Landing + automatización básica + 1 canal de marketing + soporte",
+          "includes": [
+            "Landing page inicial",
+            "Automatización básica (1–2 workflows)",
+            "Gestión de 1 canal de redes sociales",
+            "Soporte mensual",
+            "Reporte de métricas mensual"
+          ],
+          "pricing": {
+            "list_mxn": 4900,
+            "list_usd": 283,
+            "onboarding_mxn": 3430,
+            "onboarding_usd": 198,
+            "early_adopter_mxn": 3920,
+            "early_adopter_usd": 226,
+            "annual_mxn": 4165,
+            "annual_usd": 240,
+            "annual_total_mxn": 49980,
+            "annual_total_usd": 2887
+          },
+          "market_min_mxn": 7000,
+          "positioning": "entrada",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_GROW",
+          "name": "Grow",
+          "slug": "grow",
+          "description": "Sistema + marketing + IA · retainer mensual multicanal",
+          "includes": [
+            "Sistema de automatización multicanal",
+            "Gestión de 2 redes sociales",
+            "SEO básico + contenido",
+            "Integración IA (chatbot / clasificación)",
+            "Dashboard de métricas",
+            "Soporte prioritario",
+            "Reporte quincenal"
+          ],
+          "pricing": {
+            "list_mxn": 9900,
+            "list_usd": 572,
+            "onboarding_mxn": 6930,
+            "onboarding_usd": 400,
+            "early_adopter_mxn": 7920,
+            "early_adopter_usd": 457,
+            "annual_mxn": 8415,
+            "annual_usd": 486,
+            "annual_total_mxn": 100980,
+            "annual_total_usd": 5830
+          },
+          "market_min_mxn": 14000,
+          "positioning": "mercado_medio",
+          "type": "retainer",
+          "recommended": true
+        },
+        {
+          "id": "RET_SCALE",
+          "name": "Scale",
+          "slug": "scale",
+          "description": "360° · PMO + sistemas + contenido · equipo dedicado",
+          "includes": [
+            "PMO externo parcial",
+            "Sistemas + automatización avanzada",
+            "Estrategia de contenido completa",
+            "Gestión paid media (ads)",
+            "SEO técnico + contenido",
+            "IA predictiva y scoring",
+            "Business Intelligence en tiempo real",
+            "Coordinación de proveedores",
+            "Reuniones semanales de seguimiento",
+            "Reporte semanal ejecutivo"
+          ],
+          "pricing": {
+            "list_mxn": 18500,
+            "list_usd": 1068,
+            "onboarding_mxn": 12950,
+            "onboarding_usd": 747,
+            "early_adopter_mxn": 14800,
+            "early_adopter_usd": 854,
+            "annual_mxn": 15725,
+            "annual_usd": 908,
+            "annual_total_mxn": 188700,
+            "annual_total_usd": 10890
+          },
+          "market_min_mxn": 30000,
+          "positioning": "competitivo_alto",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_ENTERPRISE",
+          "name": "Enterprise",
+          "slug": "enterprise",
+          "description": "PMO externo completo · staffing supervisado · estrategia integral",
+          "includes": [
+            "PMO externo dedicado",
+            "Staffing técnico supervisado (1 perfil incluido)",
+            "Estrategia digital completa",
+            "Automatización integral con IA",
+            "Supervisión de proyectos TI",
+            "Coordinación proveedor ↔ negocio",
+            "Auditoría de calidad continua",
+            "Acceso directo a equipo senior",
+            "Reuniones diarias de standup",
+            "SLA garantizado"
+          ],
+          "pricing": {
+            "list_mxn": 35000,
+            "list_usd": 2021,
+            "onboarding_mxn": 24500,
+            "onboarding_usd": 1414,
+            "early_adopter_mxn": 28000,
+            "early_adopter_usd": 1617,
+            "annual_mxn": 29750,
+            "annual_usd": 1717,
+            "annual_total_mxn": 357000,
+            "annual_total_usd": 20610
+          },
+          "market_min_mxn": 60000,
+          "positioning": "premium",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_REDES",
+          "name": "Gestión de redes sociales",
+          "slug": "redes-sociales",
+          "description": "2 redes · copy · publicaciones · métricas · estrategia",
+          "includes": [
+            "Estrategia de contenido mensual",
+            "Gestión de 2 redes sociales",
+            "Copy + diseño de publicaciones",
+            "Calendario editorial",
+            "Reporte de métricas mensual",
+            "Gestión de comentarios básica"
+          ],
+          "pricing": {
+            "list_mxn": 5500,
+            "list_usd": 317,
+            "onboarding_mxn": 3850,
+            "onboarding_usd": 222,
+            "early_adopter_mxn": 4400,
+            "early_adopter_usd": 254,
+            "annual_mxn": 4675,
+            "annual_usd": 270,
+            "annual_total_mxn": 56100,
+            "annual_total_usd": 3240
+          },
+          "market_min_mxn": 8000,
+          "positioning": "competitivo",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_SEO",
+          "name": "SEO técnico + contenido",
+          "slug": "seo-contenido",
+          "description": "Posicionamiento orgánico Google · blog · link building",
+          "includes": [
+            "Auditoría SEO inicial",
+            "Optimización técnica on-page",
+            "2 artículos de blog al mes",
+            "Link building básico",
+            "Reporte de posicionamiento mensual",
+            "Google Search Console + Analytics"
+          ],
+          "pricing": {
+            "list_mxn": 6500,
+            "list_usd": 375,
+            "onboarding_mxn": 4550,
+            "onboarding_usd": 263,
+            "early_adopter_mxn": 5200,
+            "early_adopter_usd": 300,
+            "annual_mxn": 5525,
+            "annual_usd": 319,
+            "annual_total_mxn": 66300,
+            "annual_total_usd": 3828
+          },
+          "market_min_mxn": 7000,
+          "positioning": "competitivo",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_PAID",
+          "name": "Paid media (Meta / Google Ads)",
+          "slug": "paid-media",
+          "description": "Gestión de campañas · inversión publicitaria cotizada aparte",
+          "includes": [
+            "Estrategia de campañas",
+            "Configuración y optimización de anuncios",
+            "Gestión Meta Ads + Google Ads",
+            "A/B testing de creativos",
+            "Reporte semanal de rendimiento",
+            "Optimización de presupuesto publicitario"
+          ],
+          "pricing": {
+            "list_mxn": 5800,
+            "list_usd": 335,
+            "onboarding_mxn": 4060,
+            "onboarding_usd": 234,
+            "early_adopter_mxn": 4640,
+            "early_adopter_usd": 268,
+            "annual_mxn": 4930,
+            "annual_usd": 285,
+            "annual_total_mxn": 59160,
+            "annual_total_usd": 3416
+          },
+          "market_min_mxn": 5000,
+          "note": "Inversión publicitaria (ad spend) no incluida, se cotiza por separado",
+          "positioning": "competitivo",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_MKT360",
+          "name": "Marketing 360° standalone",
+          "slug": "marketing-360",
+          "description": "Redes + SEO + ads + reportes · sin sistema de automatización",
+          "includes": [
+            "Gestión de 3 redes sociales",
+            "SEO técnico + contenido",
+            "Gestión paid media (Meta + Google)",
+            "Estrategia de contenido integral",
+            "Dashboard de marketing unificado",
+            "Reporte ejecutivo mensual",
+            "Reunión mensual de estrategia"
+          ],
+          "pricing": {
+            "list_mxn": 14500,
+            "list_usd": 837,
+            "onboarding_mxn": 10150,
+            "onboarding_usd": 586,
+            "early_adopter_mxn": 11600,
+            "early_adopter_usd": 670,
+            "annual_mxn": 12325,
+            "annual_usd": 712,
+            "annual_total_mxn": 147900,
+            "annual_total_usd": 8540
+          },
+          "market_min_mxn": 15000,
+          "positioning": "competitivo",
+          "type": "retainer"
+        },
+        {
+          "id": "RET_STAFF",
+          "name": "Staffing supervisado (por perfil)",
+          "slug": "staffing-supervisado",
+          "description": "Dev / diseñador / copy · talento con garantía Soul:23",
+          "includes": [
+            "1 perfil técnico asignado (dev / diseñador / copywriter)",
+            "Supervisión de calidad Soul:23",
+            "Gestión de entregables y plazos",
+            "Revisión de calidad semanal",
+            "Reemplazo garantizado si no hay fit",
+            "Coordinación directa con tu equipo"
+          ],
+          "pricing": {
+            "list_mxn": 22000,
+            "list_usd": 1270,
+            "onboarding_mxn": 15400,
+            "onboarding_usd": 889,
+            "early_adopter_mxn": 17600,
+            "early_adopter_usd": 1016,
+            "annual_mxn": 18700,
+            "annual_usd": 1080,
+            "annual_total_mxn": 224400,
+            "annual_total_usd": 12953
+          },
+          "market_min_mxn": 25000,
+          "positioning": "competitivo",
+          "type": "retainer"
+        }
+      ]
+    },
+
+    "projects": {
+      "label": "Proyectos cerrados",
+      "description": "Entregables de precio fijo — pago único o por hitos",
+      "billing": "one_time",
+      "items": [
+        {
+          "id": "PROJ_DIAG",
+          "name": "Diagnóstico / consultoría",
+          "slug": "diagnostico-consultoria",
+          "description": "Mapeo de procesos · roadmap priorizado · 2–3 hrs · entregable escrito",
+          "includes": [
+            "Sesión de diagnóstico (2–3 hrs)",
+            "Mapeo completo de procesos actuales",
+            "Identificación de oportunidades de automatización",
+            "Roadmap priorizado de implementación",
+            "Documento de entregable en PDF",
+            "Seguimiento a 30 días"
+          ],
+          "pricing": {
+            "list_mxn": 8500,
+            "list_usd": 491,
+            "onboarding_mxn": 5950,
+            "onboarding_usd": 344,
+            "early_adopter_mxn": 6800,
+            "early_adopter_usd": 393
+          },
+          "note": "Si el cliente contrata un proyecto posterior, el costo se descuenta del total",
+          "market_min_mxn": 8000,
+          "delivery_days": 5,
+          "positioning": "entrada",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_AUTO_BASIC",
+          "name": "Automatización básica",
+          "slug": "automatizacion-basica",
+          "description": "Email · CRM · notificaciones · 1–2 workflows",
+          "includes": [
+            "Análisis de procesos a automatizar",
+            "Configuración de 1–2 workflows",
+            "Integración con CRM o herramienta existente",
+            "Automatización de email / WhatsApp",
+            "Pruebas y ajustes",
+            "Documentación técnica",
+            "1 mes de soporte post-entrega"
+          ],
+          "pricing": {
+            "list_mxn": 12000,
+            "list_usd": 693,
+            "onboarding_mxn": 8400,
+            "onboarding_usd": 485,
+            "early_adopter_mxn": 9600,
+            "early_adopter_usd": 554
+          },
+          "market_min_mxn": 15000,
+          "delivery_days": 14,
+          "positioning": "competitivo",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_AUTO_ADV",
+          "name": "Automatización avanzada (n8n · WhatsApp · IA)",
+          "slug": "automatizacion-avanzada",
+          "description": "Multicanal · integraciones complejas · Evolution API · IA integrada",
+          "includes": [
+            "Arquitectura de automatización completa",
+            "Workflows n8n multi-sistema",
+            "Integración WhatsApp Business (Evolution API)",
+            "Conexión con IA (Claude / OpenAI)",
+            "Integración con APIs de terceros",
+            "Integraciones locales (SAT / CFDI / pagos MX)",
+            "Dashboard de monitoreo",
+            "Documentación técnica completa",
+            "Capacitación al equipo",
+            "3 meses de soporte post-entrega"
+          ],
+          "pricing": {
+            "list_mxn": 28000,
+            "list_usd": 1617,
+            "onboarding_mxn": 19600,
+            "onboarding_usd": 1132,
+            "early_adopter_mxn": 22400,
+            "early_adopter_usd": 1293
+          },
+          "market_min_mxn": 40000,
+          "delivery_days": 30,
+          "positioning": "muy_competitivo",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_SISTEMA_BI",
+          "name": "Sistema integral con BI + IA",
+          "slug": "sistema-bi-ia",
+          "description": "Dashboards · scoring predictivo · agentes IA · reportes automáticos",
+          "includes": [
+            "Diseño de arquitectura de datos",
+            "Business Intelligence en tiempo real",
+            "Scoring predictivo con IA",
+            "Agentes autónomos para tareas repetitivas",
+            "Reportes automáticos por canal",
+            "Integración con sistemas existentes (ERP / CRM)",
+            "Capacitación ejecutiva y técnica",
+            "6 meses de soporte post-entrega",
+            "Documentación técnica y de usuario"
+          ],
+          "pricing": {
+            "list_mxn": 55000,
+            "list_usd": 3177,
+            "onboarding_mxn": 38500,
+            "onboarding_usd": 2224,
+            "early_adopter_mxn": 44000,
+            "early_adopter_usd": 2541
+          },
+          "market_min_mxn": 80000,
+          "delivery_days": 60,
+          "positioning": "muy_competitivo",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_LANDING",
+          "name": "Landing page de alta conversión",
+          "slug": "landing-page",
+          "description": "Diseño custom · copy orientado a conversión · CTA · integrada a funnel",
+          "includes": [
+            "Diseño UI/UX custom",
+            "Copy de alta conversión",
+            "Integración con funnel / CRM",
+            "Optimización móvil",
+            "SEO on-page básico",
+            "Formulario + automatización de lead",
+            "Google Analytics + Tag Manager",
+            "1 ronda de revisiones"
+          ],
+          "pricing": {
+            "list_mxn": 8900,
+            "list_usd": 514,
+            "onboarding_mxn": 6230,
+            "onboarding_usd": 360,
+            "early_adopter_mxn": 7120,
+            "early_adopter_usd": 411
+          },
+          "market_min_mxn": 5000,
+          "delivery_days": 10,
+          "positioning": "premium_local",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_WEB_CORP",
+          "name": "Sitio corporativo",
+          "slug": "sitio-corporativo",
+          "description": "Custom · SEO · móvil · CMS · hasta 8 secciones",
+          "includes": [
+            "Diseño UI/UX custom",
+            "Desarrollo frontend + backend",
+            "CMS administrable",
+            "SEO técnico completo",
+            "Optimización de velocidad (Core Web Vitals)",
+            "Hasta 8 secciones / páginas",
+            "Integración con redes sociales",
+            "Google Analytics + Search Console",
+            "Hosting + dominio primer año",
+            "2 rondas de revisiones",
+            "Capacitación para administrar el CMS"
+          ],
+          "pricing": {
+            "list_mxn": 22000,
+            "list_usd": 1270,
+            "onboarding_mxn": 15400,
+            "onboarding_usd": 889,
+            "early_adopter_mxn": 17600,
+            "early_adopter_usd": 1016
+          },
+          "market_min_mxn": 15000,
+          "delivery_days": 21,
+          "positioning": "mercado_medio",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_ECOMMERCE",
+          "name": "E-commerce",
+          "slug": "ecommerce",
+          "description": "Pasarela de pago · inventario · diseño custom · integraciones MX",
+          "includes": [
+            "Diseño UI/UX custom orientado a conversión",
+            "Catálogo de productos ilimitado",
+            "Pasarelas de pago MX (Conekta / Stripe / Clip)",
+            "Gestión de inventario",
+            "Sistema de órdenes y seguimiento",
+            "Integración con WhatsApp Business",
+            "SEO técnico para e-commerce",
+            "Facturación CFDI básica",
+            "Google Analytics e-commerce",
+            "3 rondas de revisiones",
+            "Capacitación completa al equipo"
+          ],
+          "pricing": {
+            "list_mxn": 38000,
+            "list_usd": 2195,
+            "onboarding_mxn": 26600,
+            "onboarding_usd": 1536,
+            "early_adopter_mxn": 30400,
+            "early_adopter_usd": 1756
+          },
+          "market_min_mxn": 25000,
+          "delivery_days": 45,
+          "positioning": "mercado_medio",
+          "type": "project"
+        },
+        {
+          "id": "PROJ_AUDIT",
+          "name": "Auditoría de proyecto TI",
+          "slug": "auditoria-ti",
+          "description": "Revisión de código · diseño · entregables · reporte ejecutivo",
+          "includes": [
+            "Revisión de código (calidad, seguridad, escalabilidad)",
+            "Auditoría de diseño UI/UX",
+            "Evaluación de entregables vs especificaciones",
+            "Reporte ejecutivo con hallazgos",
+            "Recomendaciones priorizadas",
+            "Sesión de presentación de resultados (1 hr)"
+          ],
+          "pricing": {
+            "list_mxn": 14000,
+            "list_usd": 808,
+            "onboarding_mxn": 9800,
+            "onboarding_usd": 566,
+            "early_adopter_mxn": 11200,
+            "early_adopter_usd": 647
+          },
+          "market_min_mxn": 15000,
+          "delivery_days": 7,
+          "positioning": "competitivo",
+          "type": "project"
+        }
+      ]
+    },
+
+    "time_attendance": {
+      "label": "Time & Attendance — Control de tiempo laboral",
+      "description": "Sistema de registro de jornada laboral para cumplimiento de la Reforma Laboral 40 hrs. Hardware + software + soporte. Escalable a cualquier organización.",
+      "regulatory_context": "Reforma laboral México — jornada máxima 40 hrs semanales. Obligatorio llevar registro preciso de asistencia y horas trabajadas.",
+      "tax_note": "Deducible de impuestos como gasto de operación — verificar con contador",
+      "url": "https://soul23.mx/servicios",
+      "whatsapp": "https://wa.me/528442278408?text=Hola,%20quiero%20saber%20m%C3%A1s%20sobre%20el%20control%20de%20tiempo%20para%20empleados",
+
+      "hardware": {
+        "label": "Dispositivo de registro",
+        "description": "Venta única del hardware de fichaje. Instalación incluida en área metropolitana de Saltillo.",
+        "items": [
+          {
+            "id": "HW_BASIC",
+            "name": "Dispositivo básico",
+            "slug": "dispositivo-basico",
+            "description": "Terminal de huella digital o PIN · hasta 50 empleados · instalación incluida",
+            "type": "hardware",
+            "billing": "one_time",
+            "includes": [
+              "Terminal de registro (huella / PIN)",
+              "Instalación física en sitio (área Saltillo MTY)",
+              "Configuración inicial",
+              "Integración con software Soul:23",
+              "Garantía 1 año"
+            ],
+            "pricing": {
+              "list_mxn": 3500,
+              "list_usd": 202,
+              "onboarding_mxn": 2450,
+              "onboarding_usd": 141,
+              "early_adopter_mxn": 2800,
+              "early_adopter_usd": 162
+            },
+            "capacity_employees": 50,
+            "positioning": "entrada"
+          },
+          {
+            "id": "HW_PRO",
+            "name": "Dispositivo Pro",
+            "slug": "dispositivo-pro",
+            "description": "Terminal biométrica facial + huella · hasta 200 empleados · instalación incluida",
+            "type": "hardware",
+            "billing": "one_time",
+            "includes": [
+              "Terminal biométrica (reconocimiento facial + huella)",
+              "Pantalla táctil 4\"",
+              "Instalación física en sitio",
+              "Configuración avanzada",
+              "Integración con software Soul:23",
+              "Soporte remoto 3 meses",
+              "Garantía 1 año"
+            ],
+            "pricing": {
+              "list_mxn": 6900,
+              "list_usd": 398,
+              "onboarding_mxn": 4830,
+              "onboarding_usd": 279,
+              "early_adopter_mxn": 5520,
+              "early_adopter_usd": 319
+            },
+            "capacity_employees": 200,
+            "positioning": "mercado_medio"
+          },
+          {
+            "id": "HW_ENTERPRISE",
+            "name": "Dispositivo Enterprise",
+            "slug": "dispositivo-enterprise",
+            "description": "Terminal multi-modal · empleados ilimitados · múltiples sucursales · instalación incluida",
+            "type": "hardware",
+            "billing": "one_time",
+            "includes": [
+              "Terminal multi-modal (facial + huella + tarjeta NFC)",
+              "Pantalla táctil 7\"",
+              "Conectividad WiFi + Ethernet + 4G backup",
+              "Instalación en múltiples sitios (cotizar según distancia)",
+              "Configuración multi-sucursal",
+              "Integración con ERP / nómina",
+              "Soporte prioritario 6 meses",
+              "Garantía 2 años"
+            ],
+            "pricing": {
+              "list_mxn": 12500,
+              "list_usd": 722,
+              "onboarding_mxn": 8750,
+              "onboarding_usd": 505,
+              "early_adopter_mxn": 10000,
+              "early_adopter_usd": 578
+            },
+            "capacity_employees": null,
+            "capacity_note": "Ilimitado — precio por dispositivo adicional $9,500 MXN",
+            "positioning": "premium"
+          }
+        ]
+      },
+
+      "licenses": {
+        "label": "Licencias de software — SaaS cloud",
+        "description": "Acceso al dashboard de Time & Attendance. Incluye software, actualizaciones automáticas y soporte básico. Precio por organización (empleados ilimitados en el plan).",
+        "hosting": "cloud",
+        "billing_cycles": ["monthly", "quarterly", "semiannual", "annual"],
+        "items": [
+          {
+            "id": "LIC_MONTHLY",
+            "name": "Mensual",
+            "slug": "licencia-mensual",
+            "billing": "monthly",
+            "description": "Pago recurrente mensual. Ideal para empezar sin compromiso.",
+            "pricing": {
+              "list_mxn": 865,
+              "list_usd": 49.99,
+              "onboarding_mxn": 606,
+              "onboarding_usd": 34.99,
+              "early_adopter_mxn": 692,
+              "early_adopter_usd": 39.99
+            },
+            "savings_vs_monthly_pct": 0,
+            "type": "license"
+          },
+          {
+            "id": "LIC_QUARTERLY",
+            "name": "Trimestral",
+            "slug": "licencia-trimestral",
+            "billing": "quarterly",
+            "description": "Ahorra ~13% vs. mensual. Facturación cada 3 meses.",
+            "pricing": {
+              "list_mxn": 2251,
+              "list_usd": 129.99,
+              "onboarding_mxn": 1576,
+              "onboarding_usd": 90.99,
+              "early_adopter_mxn": 1801,
+              "early_adopter_usd": 103.99,
+              "effective_monthly_mxn": 750,
+              "effective_monthly_usd": 43.33
+            },
+            "savings_vs_monthly_pct": 13,
+            "type": "license"
+          },
+          {
+            "id": "LIC_SEMIANNUAL",
+            "name": "Semestral",
+            "slug": "licencia-semestral",
+            "billing": "semiannual",
+            "description": "Ahorra ~26% vs. mensual. Facturación cada 6 meses.",
+            "pricing": {
+              "list_mxn": 3807,
+              "list_usd": 219.99,
+              "onboarding_mxn": 2665,
+              "onboarding_usd": 153.99,
+              "early_adopter_mxn": 3046,
+              "early_adopter_usd": 175.99,
+              "effective_monthly_mxn": 634,
+              "effective_monthly_usd": 36.67
+            },
+            "savings_vs_monthly_pct": 26,
+            "type": "license"
+          },
+          {
+            "id": "LIC_ANNUAL",
+            "name": "Anual",
+            "slug": "licencia-anual",
+            "billing": "annual",
+            "description": "Ahorra ~41% vs. mensual. Un solo pago, sin preocupaciones.",
+            "pricing": {
+              "list_mxn": 6064,
+              "list_usd": 349.99,
+              "onboarding_mxn": 4245,
+              "onboarding_usd": 244.99,
+              "early_adopter_mxn": 4851,
+              "early_adopter_usd": 279.99,
+              "effective_monthly_mxn": 505,
+              "effective_monthly_usd": 29.17
+            },
+            "savings_vs_monthly_pct": 41,
+            "recommended": true,
+            "type": "license"
+          }
+        ],
+        "includes_all_plans": [
+          "Dashboard web de asistencia en tiempo real",
+          "App móvil para empleados (iOS + Android)",
+          "Registro de entrada / salida por dispositivo, app o geolocalización",
+          "Cálculo automático de horas trabajadas vs jornada de 40 hrs",
+          "Detección de horas extra y alertas automáticas",
+          "Reportes de asistencia exportables (PDF / Excel)",
+          "Historial completo por empleado",
+          "Gestión de turnos y calendarios laborales",
+          "Cumplimiento Reforma Laboral 40 hrs documentado",
+          "Actualizaciones automáticas del software",
+          "Soporte vía email + WhatsApp"
+        ]
+      },
+
+      "self_hosted": {
+        "id": "TNA_SELFHOSTED",
+        "label": "Self-hosted — tú pones la infraestructura",
+        "slug": "time-attendance-self-hosted",
+        "description": "El sistema corre en tu propio servidor. Sin cuotas de licencia recurrentes. Tú gestionas el mantenimiento.",
+        "billing": "one_time",
+        "includes": [
+          "Licencia perpetua del software (versión actual)",
+          "Código de instalación y configuración",
+          "Documentación técnica completa",
+          "Integración con dispositivo Soul:23",
+          "Soporte de instalación inicial (1 sesión remota)",
+          "1 año de actualizaciones de seguridad"
+        ],
+        "pricing": {
+          "license_one_time_mxn": 4500,
+          "license_one_time_usd": 260,
+          "onboarding_mxn": 3150,
+          "onboarding_usd": 182,
+          "early_adopter_mxn": 3600,
+          "early_adopter_usd": 208
+        },
+        "infrastructure_cost_estimate": {
+          "description": "Costo estimado anual de infraestructura a cargo del cliente",
+          "vps_annual_usd": 120,
+          "ai_services_annual_usd": 180,
+          "domain_ssl_annual_usd": 30,
+          "backup_annual_usd": 70,
+          "total_estimated_annual_usd": 400,
+          "total_estimated_annual_mxn": 6928,
+          "note": "Costos estimados — varían según proveedor y uso"
+        },
+        "tax_deductible": true,
+        "tax_note": "Infraestructura y licencia son deducibles de impuestos como gasto de operación tecnológica — verificar con contador",
+        "positioning": "tecnico_avanzado"
+      },
+
+      "dashboard": {
+        "label": "Dashboard Time & Attendance",
+        "description": "Panel de control escalable desde 1 empleado hasta cualquier organización",
+        "scalability": "Arquitectura multi-tenant — soporta desde 1 empleado hasta corporativos con múltiples sucursales y miles de empleados",
+        "modules": [
+          {
+            "id": "DASH_BASIC",
+            "name": "Vista básica",
+            "available_in": ["LIC_MONTHLY", "LIC_QUARTERLY", "LIC_SEMIANNUAL", "LIC_ANNUAL", "TNA_SELFHOSTED"],
+            "features": [
+              "Tablero de asistencia del día en tiempo real",
+              "Lista de empleados presentes / ausentes / tarde",
+              "Registro de entradas y salidas",
+              "Alertas de incidencias (retardos, faltas)",
+              "Reporte semanal de horas trabajadas"
+            ]
+          },
+          {
+            "id": "DASH_COMPLIANCE",
+            "name": "Cumplimiento 40 hrs",
+            "available_in": ["LIC_QUARTERLY", "LIC_SEMIANNUAL", "LIC_ANNUAL", "TNA_SELFHOSTED"],
+            "features": [
+              "Semáforo de cumplimiento por empleado",
+              "Cálculo automático de horas extra",
+              "Alertas cuando se supera jornada legal",
+              "Reporte de cumplimiento Reforma Laboral exportable",
+              "Histórico de jornadas por periodo"
+            ]
+          },
+          {
+            "id": "DASH_ANALYTICS",
+            "name": "Analytics y BI",
+            "available_in": ["LIC_SEMIANNUAL", "LIC_ANNUAL", "TNA_SELFHOSTED"],
+            "features": [
+              "Heatmap de asistencia por día / hora",
+              "Tendencias de puntualidad por departamento",
+              "Predicción de ausentismo con IA",
+              "Comparativa de jornadas vs productividad",
+              "Exportación a Excel / PDF / API",
+              "Integración con nómina (opcional)"
+            ]
+          },
+          {
+            "id": "DASH_ENTERPRISE",
+            "name": "Multi-sucursal / Enterprise",
+            "available_in": ["LIC_ANNUAL", "TNA_SELFHOSTED"],
+            "features": [
+              "Vista unificada de múltiples sucursales",
+              "Gestión de roles y permisos por nivel",
+              "API REST para integración con ERP / HRIS",
+              "White-label disponible (marca del cliente)",
+              "Soporte dedicado",
+              "SLA garantizado"
+            ]
+          }
+        ],
+        "integrations": [
+          "Dispositivos biométricos Soul:23",
+          "App móvil iOS + Android (geolocalización)",
+          "Google Workspace (Calendar / Sheets)",
+          "WhatsApp Business (notificaciones automáticas)",
+          "n8n (automatizaciones personalizadas)",
+          "Conekta / Stripe (facturación)",
+          "API REST abierta para ERP / nómina"
+        ]
+      },
+
+      "bundles": {
+        "label": "Paquetes hardware + licencia",
+        "description": "Combinaciones recomendadas para arrancar completo desde el día 1",
+        "items": [
+          {
+            "id": "BUNDLE_STARTER",
+            "name": "Bundle Starter",
+            "slug": "bundle-ta-starter",
+            "description": "Para negocios hasta 50 empleados — llave en mano",
+            "includes_hardware": "HW_BASIC",
+            "includes_license": "LIC_ANNUAL",
+            "pricing": {
+              "hardware_mxn": 3500,
+              "license_mxn": 6064,
+              "list_total_mxn": 9564,
+              "list_total_usd": 552,
+              "bundle_discount_pct": 10,
+              "bundle_total_mxn": 8608,
+              "bundle_total_usd": 497,
+              "onboarding_total_mxn": 6026,
+              "onboarding_total_usd": 348,
+              "savings_mxn": 956,
+              "savings_note": "10% bundle + licencia anual incluida"
+            }
+          },
+          {
+            "id": "BUNDLE_PRO",
+            "name": "Bundle Pro",
+            "slug": "bundle-ta-pro",
+            "description": "Para empresas hasta 200 empleados — cumplimiento + analytics",
+            "includes_hardware": "HW_PRO",
+            "includes_license": "LIC_ANNUAL",
+            "pricing": {
+              "hardware_mxn": 6900,
+              "license_mxn": 6064,
+              "list_total_mxn": 12964,
+              "list_total_usd": 748,
+              "bundle_discount_pct": 10,
+              "bundle_total_mxn": 11668,
+              "bundle_total_usd": 674,
+              "onboarding_total_mxn": 8167,
+              "onboarding_total_usd": 472,
+              "savings_mxn": 1296,
+              "savings_note": "10% bundle + licencia anual incluida"
+            }
+          },
+          {
+            "id": "BUNDLE_ENTERPRISE",
+            "name": "Bundle Enterprise",
+            "slug": "bundle-ta-enterprise",
+            "description": "Para corporativos multi-sucursal — ilimitado + self-hosted opcional",
+            "includes_hardware": "HW_ENTERPRISE",
+            "includes_license": "LIC_ANNUAL",
+            "pricing": {
+              "hardware_mxn": 12500,
+              "license_mxn": 6064,
+              "list_total_mxn": 18564,
+              "list_total_usd": 1072,
+              "bundle_discount_pct": 12,
+              "bundle_total_mxn": 16336,
+              "bundle_total_usd": 943,
+              "onboarding_total_mxn": 11435,
+              "onboarding_total_usd": 660,
+              "savings_mxn": 2228,
+              "savings_note": "12% bundle + licencia anual incluida"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

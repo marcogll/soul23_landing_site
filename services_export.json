@@ -1,0 +1,1001 @@
+{
+  "system_info": {
+    "os": "macOS",
+    "hostname": "soul23m1.local",
+    "date": "2026-06-01T21:33:15Z"
+  },
+  "services": {
+    "launchd": {
+      "description": "Launchd services and agents",
+      "items": [
+        {
+          "name": "285503",
+          "bundle_id": "application.com.mitchellh.ghostty.285503.285508",
+          "type": "user_agent"
+        },
+        {
+          "name": "4753319",
+          "bundle_id": "application.net.whatsapp.WhatsApp.4753319.4753325",
+          "type": "user_agent"
+        },
+        {
+          "name": "582603",
+          "bundle_id": "application.com.amethyst.Amethyst.582603.582613",
+          "type": "user_agent"
+        },
+        {
+          "name": "1152921500311887065",
+          "bundle_id": "application.com.apple.mail.1152921500311887065.1152921500311887070",
+          "type": "user_agent"
+        },
+        {
+          "name": "275031",
+          "bundle_id": "application.com.zerotier.ZeroTier-UI.275031.275036",
+          "type": "user_agent"
+        },
+        {
+          "name": "2930095",
+          "bundle_id": "application.com.google.GeminiMacOS.launcher.2929865.2930095.E728B979-706D-421E-AC42-6E156FBCD965",
+          "type": "user_agent"
+        },
+        {
+          "name": "net.whatsapp.WhatsApp-sparkle-updater",
+          "bundle_id": "net.whatsapp.WhatsApp-sparkle-updater",
+          "type": "service"
+        },
+        {
+          "name": "3281171",
+          "bundle_id": "application.com.google.antigravity-ide.3281171.3281177",
+          "type": "user_agent"
+        },
+        {
+          "name": "4960770",
+          "bundle_id": "application.com.microsoft.Excel.4960770.5006602",
+          "type": "user_agent"
+        },
+        {
+          "name": "Canva",
+          "bundle_id": "Canva",
+          "type": "service"
+        },
+        {
+          "name": "ai.openclaw.gateway",
+          "bundle_id": "ai.openclaw.gateway",
+          "type": "service"
+        },
+        {
+          "name": "262894",
+          "bundle_id": "application.org.localsend.localsendApp.262894.264959",
+          "type": "user_agent"
+        },
+        {
+          "name": "net.whatsapp.WhatsApp-sparkle-progress",
+          "bundle_id": "net.whatsapp.WhatsApp-sparkle-progress",
+          "type": "service"
+        },
+        {
+          "name": "1086520",
+          "bundle_id": "application.com.superhighfives.Pika.1086520.1086525",
+          "type": "user_agent"
+        },
+        {
+          "name": "598901",
+          "bundle_id": "application.com.logi.pluginservice.598901.598906",
+          "type": "user_agent"
+        },
+        {
+          "name": "1067553",
+          "bundle_id": "application.org.p0deje.Maccy.1067553.1067559",
+          "type": "user_agent"
+        },
+        {
+          "name": "5822880",
+          "bundle_id": "application.com.brave.Browser.5822880.5823979",
+          "type": "user_agent"
+        },
+        {
+          "name": "postgresql@18",
+          "bundle_id": "homebrew.mxcl.postgresql@18",
+          "type": "service",
+          "managed_by": "homebrew"
+        },
+        {
+          "name": "4802073",
+          "bundle_id": "application.ru.keepcoder.Telegram.4802073.4802079",
+          "type": "user_agent"
+        },
+        {
+          "name": "5694725",
+          "bundle_id": "application.com.anthropic.claudefordesktop.5694725.5694731",
+          "type": "user_agent"
+        },
+        {
+          "name": "229603",
+          "bundle_id": "application.com.canva.CanvaDesktop.229603.229610",
+          "type": "user_agent"
+        },
+        {
+          "name": "2965399",
+          "bundle_id": "application.com.google.Chrome.261632.2965399.E154E629-4D76-4D2C-80EA-D83A75918334",
+          "type": "user_agent"
+        }
+      ]
+    },
+    "system": {
+      "description": "Core system services",
+      "items": [
+        {
+          "name": "com.apple.auditd",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.configd",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.cron",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.diskarbitrationd",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.kextd",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.mDNSResponder",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.syslogd",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.apple.WindowServer",
+          "type": "system_daemon"
+        },
+        {
+          "name": "com.openssh.sshd",
+          "type": "system_daemon"
+        },
+        {
+          "name": "org.apache.httpd",
+          "type": "system_daemon"
+        }
+      ]
+    },
+    "docker": {
+      "description": "Docker container runtime",
+      "version": "Docker version 29.4.2, build 055a478ea9",
+      "type": "container_runtime"
+    }
+  },
+  "package_managers": {
+    "homebrew": {
+      "description": "Homebrew package manager",
+      "formulas": [
+        {
+          "name": "ada-url",
+          "type": "formula"
+        },
+        {
+          "name": "autossh",
+          "type": "formula"
+        },
+        {
+          "name": "bbrew",
+          "type": "formula"
+        },
+        {
+          "name": "brotli",
+          "type": "formula"
+        },
+        {
+          "name": "c-ares",
+          "type": "formula"
+        },
+        {
+          "name": "ca-certificates",
+          "type": "formula"
+        },
+        {
+          "name": "cairo",
+          "type": "formula"
+        },
+        {
+          "name": "certifi",
+          "type": "formula"
+        },
+        {
+          "name": "cmatrix",
+          "type": "formula"
+        },
+        {
+          "name": "colima",
+          "type": "formula"
+        },
+        {
+          "name": "deno",
+          "type": "formula"
+        },
+        {
+          "name": "docker",
+          "type": "formula"
+        },
+        {
+          "name": "docker-completion",
+          "type": "formula"
+        },
+        {
+          "name": "docker-compose",
+          "type": "formula"
+        },
+        {
+          "name": "duti",
+          "type": "formula"
+        },
+        {
+          "name": "fastfetch",
+          "type": "formula"
+        },
+        {
+          "name": "fmt",
+          "type": "formula"
+        },
+        {
+          "name": "fontconfig",
+          "type": "formula"
+        },
+        {
+          "name": "freetype",
+          "type": "formula"
+        },
+        {
+          "name": "fribidi",
+          "type": "formula"
+        },
+        {
+          "name": "fswatch",
+          "type": "formula"
+        },
+        {
+          "name": "fzf",
+          "type": "formula"
+        },
+        {
+          "name": "gdk-pixbuf",
+          "type": "formula"
+        },
+        {
+          "name": "gettext",
+          "type": "formula"
+        },
+        {
+          "name": "gh",
+          "type": "formula"
+        },
+        {
+          "name": "giflib",
+          "type": "formula"
+        },
+        {
+          "name": "git-filter-repo",
+          "type": "formula"
+        },
+        {
+          "name": "glib",
+          "type": "formula"
+        },
+        {
+          "name": "graphite2",
+          "type": "formula"
+        },
+        {
+          "name": "harfbuzz",
+          "type": "formula"
+        },
+        {
+          "name": "hdrhistogram_c",
+          "type": "formula"
+        },
+        {
+          "name": "icu4c@78",
+          "type": "formula"
+        },
+        {
+          "name": "jpeg-turbo",
+          "type": "formula"
+        },
+        {
+          "name": "krb5",
+          "type": "formula"
+        },
+        {
+          "name": "lazydocker",
+          "type": "formula"
+        },
+        {
+          "name": "libdatrie",
+          "type": "formula"
+        },
+        {
+          "name": "libevent",
+          "type": "formula"
+        },
+        {
+          "name": "libffi",
+          "type": "formula"
+        },
+        {
+          "name": "libnghttp2",
+          "type": "formula"
+        },
+        {
+          "name": "libnghttp3",
+          "type": "formula"
+        },
+        {
+          "name": "libngtcp2",
+          "type": "formula"
+        },
+        {
+          "name": "libpng",
+          "type": "formula"
+        },
+        {
+          "name": "libthai",
+          "type": "formula"
+        },
+        {
+          "name": "libtiff",
+          "type": "formula"
+        },
+        {
+          "name": "libunistring",
+          "type": "formula"
+        },
+        {
+          "name": "libuv",
+          "type": "formula"
+        },
+        {
+          "name": "libx11",
+          "type": "formula"
+        },
+        {
+          "name": "libxau",
+          "type": "formula"
+        },
+        {
+          "name": "libxcb",
+          "type": "formula"
+        },
+        {
+          "name": "libxdmcp",
+          "type": "formula"
+        },
+        {
+          "name": "libxext",
+          "type": "formula"
+        },
+        {
+          "name": "libxrender",
+          "type": "formula"
+        },
+        {
+          "name": "lima",
+          "type": "formula"
+        },
+        {
+          "name": "little-cms2",
+          "type": "formula"
+        },
+        {
+          "name": "llhttp",
+          "type": "formula"
+        },
+        {
+          "name": "lz4",
+          "type": "formula"
+        },
+        {
+          "name": "lzo",
+          "type": "formula"
+        },
+        {
+          "name": "merve",
+          "type": "formula"
+        },
+        {
+          "name": "mise",
+          "type": "formula"
+        },
+        {
+          "name": "mpdecimal",
+          "type": "formula"
+        },
+        {
+          "name": "nbytes",
+          "type": "formula"
+        },
+        {
+          "name": "ncurses",
+          "type": "formula"
+        },
+        {
+          "name": "node",
+          "type": "formula"
+        },
+        {
+          "name": "oh-my-posh",
+          "type": "formula"
+        },
+        {
+          "name": "opencode",
+          "type": "formula"
+        },
+        {
+          "name": "openjdk@17",
+          "type": "formula"
+        },
+        {
+          "name": "openjdk@21",
+          "type": "formula"
+        },
+        {
+          "name": "openssl@3",
+          "type": "formula"
+        },
+        {
+          "name": "pango",
+          "type": "formula"
+        },
+        {
+          "name": "pcre2",
+          "type": "formula"
+        },
+        {
+          "name": "pixman",
+          "type": "formula"
+        },
+        {
+          "name": "postgresql@18",
+          "type": "formula"
+        },
+        {
+          "name": "python@3.14",
+          "type": "formula"
+        },
+        {
+          "name": "readline",
+          "type": "formula"
+        },
+        {
+          "name": "ripgrep",
+          "type": "formula"
+        },
+        {
+          "name": "simdjson",
+          "type": "formula"
+        },
+        {
+          "name": "simdutf",
+          "type": "formula"
+        },
+        {
+          "name": "sqlite",
+          "type": "formula"
+        },
+        {
+          "name": "supabase",
+          "type": "formula"
+        },
+        {
+          "name": "tmux",
+          "type": "formula"
+        },
+        {
+          "name": "usage",
+          "type": "formula"
+        },
+        {
+          "name": "utf8proc",
+          "type": "formula"
+        },
+        {
+          "name": "uvwasi",
+          "type": "formula"
+        },
+        {
+          "name": "xorgproto",
+          "type": "formula"
+        },
+        {
+          "name": "xz",
+          "type": "formula"
+        },
+        {
+          "name": "yt-dlp",
+          "type": "formula"
+        },
+        {
+          "name": "yyjson",
+          "type": "formula"
+        },
+        {
+          "name": "zoxide",
+          "type": "formula"
+        },
+        {
+          "name": "zstd",
+          "type": "formula"
+        }
+      ],
+      "casks": [
+        {
+          "name": "amethyst",
+          "type": "cask"
+        },
+        {
+          "name": "android-commandlinetools",
+          "type": "cask"
+        },
+        {
+          "name": "battery",
+          "type": "cask"
+        },
+        {
+          "name": "codex",
+          "type": "cask"
+        },
+        {
+          "name": "ghostty",
+          "type": "cask"
+        },
+        {
+          "name": "inkscape",
+          "type": "cask"
+        },
+        {
+          "name": "maccy",
+          "type": "cask"
+        },
+        {
+          "name": "obs",
+          "type": "cask"
+        },
+        {
+          "name": "obsidian",
+          "type": "cask"
+        },
+        {
+          "name": "pika",
+          "type": "cask"
+        },
+        {
+          "name": "transmission-remote-gui",
+          "type": "cask"
+        }
+      ]
+    },
+    "npm": {
+      "description": "Node.js package manager (global packages)",
+      "scope": "global",
+      "packages": [
+        {
+          "name": "@colbymchenry/codegraph",
+          "version": "0.6.8"
+        },
+        {
+          "name": "npm",
+          "version": "11.12.1"
+        },
+        {
+          "name": "pnpm",
+          "version": "9.15.4"
+        }
+      ]
+    },
+    "pip": {
+      "description": "Python package manager",
+      "interpreter": "python3",
+      "packages": [
+        {
+          "name": "annotated-types",
+          "version": "0.7.0"
+        },
+        {
+          "name": "anyio",
+          "version": "4.13.0"
+        },
+        {
+          "name": "blinker",
+          "version": "1.9.0"
+        },
+        {
+          "name": "brotli",
+          "version": "1.2.0"
+        },
+        {
+          "name": "cachetools",
+          "version": "6.2.6"
+        },
+        {
+          "name": "certifi",
+          "version": "2026.4.22"
+        },
+        {
+          "name": "cffi",
+          "version": "2.0.0"
+        },
+        {
+          "name": "charset-normalizer",
+          "version": "3.4.7"
+        },
+        {
+          "name": "click",
+          "version": "8.4.1"
+        },
+        {
+          "name": "cryptography",
+          "version": "48.0.0"
+        },
+        {
+          "name": "cssselect2",
+          "version": "0.9.0"
+        },
+        {
+          "name": "decompyle3",
+          "version": "3.9.3"
+        },
+        {
+          "name": "deprecation",
+          "version": "2.1.0"
+        },
+        {
+          "name": "distro",
+          "version": "1.9.0"
+        },
+        {
+          "name": "emoji",
+          "version": "2.15.0"
+        },
+        {
+          "name": "et_xmlfile",
+          "version": "2.0.0"
+        },
+        {
+          "name": "Flask",
+          "version": "3.1.3"
+        },
+        {
+          "name": "flask-cors",
+          "version": "6.0.2"
+        },
+        {
+          "name": "Flask-Login",
+          "version": "0.6.3"
+        },
+        {
+          "name": "fonttools",
+          "version": "4.63.0"
+        },
+        {
+          "name": "fsspec",
+          "version": "2026.4.0"
+        },
+        {
+          "name": "google-auth",
+          "version": "2.53.0"
+        },
+        {
+          "name": "google-genai",
+          "version": "2.6.0"
+        },
+        {
+          "name": "greenlet",
+          "version": "3.5.1"
+        },
+        {
+          "name": "h11",
+          "version": "0.16.0"
+        },
+        {
+          "name": "h2",
+          "version": "4.3.0"
+        },
+        {
+          "name": "hpack",
+          "version": "4.1.0"
+        },
+        {
+          "name": "httpcore",
+          "version": "1.0.9"
+        },
+        {
+          "name": "httpx",
+          "version": "0.28.1"
+        },
+        {
+          "name": "hyperframe",
+          "version": "6.1.0"
+        },
+        {
+          "name": "idna",
+          "version": "3.16"
+        },
+        {
+          "name": "itsdangerous",
+          "version": "2.2.0"
+        },
+        {
+          "name": "Jinja2",
+          "version": "3.1.6"
+        },
+        {
+          "name": "linkify-it-py",
+          "version": "2.1.0"
+        },
+        {
+          "name": "markdown-it-py",
+          "version": "4.1.0"
+        },
+        {
+          "name": "MarkupSafe",
+          "version": "3.0.3"
+        },
+        {
+          "name": "mdit-py-plugins",
+          "version": "0.5.0"
+        },
+        {
+          "name": "mdurl",
+          "version": "0.1.2"
+        },
+        {
+          "name": "mmh3",
+          "version": "5.2.1"
+        },
+        {
+          "name": "multidict",
+          "version": "6.7.1"
+        },
+        {
+          "name": "numpy",
+          "version": "2.4.6"
+        },
+        {
+          "name": "openpyxl",
+          "version": "3.1.5"
+        },
+        {
+          "name": "packaging",
+          "version": "26.2"
+        },
+        {
+          "name": "pandas",
+          "version": "3.0.3"
+        },
+        {
+          "name": "pillow",
+          "version": "12.2.0"
+        },
+        {
+          "name": "pip",
+          "version": "26.1"
+        },
+        {
+          "name": "platformdirs",
+          "version": "4.9.6"
+        },
+        {
+          "name": "playwright",
+          "version": "1.60.0"
+        },
+        {
+          "name": "postgrest",
+          "version": "2.30.0"
+        },
+        {
+          "name": "propcache",
+          "version": "0.5.2"
+        },
+        {
+          "name": "psycopg2-binary",
+          "version": "2.9.12"
+        },
+        {
+          "name": "pyasn1",
+          "version": "0.6.3"
+        },
+        {
+          "name": "pyasn1_modules",
+          "version": "0.4.2"
+        },
+        {
+          "name": "pycparser",
+          "version": "3.0"
+        },
+        {
+          "name": "pydantic",
+          "version": "2.13.4"
+        },
+        {
+          "name": "pydantic_core",
+          "version": "2.46.4"
+        },
+        {
+          "name": "pydyf",
+          "version": "0.12.1"
+        },
+        {
+          "name": "pyee",
+          "version": "13.0.1"
+        },
+        {
+          "name": "Pygments",
+          "version": "2.20.0"
+        },
+        {
+          "name": "pyiceberg",
+          "version": "0.11.1"
+        },
+        {
+          "name": "PyJWT",
+          "version": "2.13.0"
+        },
+        {
+          "name": "pyparsing",
+          "version": "3.3.2"
+        },
+        {
+          "name": "pyphen",
+          "version": "0.17.2"
+        },
+        {
+          "name": "pyroaring",
+          "version": "1.1.0"
+        },
+        {
+          "name": "python-dateutil",
+          "version": "2.9.0.post0"
+        },
+        {
+          "name": "python-dotenv",
+          "version": "1.2.2"
+        },
+        {
+          "name": "realtime",
+          "version": "2.30.0"
+        },
+        {
+          "name": "requests",
+          "version": "2.34.2"
+        },
+        {
+          "name": "rich",
+          "version": "14.3.4"
+        },
+        {
+          "name": "six",
+          "version": "1.17.0"
+        },
+        {
+          "name": "sniffio",
+          "version": "1.3.1"
+        },
+        {
+          "name": "spark-parser",
+          "version": "1.9.0"
+        },
+        {
+          "name": "SQLAlchemy",
+          "version": "2.0.49"
+        },
+        {
+          "name": "storage3",
+          "version": "2.30.0"
+        },
+        {
+          "name": "StrEnum",
+          "version": "0.4.15"
+        },
+        {
+          "name": "strictyaml",
+          "version": "1.7.3"
+        },
+        {
+          "name": "supabase",
+          "version": "2.30.0"
+        },
+        {
+          "name": "supabase-auth",
+          "version": "2.30.0"
+        },
+        {
+          "name": "supabase-functions",
+          "version": "2.30.0"
+        },
+        {
+          "name": "tenacity",
+          "version": "9.1.4"
+        },
+        {
+          "name": "textual",
+          "version": "8.2.5"
+        },
+        {
+          "name": "tinycss2",
+          "version": "1.5.1"
+        },
+        {
+          "name": "tinyhtml5",
+          "version": "2.1.0"
+        },
+        {
+          "name": "typing_extensions",
+          "version": "4.15.0"
+        },
+        {
+          "name": "typing-inspection",
+          "version": "0.4.2"
+        },
+        {
+          "name": "uc-micro-py",
+          "version": "2.0.0"
+        },
+        {
+          "name": "urllib3",
+          "version": "2.7.0"
+        },
+        {
+          "name": "weasyprint",
+          "version": "68.1"
+        },
+        {
+          "name": "webencodings",
+          "version": "0.5.1"
+        },
+        {
+          "name": "websockets",
+          "version": "15.0.1"
+        },
+        {
+          "name": "Werkzeug",
+          "version": "3.1.8"
+        },
+        {
+          "name": "wheel",
+          "version": "0.47.0"
+        },
+        {
+          "name": "xdis",
+          "version": "6.1.7"
+        },
+        {
+          "name": "yarl",
+          "version": "1.24.2"
+        },
+        {
+          "name": "zopfli",
+          "version": "0.4.1"
+        },
+        {
+          "name": "zstandard",
+          "version": "0.25.0"
+        }
+      ]
+    }
+  },
+  "development_tools": {
+    "description": "Detected development tools and IDEs",
+    "tools": [
+      {
+        "name": "Vim",
+        "version": "VIM - Vi IMproved 9.1 (2024 Jan 02, compiled Feb 21 2026 19:49:52)"
+      }
+    ]
+  }
+}

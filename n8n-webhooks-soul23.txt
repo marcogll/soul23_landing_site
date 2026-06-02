@@ -1,30 +1,36 @@
-SOUL:23 - INVENTARIO PARA FLUJO N8N
-Actualizado: 2026-05-30
+SOUL:23 - FLUJO N8N COMPLETO v2.0
+Actualizado: 2026-06-01
 
-VARIABLE DEL SITIO
-VITE_S23_WEBHOOK_URL=
+═══════════════════════════════════════════════════════════════════
+1. VARIABLES DE ENTORNO REQUERIDAS
+═══════════════════════════════════════════════════════════════════
 
-Todas las formas/surveys envian POST JSON al mismo webhook configurado en VITE_S23_WEBHOOK_URL.
-El ruteo en n8n debe hacerse con:
-- payload.type
-- payload.form_type, cuando exista
-- payload.metadata.source
-- payload.metadata.survey_name
+VITE_S23_WEBHOOK_URL         → URL del webhook n8n (ej: https://n8n.tudominio.com/webhook/s23)
+OPENAI_API_KEY               → sk-...
+OPENROUTER_API_KEY           → sk-or-...
+TELEGRAM_BOT_TOKEN           → 123456789:ABCdefGHIjklMNOpqrSTUvwxyz
+TELEGRAM_CHAT_ID_TEAM        → @soul23_team  (o ID numérico)
+TELEGRAM_CHAT_ID_ALERTS      → @soul23_alerts (o ID numérico)
+SMTP_HOST                    → smtp.gmail.com
+SMTP_PORT                    → 587
+SMTP_USER                    → talia@soul23.mx
+SMTP_PASS                    → app-password
+EMAIL_FROM                   → "Talia | soul:23" <talia@soul23.mx>
+EMAIL_REPLY_TO               → talia@soul23.mx
+EMAIL_INTERNAL_TO            → hi@soul23.mx
 
-CONTACTOS DEL SITIO
-- Contacto general: hi@soul23.mx
-- Asistente / citas: talia@soul23.mx
-- Privacidad: privacy@soul23.mx
-- Sitio: https://soul23.mx
-- Logo para emails: https://soul23.mx/images/logo_soul23_cream.svg
-- CTA llamada: https://calendly.com/alma_dev/30min
+═══════════════════════════════════════════════════════════════════
+2. ESTRUCTURA DEL PAYLOAD QUE RECIBE EL WEBHOOK
+═══════════════════════════════════════════════════════════════════
 
-ESTRUCTURA BASE DEL PAYLOAD
+POST → {{$env.VITE_S23_WEBHOOK_URL}}
+Content-Type: application/json
+
 {
   "type": "contact_inquiry | client_onboarding | service_feedback | event_rsvp | staff_evaluation | project_feedback | survey_abandoned",
-  "form_type": "opcional; solo contacto lo usa ahora",
-  "status": "opcional",
-  "answers": {},
+  "form_type": "homepage_contact_mini_survey | contact_survey_full | talia_chatbot_funnel | ...",
+  "status": "completed | abandoned | survey_timeout",
+  "answers": { ... },
   "ratings_summary": [
     { "category": "string", "score": 0, "max": 5 }
   ],
@@ -45,256 +51,673 @@ ESTRUCTURA BASE DEL PAYLOAD
     "insights": ["string"],
     "next_steps": ["string"],
     "recommended_services": ["string"],
-    "cta": {
-      "label": "string",
-      "url": "string"
-    },
+    "cta": { "label": "string", "url": "string" },
     "templates": {
-      "client": "email-templates/.../client.html",
-      "internal": "email-templates/.../internal.html"
+      "client": "email-templates/contact/client.html",
+      "internal": "email-templates/contact/internal.html"
     }
+  },
+  "ai_instructions": {
+    "system_message": "string",
+    "expected_output": ["string"],
+    "output_contract": { ... },
+    "tone": "soul:23: sobrio, premium, claro...",
+    "language": "es-MX",
+    "notes": ["string"]
+  },
+  "llm_config": {
+    "provider": "gpt_nano | openrouter_free",
+    "model": "gpt-4o-mini | google/gemini-2.0-flash-exp:free",
+    "max_tokens": 1024,
+    "temperature": 0.3,
+    "fallback_provider": "openrouter_free | gpt_nano"
   },
   "metadata": {
     "submittedAt": "ISO date",
     "userAgent": "string",
     "source": "string",
     "language": "string",
-    "phoneNumber": "opcional",
+    "phoneNumber": "string",
     "survey_name": "string"
   }
 }
 
-REGLA GENERAL N8N
-1. Webhook recibe cualquier payload.
-2. Switch por payload.type.
-3. Si payload.email_report.templates.client existe y payload.email_report.enabled = true:
-   - Renderizar template client con payload completo.
-   - Enviar a payload.email_report.recipient_email.
-   - From name sugerido: Talia | soul:23
-   - Reply-To: talia@soul23.mx
-4. Siempre enviar interno si existe payload.email_report.templates.internal:
-   - Renderizar template internal con payload completo.
-   - Enviar a hi@soul23.mx o al correo operativo que definas.
-5. Si ratings_summary contiene score bajo o open_text_responses.sentiment = negative:
-   - Crear alerta interna prioritaria.
-6. Guardar todo en DB/Sheet/CRM con payload.type, metadata.source, submittedAt, email, telefono, tags.
+═══════════════════════════════════════════════════════════════════
+3. DIAGRAMA DEL FLUJO N8N
+═══════════════════════════════════════════════════════════════════
 
-SALIDAS / FORMAS ACTUALES
+[Webhook] → [Data Formatter] → [LLM Config Setter] → [Switch: payload.type]
+                                                              │
+    ┌─────────────┬─────────────┬────────────┬────────────┬────┴────────┬────────────────┐
+    │             │             │            │            │             │                │
+[Contact]   [Onboarding] [Feedback] [Event RSVP]  [Staff]    [Project]   [Abandoned]
+    │             │             │            │            │             │                │
+[Code:Prep] [Code:Prep] [Code:Prep] [Code:Prep] [Code:Prep] [Code:Prep] [Code:Prep]
+    │             │             │            │            │             │                │
+[LLM Agent] [LLM Agent] [LLM Agent] [LLM Agent] [LLM Agent] [LLM Agent] [LLM Agent]
+    │             │             │            │            │             │                │
+[Email Int] [Email Int] [Email Int] [Email Int] [Email Int] [Email Int] [Email Int]
+    │             │             │            │            │             │                │
+[Email Ext] [Email Ext] [Email Ext] [Email Ext]    ────     [Email Ext] [Email Ext*]
+    │             │             │            │                  │             │
+[Telegram]  [Telegram]  [Telegram]  [Telegram]   [Telegram]  [Telegram]  [Telegram]
+    │             │             │            │            │             │                │
+[Google]    [Google]    [Google]   [Google]    [Google]    [Google]    [Google]
+[Sheet]     [Sheet]     [Sheet]    [Sheet]     [Sheet]     [Sheet]     [Sheet]
 
-1. HOME MINI SURVEY DE CONTACTO
-- Ruta visual: home, seccion #contacto
-- type: contact_inquiry
-- form_type: homepage_contact_mini_survey
-- metadata.source: homepage_contact_mini_survey
-- metadata.survey_name: Mini diagnóstico de encuestas
-- recipient_email: answers.email
-- telefono: answers.telefono
-- templates:
-  - cliente: email-templates/contact/client.html
-  - interno: email-templates/contact/internal.html
-- campos answers esperados:
-  - nombre
-  - negocio
-  - email
-  - telefono
-  - tipo_negocio
-  - tipo_encuesta[]
-  - canal_encuesta[]
-  - necesidad[]
-  - urgencia
-  - descripcion
-- accion n8n:
-  - Email cliente: primer diagnostico desde Talia.
-  - Email interno: lead calificado.
-  - Si necesidad incluye "alertas", "dashboard" o "whatsapp_followup", marcar como oportunidad alta.
-  - Si urgencia = "ya", notificar a Talia/hi como prioridad.
+* Email externo condicional según tipo.
+  Staff: NO envía email externo salvo autorización explícita.
 
-2. CONTACT SURVEY FULL
-- Ruta: /contact-survey
-- type: contact_inquiry
-- form_type: contact_survey_full
-- metadata.source: contact_survey
-- metadata.survey_name: Formulario de Contacto
-- recipient_email: answers.email
-- telefono: answers.telefono
-- templates:
-  - cliente: email-templates/contact/client.html
-  - interno: email-templates/contact/internal.html
-- campos similares al home mini survey.
-- accion n8n:
-  - Igual que contacto, pero marcar origen como formulario largo.
+═══════════════════════════════════════════════════════════════════
+4. NODO 1: WEBHOOK (Trigger)
+═══════════════════════════════════════════════════════════════════
 
-2B. TALIA CHATBOT FUNNEL
-- Ruta visual: widget flotante Talia, disponible en todo el sitio
-- type: contact_inquiry
-- form_type: talia_chatbot_funnel
-- metadata.source: talia_chatbot_funnel
-- metadata.survey_name: Talia Chatbot Funnel
-- recipient_email: answers.email
-- telefono: answers.telefono
-- templates:
-  - cliente: email-templates/contact/client.html
-  - interno: email-templates/contact/internal.html
-- campos answers esperados:
-  - nombre
-  - negocio
-  - email
-  - telefono
-  - tipo_negocio
-  - tipo_encuesta[] = chatbot_funnel, diagnostico_proyecto
-  - canal_encuesta[] = web, whatsapp
-  - necesidad[]
-  - urgencia = por_definir
-  - descripcion
-- accion n8n:
-  - Email cliente: resumen breve de lo que Talia entendio sobre su proyecto.
-  - Email interno: lead capturado por Talia con giro, necesidad, email y telefono.
-  - Tratar como lead de proyecto nuevo.
-  - Si necesidad menciona agenda, dashboard, ventas, personal o cancelaciones, asignar etiqueta comercial correspondiente.
+Tipo: Webhook → On webhook call
+Método: POST
+Respuesta: Respond immediately
+Path: s23
 
-3. CLIENT ONBOARDING
-- Ruta: /client-onboarding
-- type: client_onboarding
-- form_type: no configurado actualmente
-- metadata.source: client_onboarding_survey
-- metadata.survey_name: Onboarding de Cliente
-- recipient_email: answers.email si existe
-- telefono: answers.telefono
-- templates:
-  - cliente: email-templates/client-onboarding/client.html
-  - interno: email-templates/client-onboarding/internal.html
-- accion n8n:
-  - Email cliente: confirmacion de contexto inicial.
-  - Email interno: preparar propuesta, alcance y llamada.
-  - Guardar como etapa "onboarding".
+Guarda el JSON completo en: {{ $json }}
 
-4. SERVICE FEEDBACK
-- Ruta: /survey-service
-- type: service_feedback
-- status: completed cuando termina
-- metadata.source: service_feedback_survey
-- metadata.survey_name: Encuesta de Servicio
-- telefono: answers.telefono_contacto
-- recipient_email: si answers.email/correo existe; si no, solo interno.
-- templates:
-  - cliente: email-templates/service-feedback/client.html
-  - interno: email-templates/service-feedback/internal.html
-- incluye ratings_summary y open_text_responses.
-- accion n8n:
-  - Email interno siempre.
-  - Email cliente solo si hay email.
-  - Si score bajo o sentiment negative, crear alerta inmediata.
-  - Si status = abandoned o payload.type = survey_abandoned, usar flujo de abandono.
+═══════════════════════════════════════════════════════════════════
+5. NODO 2: DATA FORMATTER (Code Node)
+═══════════════════════════════════════════════════════════════════
 
-5. EVENT RSVP
-- Ruta: /rsvp
-- type: event_rsvp
-- metadata.source: event_rsvp_survey
-- metadata.survey_name: RSVP Evento
-- telefono: answers.telefono
-- recipient_email: answers.email si existe
-- templates:
-  - cliente: email-templates/event-rsvp/client.html
-  - interno: email-templates/event-rsvp/internal.html
-- accion n8n:
-  - Email cliente: confirmacion de registro.
-  - Email interno: actualizar lista/asistencia/preferencias.
-  - Guardar en lista de evento.
+Tipo: Code → Execute once for all items
 
-6. STAFF EVALUATION
-- Ruta: /staff-evaluation
-- type: staff_evaluation
-- metadata.source: staff_evaluation_survey
-- metadata.survey_name: Evaluación de Personal
-- recipient_email: si answers.email/correo existe; normalmente interno.
-- templates:
-  - cliente: email-templates/staff-evaluation/client.html
-  - interno: email-templates/staff-evaluation/internal.html
-- incluye ratings_summary y open_text_responses.
-- accion n8n:
-  - Email interno a equipo autorizado.
-  - No enviar a evaluado salvo que explicitamente exista recipient_email y se quiera confirmacion.
-  - Tratar como informacion sensible.
-  - Si rating bajo en liderazgo/carga/desempeno, marcar seguimiento interno.
+// === CÓDIGO N8N ===
+const payload = $input.first().json;
 
-7. PROJECT FEEDBACK
-- Ruta: /project-feedback
-- type: project_feedback
-- metadata.source: project_feedback_survey
-- metadata.survey_name: Feedback Post-Proyecto
-- recipient_email: si answers.email/correo existe
-- templates:
-  - cliente: email-templates/project-feedback/client.html
-  - interno: email-templates/project-feedback/internal.html
-- incluye ratings_summary y NPS_Category.
-- accion n8n:
-  - Email cliente: gracias/cierre.
-  - Email interno: leer NPS, entrega, comunicacion y oportunidad de segunda fase.
-  - Si NPS_Category detractor, alerta interna.
-  - Si promoter, crear follow-up/testimonio.
+function safeGet(obj, path, fallback = '') {
+  return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : fallback, obj);
+}
 
-8. SURVEY ABANDONED
-- Se dispara desde localStorage cuando el usuario abandona una encuesta parcial.
-- type: survey_abandoned
-- metadata.source: nombre de encuesta o unknown_survey
-- metadata.surveyId: configId del survey
-- metadata.startedAt: fecha inicio
-- metadata.answeredCount: numero de respuestas capturadas
-- metadata.reason: user_navigated_away
-- templates:
-  - cliente: email-templates/survey-abandoned/client.html
-  - interno: email-templates/survey-abandoned/internal.html
-- accion n8n:
-  - Email interno: revisar friccion.
-  - Email cliente solo si recipient_email existe y conviene recuperar.
-  - Registrar paso de abandono para optimizar UX.
+function arrToText(val) {
+  if (Array.isArray(val)) return val.join(', ');
+  if (typeof val === 'string') return val;
+  return JSON.stringify(val);
+}
 
-PLANTILLAS DISPONIBLES
-- email-templates/contact/client.html
-- email-templates/contact/internal.html
-- email-templates/client-onboarding/client.html
-- email-templates/client-onboarding/internal.html
-- email-templates/service-feedback/client.html
-- email-templates/service-feedback/internal.html
-- email-templates/event-rsvp/client.html
-- email-templates/event-rsvp/internal.html
-- email-templates/staff-evaluation/client.html
-- email-templates/staff-evaluation/internal.html
-- email-templates/project-feedback/client.html
-- email-templates/project-feedback/internal.html
-- email-templates/survey-abandoned/client.html
-- email-templates/survey-abandoned/internal.html
+function flattenAnswers(answers) {
+  const flat = {};
+  for (const [key, val] of Object.entries(answers || {})) {
+    if (val && typeof val === 'object' && !Array.isArray(val)) {
+      flat[key] = val.label || val.value || JSON.stringify(val);
+    } else {
+      flat[key] = arrToText(val);
+    }
+  }
+  return flat;
+}
 
-VARIABLES QUE USAN LOS TEMPLATES
-- {{email_report.subject}}
-- {{email_report.headline}}
-- {{email_report.summary}}
-- {{email_report.cta.url}}
-- {{email_report.cta.label}}
-- {{#each email_report.insights}}{{this}}{{/each}}
-- {{#each email_report.next_steps}}{{this}}{{/each}}
-- {{#each email_report.recommended_services}}{{this}}{{/each}}
-- {{answers.nombre}}
-- {{answers.negocio}}
-- {{answers.email}}
-- {{answers.telefono}}
-- {{answers.tipo_negocio}}
-- {{answers.tipo_encuesta}}
-- {{answers.canal_encuesta}}
-- {{answers.necesidad}}
-- {{answers.urgencia}}
-- {{answers.descripcion}}
-- {{ratings_summary}}
-- {{open_text_responses}}
-- {{metadata.source}}
-- {{metadata.survey_name}}
-- {{metadata.submittedAt}}
-- {{metadata.phoneNumber}}
+const formatted = {
+  type: payload.type,
+  form_type: payload.form_type || 'sin_form_type',
+  status: payload.status || '',
+  answers_flat: flattenAnswers(payload.answers),
+  ratings_text: (payload.ratings_summary || []).map(r => `${r.category}: ${r.score}/${r.max}`).join('\n'),
+  open_texts: (payload.open_text_responses || []).map(o => `[${o.sentiment}] ${o.question_id}: ${o.text} (tags: ${o.tags.join(', ')})`).join('\n'),
+  recipient_email: safeGet(payload, 'email_report.recipient_email', ''),
+  email_enabled: safeGet(payload, 'email_report.enabled', false),
+  email_subject: safeGet(payload, 'email_report.subject', ''),
+  email_headline: safeGet(payload, 'email_report.headline', ''),
+  email_summary: safeGet(payload, 'email_report.summary', ''),
+  email_insights: arrToText(safeGet(payload, 'email_report.insights', [])),
+  email_next_steps: arrToText(safeGet(payload, 'email_report.next_steps', [])),
+  email_recommended: arrToText(safeGet(payload, 'email_report.recommended_services', [])),
+  template_client: safeGet(payload, 'email_report.templates.client', ''),
+  template_internal: safeGet(payload, 'email_report.templates.internal', ''),
+  llm_provider: safeGet(payload, 'llm_config.provider', 'gpt_nano'),
+  llm_model: safeGet(payload, 'llm_config.model', 'gpt-4o-mini'),
+  llm_fallback: safeGet(payload, 'llm_config.fallback_provider', 'openrouter_free'),
+  system_message: safeGet(payload, 'ai_instructions.system_message', ''),
+  survey_name: safeGet(payload, 'metadata.survey_name', ''),
+  source: safeGet(payload, 'metadata.source', ''),
+  submittedAt: safeGet(payload, 'metadata.submittedAt', ''),
+  phoneNumber: safeGet(payload, 'metadata.phoneNumber', ''),
+  raw_payload: payload,
+};
 
-NOTAS PARA N8N
-- Si arrays llegan como arrays reales, convertirlos a texto para plantillas: join(", ").
-- Si se usa Handlebars, registrar helper each y sanitizar valores.
-- Para pre tags internos, se puede usar JSON.stringify(payload.answers, null, 2).
-- El frontend no renderiza templates; n8n debe leerlos/copiar su HTML o usar estos paths como referencia.
-- Si no hay VITE_S23_WEBHOOK_URL, el sitio hace console.warn y simula success; no llega a n8n.
-- Todos los envios deberian incluir type y, cuando aplique, form_type.
+return [formatted];
+// === FIN CÓDIGO ===
+
+═══════════════════════════════════════════════════════════════════
+6. NODO 3: LLM CONFIG SETTER (Set Node)
+═══════════════════════════════════════════════════════════════════
+
+Tipo: Set → Execute once for all items
+
+Este nodo decide qué LLM usar basado en formatted.llm_provider.
+
+Fields to Set:
+- provider = {{ $json.llm_provider }}
+- model = {{ $json.llm_model }}
+- api_url = 
+  IF: {{ $json.llm_provider }} == 'openrouter_free'
+  THEN: https://openrouter.ai/api/v1/chat/completions
+  ELSE: https://api.openai.com/v1/chat/completions
+- api_key =
+  IF: {{ $json.llm_provider }} == 'openrouter_free'
+  THEN: {{ $env.OPENROUTER_API_KEY }}
+  ELSE: {{ $env.OPENAI_API_KEY }}
+- fallback_provider = {{ $json.llm_fallback }}
+
+═══════════════════════════════════════════════════════════════════
+7. NODO 4: SWITCH (Switch Node)
+═══════════════════════════════════════════════════════════════════
+
+Tipo: Switch → Route based on fields
+
+Reglas (ejecuta primera coincidencia):
+1. {{ $json.type }} == 'contact_inquiry' → RAMA: Contact
+2. {{ $json.type }} == 'client_onboarding' → RAMA: Onboarding
+3. {{ $json.type }} == 'service_feedback' → RAMA: Feedback
+4. {{ $json.type }} == 'event_rsvp' → RAMA: RSVP
+5. {{ $json.type }} == 'staff_evaluation' → RAMA: Staff
+6. {{ $json.type }} == 'project_feedback' → RAMA: Project
+7. {{ $json.type }} == 'survey_abandoned' → RAMA: Abandoned
+
+═══════════════════════════════════════════════════════════════════
+8. RAMA: CONTACT_INQUIRY (Lead / Contacto)
+═══════════════════════════════════════════════════════════════════
+
+─── 8A. CODE NODE: PREPARAR CONTEXTO ───
+Tipo: Code
+
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+
+// Detectar prioridad
+let priority = 'low';
+if (answers.urgencia === 'ya') priority = 'high';
+else if (answers.urgencia === '30_dias') priority = 'medium';
+
+// Detectar oportunidad alta
+const needStr = (answers.necesidad || '').toLowerCase();
+const highValue = ['alertas', 'dashboard', 'whatsapp_followup', 'todo'].some(k => needStr.includes(k));
+
+// Construir contexto para LLM
+const context = {
+  ...data,
+  case_type: 'CONTACT_INQUIRY',
+  priority,
+  is_high_value: highValue,
+  lead_name: answers.nombre || 'Sin nombre',
+  business: answers.negocio || 'Sin negocio',
+  sector: answers.tipo_negocio || 'Sin sector',
+  email: answers.email || '',
+  phone: answers.telefono || data.phoneNumber || '',
+  needs: answers.necesidad || '',
+  urgency: answers.urgencia || '',
+  budget: answers.presupuesto || '',
+  description: answers.descripcion || '',
+  channel: answers.canal_encuesta || '',
+  survey_types: answers.tipo_encuesta || '',
+};
+
+return [context];
+
+─── 8B. LLM AGENT (HTTP Request) ───
+Tipo: HTTP Request → POST
+URL: {{ $json.api_url }}
+Headers:
+  Content-Type: application/json
+  Authorization: Bearer {{ $json.api_key }}
+Body (JSON):
+{
+  "model": "{{ $json.model }}",
+  "max_tokens": 1024,
+  "temperature": 0.3,
+  "messages": [
+    {
+      "role": "system",
+      "content": "Eres Talia, asistente operativa de soul:23. Recibes un payload de CONTACTO de un lead.\n\nINSTRUCCIONES:\n1. Identificar si es lead calificado basado en necesidad y urgencia.\n2. Generar email profesional para el CLIENTE con resumen de lo que entendiste y siguientes pasos.\n3. Generar email interno para hi@soul23.mx con análisis completo del lead.\n4. Extraer: prioridad (low/medium/high), tags comerciales, alertas.\n5. NO inventar datos. Usar solo lo que viene en el payload.\n\nREGLAS:\n- Si urgencia = 'ya' => prioridad HIGH + alerta inmediata.\n- Si necesidad incluye 'alertas', 'dashboard', 'whatsapp_followup' o 'todo' => oportunidad ALTA.\n- Usar español de México, tono sobrio y premium.\n\nOUTPUT (JSON válido):\n{\n  \"client_email_html\": \"string\",\n  \"internal_email_html\": \"string\",\n  \"crm_summary\": \"string\",\n  \"priority\": \"low|medium|high\",\n  \"tags\": [\"string\"],\n  \"follow_up\": \"string\",\n  \"alerts\": [\"string\"]\n}"
+    },
+    {
+      "role": "user",
+      "content": "Payload: " + JSON.stringify($input.first().json)
+    }
+  ]
+}
+
+// Parsear respuesta con nodo JSON Parse después
+
+─── 8C. EMAIL INTERNO (SMTP Node) ───
+Tipo: Send Email
+
+To: {{ $env.EMAIL_INTERNAL_TO }}
+From: {{ $env.EMAIL_FROM }}
+Reply-To: {{ $env.EMAIL_REPLY_TO }}
+Subject: 🔔 [{{ $json.priority }}] Lead: {{ $json.lead_name }} — {{ $json.business }}
+Body: {{ $json.internal_email_html }}  (HTML)
+
+─── 8D. EMAIL EXTERNO (SMTP Node) ───
+Tipo: Send Email
+
+CONDICIÓN: Solo si {{ $json.email }} existe y {{ $json.email_enabled }} == true
+
+To: {{ $json.email }}
+From: {{ $env.EMAIL_FROM }}
+Reply-To: {{ $env.EMAIL_REPLY_TO }}
+Subject: {{ $json.email_subject || 'Talia | soul:23 — Recibimos tu mensaje' }}
+Body: {{ $json.client_email_html }}  (HTML)
+
+─── 8E. TELEGRAM ALERTA (HTTP Request) ───
+Tipo: HTTP Request → POST
+URL: https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage
+
+CONDICIÓN: Solo si {{ $json.priority }} == 'high' o {{ $json.alerts }} tiene items
+
+Body (JSON):
+{
+  "chat_id": "{{ $env.TELEGRAM_CHAT_ID_ALERTS }}",
+  "text": "🚨 ALERTA: Contacto prioritario\n\nCliente: {{ $json.lead_name }}\nNegocio: {{ $json.business }}\nPrioridad: {{ $json.priority }}\nEmail: {{ $json.email }}\nTel: {{ $json.phone }}\nNecesidad: {{ $json.needs }}\nUrgencia: {{ $json.urgency }}\n\n{{ $json.crm_summary }}",
+  "parse_mode": "HTML"
+}
+
+─── 8F. GOOGLE SHEETS (Append) ───
+Tipo: Google Sheets → Append
+
+Spreadsheet: soul23-crm
+Sheet: Leads
+Values:
+- {{ $json.submittedAt }}
+- {{ $json.lead_name }}
+- {{ $json.business }}
+- {{ $json.email }}
+- {{ $json.phone }}
+- {{ $json.sector }}
+- {{ $json.survey_types }}
+- {{ $json.needs }}
+- {{ $json.urgency }}
+- {{ $json.priority }}
+- {{ $json.tags }}
+- {{ $json.crm_summary }}
+- {{ $json.follow_up }}
+- {{ $json.alerts }}
+- {{ $json.source }}
+
+═══════════════════════════════════════════════════════════════════
+9. RAMA: CLIENT_ONBOARDING
+═══════════════════════════════════════════════════════════════════
+
+─── 9A. CODE NODE: PREPARAR CONTEXTO ───
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+
+const context = {
+  ...data,
+  case_type: 'CLIENT_ONBOARDING',
+  client_name: answers.nombre || 'Sin nombre',
+  business: answers.negocio || 'Sin negocio',
+  email: answers.email || '',
+  phone: answers.telefono || data.phoneNumber || '',
+  sector: answers.tipo_negocio || '',
+  services_needed: answers.servicios || '',
+  urgency: answers.urgencia || '',
+  budget: answers.presupuesto || '',
+  referrer: answers.referido_por || '',
+  preferred_contact: answers.contacto_preferido || '',
+  message: answers.mensaje || '',
+};
+
+return [context];
+
+─── 9B. LLM AGENT (HTTP Request) ───
+System Prompt:
+"Eres Talia, asistente operativa de soul:23. Recibes un payload de ONBOARDING de un nuevo cliente.\n\nINSTRUCCIONES:\n1. Confirmar contexto inicial del cliente.\n2. Generar email para el CLIENTE con resumen de lo que se entendió y qué sigue (llamada, alcance).\n3. Generar email interno para preparar propuesta con datos del negocio, necesidades y contactos.\n4. Extraer: alcance estimado, tecnologías sugeridas, prioridad.\n5. Si hay referido, mencionarlo en email interno.\n\nOUTPUT (JSON):\n{\"client_email_html\", \"internal_email_html\", \"crm_summary\", \"priority\", \"tags\", \"follow_up\", \"alerts\", \"estimated_scope\", \"suggested_tech\": [\"string\"]}"
+
+─── 9C. EMAIL INTERNO ───
+To: {{ $env.EMAIL_INTERNAL_TO }}
+Subject: 📋 Onboarding: {{ $json.client_name }} — {{ $json.business }}
+Body: {{ $json.internal_email_html }}
+
+─── 9D. EMAIL EXTERNO ───
+CONDICIÓN: {{ $json.email }} existe
+To: {{ $json.email }}
+Subject: {{ $json.email_subject || 'Bienvenido a soul:23 — Siguientes pasos' }}
+Body: {{ $json.client_email_html }}
+
+─── 9E. TELEGRAM ───
+CONDICIÓN: Siempre (resumen de onboarding)
+To: {{ $env.TELEGRAM_CHAT_ID_TEAM }}
+Text: "📋 Nuevo onboarding\n\nCliente: {{ $json.client_name }}\nNegocio: {{ $json.business }}\nServicios: {{ $json.services_needed }}\nUrgencia: {{ $json.urgency }}\nPresupuesto: {{ $json.budget }}\n\n{{ $json.crm_summary }}"
+
+─── 9F. GOOGLE SHEETS ───
+Sheet: Onboarding
+Values: fecha, nombre, negocio, email, tel, sector, servicios, urgencia, presupuesto, referido, alcance_estimado, prioridad
+
+═══════════════════════════════════════════════════════════════════
+10. RAMA: SERVICE_FEEDBACK
+═══════════════════════════════════════════════════════════════════
+
+─── 10A. CODE NODE: PREPARAR CONTEXTO ───
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+const ratings = data.ratings_summary || '';
+
+// Calcular score promedio
+let avgScore = 0;
+const scoreMatches = ratings.match(/(\d+)\/5/g);
+if (scoreMatches) {
+  const scores = scoreMatches.map(s => parseInt(s.split('/')[0]));
+  avgScore = scores.reduce((a,b) => a+b, 0) / scores.length;
+}
+
+// Detectar alerta
+const hasAlert = avgScore < 3 || data.open_texts?.toLowerCase().includes('negative');
+
+const context = {
+  ...data,
+  case_type: 'SERVICE_FEEDBACK',
+  avg_score: avgScore.toFixed(1),
+  has_alert: hasAlert,
+  service_received: answers.servicio_recibido || '',
+  problem_solved: answers.problema_resuelto || '',
+  would_recommend: answers.recomendaria || '',
+  contact_phone: answers.telefono_contacto || data.phoneNumber || '',
+};
+
+return [context];
+
+─── 10B. LLM AGENT ───
+System Prompt:
+"Eres Talia, asistente operativa de soul:23. Recibes un payload de FEEDBACK de servicio.\n\nINSTRUCCIONES:\n1. Analizar ratings_summary y open_text_responses.\n2. Si hay score bajo (<3) o sentiment negative => alerta inmediata.\n3. Generar email de agradecimiento para el CLIENTE si tiene email.\n4. Generar email interno con análisis completo de satisfacción.\n5. Extraer: NPS estimado, áreas de mejora, alertas.\n\nREGLAS:\n- avg_score < 3 => ALERTA + seguimiento inmediato.\n- sentiment negative => ALERTA.\n- problema_resuelto = 'no' => ALERTA CRÍTICA.\n\nOUTPUT (JSON):\n{\"client_email_html\", \"internal_email_html\", \"crm_summary\", \"priority\", \"tags\", \"follow_up\", \"alerts\", \"nps_estimate\", \"improvement_areas\": [\"string\"]}"
+
+─── 10C. EMAIL INTERNO ───
+Subject: 📊 Feedback: {{ $json.service_received }} — Score {{ $json.avg_score }}/5
+Body: {{ $json.internal_email_html }}
+
+─── 10D. EMAIL EXTERNO ───
+CONDICIÓN: {{ $json.email_enabled }} == true AND {{ $json.recipient_email }} existe
+To: {{ $json.recipient_email }}
+Subject: {{ $json.email_subject || 'Gracias por tu feedback | soul:23' }}
+Body: {{ $json.client_email_html }}
+
+─── 10E. TELEGRAM ALERTA ───
+CONDICIÓN: {{ $json.has_alert }} == true
+To: {{ $env.TELEGRAM_CHAT_ID_ALERTS }}
+Text: "🚨 ALERTA FEEDBACK NEGATIVO\n\nServicio: {{ $json.service_received }}\nScore promedio: {{ $json.avg_score }}/5\nProblema resuelto: {{ $json.problem_solved }}\n\n{{ $json.crm_summary }}"
+
+─── 10F. GOOGLE SHEETS ───
+Sheet: Feedback
+Values: fecha, servicio, score_promedio, problema_resuelto, recomendaria, alerta, prioridad, resumen
+
+═══════════════════════════════════════════════════════════════════
+11. RAMA: EVENT_RSVP
+═══════════════════════════════════════════════════════════════════
+
+─── 11A. CODE NODE ───
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+
+const context = {
+  ...data,
+  case_type: 'EVENT_RSVP',
+  attendee_name: answers.nombre || 'Sin nombre',
+  email: answers.email || '',
+  phone: answers.telefono || data.phoneNumber || '',
+  attendance_type: answers.tipo_asistencia || '',
+  event_name: answers.evento || data.survey_name || 'Evento soul:23',
+  topics: answers.temas_interes || '',
+  questions: answers.preguntas_previas || '',
+  how_found: answers.como_nos_conociste || '',
+};
+
+return [context];
+
+─── 11B. LLM AGENT ───
+System Prompt:
+"Eres Talia, asistente operativa de soul:23. Recibes un payload de RSVP para un evento.\n\nINSTRUCCIONES:\n1. Confirmar registro del asistente.\n2. Generar email de confirmación para el CLIENTE con detalles del evento.\n3. Generar email interno con lista actualizada y preferencias.\n4. Extraer: tipo de asistencia, temas de interés, preguntas previas.\n\nOUTPUT (JSON):\n{\"client_email_html\", \"internal_email_html\", \"crm_summary\", \"priority\", \"tags\", \"follow_up\", \"alerts\"}"
+
+─── 11C. EMAIL INTERNO ───
+Subject: 🎟 RSVP: {{ $json.attendee_name }} — {{ $json.event_name }}
+Body: {{ $json.internal_email_html }}
+
+─── 11D. EMAIL EXTERNO ───
+CONDICIÓN: {{ $json.email }} existe
+To: {{ $json.email }}
+Subject: {{ $json.email_subject || 'Confirmación de asistencia | soul:23' }}
+Body: {{ $json.client_email_html }}
+
+─── 11E. TELEGRAM ───
+To: {{ $env.TELEGRAM_CHAT_ID_TEAM }}
+Text: "🎟 Nuevo RSVP\n\nEvento: {{ $json.event_name }}\nAsistente: {{ $json.attendee_name }}\nTipo: {{ $json.attendance_type }}\nTemas: {{ $json.topics }}"
+
+─── 11F. GOOGLE SHEETS ───
+Sheet: Eventos
+Values: fecha, evento, nombre, email, tel, tipo_asistencia, temas, preguntas, origen
+
+═══════════════════════════════════════════════════════════════════
+12. RAMA: STAFF_EVALUATION (INFORMACIÓN SENSIBLE)
+═══════════════════════════════════════════════════════════════════
+
+─── 12A. CODE NODE ───
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+
+// Extraer scores de ratings
+const ratingsText = data.ratings_text || '';
+const lowRatings = ratingsText.includes(': 1/5') || ratingsText.includes(': 2/5');
+
+const context = {
+  ...data,
+  case_type: 'STAFF_EVALUATION',
+  evaluado: answers.evaluado || answers.nombre || 'Sin nombre',
+  evaluador: answers.evaluador || 'Anónimo',
+  low_ratings: lowRatings,
+  riesgo_rotacion: (answers.riesgo_operativo || '').toLowerCase().includes('rotación'),
+  sobrecarga: (answers.riesgo_operativo || '').toLowerCase().includes('sobrecarga'),
+  departamento: answers.departamento || '',
+  // NO incluir email del evaluado por defecto
+};
+
+return [context];
+
+─── 12B. LLM AGENT ───
+System Prompt:
+"Eres Talia, asistente operativa de soul:23. Recibes un payload de EVALUACIÓN DE PERSONAL.\n\n⚠️ TRATAR COMO INFORMACIÓN SENSIBLE Y CONFIDENCIAL.\n\nINSTRUCCIONES:\n1. NO enviar email al evaluado a menos que haya recipient_email EXPLÍCITO y autorización.\n2. Generar email interno SOLO para equipo autorizado.\n3. Analizar ratings: si liderazgo/carga/desempeño es bajo => marcar seguimiento interno.\n4. Extraer: áreas de mejora, alertas de recursos humanos, seguimiento requerido.\n\nREGLAS:\n- low_ratings = true => ALERTA RRHH.\n- riesgo_rotacion = true => ALERTA CRÍTICA.\n- sobrecarga = true => Seguimiento obligatorio.\n\nOUTPUT (JSON):\n{\"internal_email_html\", \"crm_summary\", \"priority\", \"tags\", \"follow_up\", \"alerts\", \"hr_flags\": [\"string\"]}"
+
+─── 12C. EMAIL INTERNO ───
+Subject: 🔒 [CONFIDENCIAL] Evaluación: {{ $json.evaluado }} — {{ $json.departamento }}
+Body: {{ $json.internal_email_html }}
+CC: {{ $env.EMAIL_INTERNAL_TO }}
+
+─── 12D. EMAIL EXTERNO ───
+CONDICIÓN: NUNCA por defecto. Solo si existe una variable explícita `send_to_evaluated`.
+
+─── 12E. TELEGRAM ALERTA ───
+CONDICIÓN: {{ $json.low_ratings }} == true OR {{ $json.riesgo_rotacion }} == true
+To: {{ $env.TELEGRAM_CHAT_ID_ALERTS }}
+Text: "🔒 ALERTA RRHH\n\nEvaluado: {{ $json.evaluado }}\nDepto: {{ $json.departamento }}\nRiesgo rotación: {{ $json.riesgo_rotacion }}\nSobrecarga: {{ $json.sobrecarga }}\n\n{{ $json.crm_summary }}"
+
+─── 12F. GOOGLE SHEETS ───
+Sheet: Evaluaciones
+Values: fecha, evaluado, evaluador, depto, alerta_rrhh, prioridad, resumen, seguimiento
+
+═══════════════════════════════════════════════════════════════════
+13. RAMA: PROJECT_FEEDBACK
+═══════════════════════════════════════════════════════════════════
+
+─── 13A. CODE NODE ───
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+
+const npsScore = parseInt(answers.nps_score) || 0;
+let npsCategory = 'passive';
+if (npsScore >= 9) npsCategory = 'promoter';
+else if (npsScore <= 6) npsCategory = 'detractor';
+
+const context = {
+  ...data,
+  case_type: 'PROJECT_FEEDBACK',
+  project_name: answers.proyecto || data.survey_name || 'Proyecto sin nombre',
+  nps_score: npsScore,
+  nps_category: npsCategory,
+  is_detractor: npsCategory === 'detractor',
+  is_promoter: npsCategory === 'promoter',
+  client_email: answers.email || '',
+  delivery_score: answers.calificacion_proyecto || '',
+};
+
+return [context];
+
+─── 13B. LLM AGENT ───
+System Prompt:
+"Eres Talia, asistente operativa de soul:23. Recibes un payload de FEEDBACK POST-PROYECTO.\n\nINSTRUCCIONES:\n1. Analizar NPS_Category y ratings.\n2. Si NPS es detractor => alerta interna inmediata.\n3. Si NPS es promoter => crear follow-up para testimonio/caso de éxito.\n4. Generar email de cierre/agradecimiento para el CLIENTE.\n5. Generar email interno con lectura de NPS, entrega, comunicación y oportunidad de segunda fase.\n\nREGLAS:\n- detractor => ALERTA + seguimiento inmediato.\n- passive => Seguimiento en 7 días.\n- promoter => Solicitar testimonio y caso de éxito.\n\nOUTPUT (JSON):\n{\"client_email_html\", \"internal_email_html\", \"crm_summary\", \"priority\", \"tags\", \"follow_up\", \"alerts\", \"nps_category\", \"testimonial_request\": boolean}"
+
+─── 13C. EMAIL INTERNO ───
+Subject: 📊 NPS {{ $json.nps_category }}: {{ $json.project_name }} — Score {{ $json.nps_score }}/10
+Body: {{ $json.internal_email_html }}
+
+─── 13D. EMAIL EXTERNO ───
+CONDICIÓN: {{ $json.client_email }} existe
+To: {{ $json.client_email }}
+Subject: {{ $json.email_subject || 'Gracias por tu feedback | soul:23' }}
+Body: {{ $json.client_email_html }}
+
+─── 13E. TELEGRAM ALERTA ───
+CONDICIÓN: {{ $json.is_detractor }} == true
+To: {{ $env.TELEGRAM_CHAT_ID_ALERTS }}
+Text: "🚨 DETRACTOR DETECTADO\n\nProyecto: {{ $json.project_name }}\nNPS: {{ $json.nps_score }}/10 ({{ $json.nps_category }})\nEntrega: {{ $json.delivery_score }}\n\n{{ $json.crm_summary }}"
+
+─── 13F. GOOGLE SHEETS ───
+Sheet: Proyectos
+Values: fecha, proyecto, nps, categoria_nps, entrega, alerta, prioridad, seguimiento, testimonio
+
+═══════════════════════════════════════════════════════════════════
+14. RAMA: SURVEY_ABANDONED
+═══════════════════════════════════════════════════════════════════
+
+─── 14A. CODE NODE ───
+const data = $input.first().json;
+const answers = data.answers_flat || {};
+const answeredCount = data.raw_payload?.metadata?.answeredCount || 0;
+const surveyId = data.raw_payload?.metadata?.surveyId || 'unknown';
+
+const context = {
+  ...data,
+  case_type: 'SURVEY_ABANDONED',
+  answered_count: answeredCount,
+  survey_id: surveyId,
+  reason: data.raw_payload?.metadata?.reason || 'user_navigated_away',
+  started_at: data.raw_payload?.metadata?.startedAt || '',
+  // Si tiene email, podemos intentar recuperar
+  recovery_possible: !!(answers.email || data.recipient_email),
+};
+
+return [context];
+
+─── 14B. LLM AGENT ───
+System Prompt:
+"Eres Talia, asistente operativa de soul:23. Recibes un payload de ENCUESTA ABANDONADA.\n\nINSTRUCCIONES:\n1. Analizar answeredCount vs expected para medir fricción.\n2. Generar email interno con análisis de abandono.\n3. Si recovery_possible = true, generar email de recuperación breve.\n4. Extraer: posible punto de fricción, recomendación de UX.\n\nOUTPUT (JSON):\n{\"recovery_email_html\", \"internal_email_html\", \"crm_summary\", \"priority\", \"tags\", \"friction_point\", \"ux_recommendation\"}"
+
+─── 14C. EMAIL INTERNO ───
+Subject: ⚠️ Abandono: {{ $json.survey_id }} — {{ $json.answered_count }} respuestas
+Body: {{ $json.internal_email_html }}
+
+─── 14D. EMAIL DE RECUPERACIÓN ───
+CONDICIÓN: {{ $json.recovery_possible }} == true
+To: {{ $json.recipient_email }}
+Subject: ¿Necesitas ayuda? | soul:23
+Body: {{ $json.recovery_email_html }}
+
+─── 14E. TELEGRAM ───
+To: {{ $env.TELEGRAM_CHAT_ID_TEAM }}
+Text: "⚠️ Encuesta abandonada\n\nSurvey: {{ $json.survey_id }}\nRespuestas: {{ $json.answered_count }}\nRazón: {{ $json.reason }}\n\n{{ $json.crm_summary }}"
+
+─── 14F. GOOGLE SHEETS ───
+Sheet: Abandonos
+Values: fecha, survey_id, respuestas, razon, recuperable, punto_friccion, recomendacion
+
+═══════════════════════════════════════════════════════════════════
+15. NODO DE FALLBACK LLM (Error Handling)
+═══════════════════════════════════════════════════════════════════
+
+Si el nodo LLM principal falla, conectar a un nodo HTTP Request con el fallback provider.
+
+Tipo: HTTP Request
+URL: 
+  IF fallback_provider == 'openrouter_free': https://openrouter.ai/api/v1/chat/completions
+  ELSE: https://api.openai.com/v1/chat/completions
+
+Headers:
+  Authorization: Bearer {{ fallback_api_key }}
+
+Body: Mismo payload que el intento anterior, pero con el modelo fallback.
+
+Si también falla el fallback:
+→ Enviar email interno con asunto: "[FALLO LLM] No se pudo procesar {{ $json.type }}"
+→ Guardar en Google Sheets tabla "Errores"
+→ Continuar con emails basados en datos crudos (sin análisis IA)
+
+═══════════════════════════════════════════════════════════════════
+16. CONFIGURACIÓN DE EMAILS (SMTP)
+═══════════════════════════════════════════════════════════════════
+
+Proveedor recomendado: Gmail con App Password o SendGrid
+
+Nodo: Send Email (SMTP)
+Host: {{ $env.SMTP_HOST }}
+Port: {{ $env.SMTP_PORT }}
+Secure: TLS (STARTTLS)
+User: {{ $env.SMTP_USER }}
+Password: {{ $env.SMTP_PASS }}
+
+From: {{ $env.EMAIL_FROM }}
+Reply-To: {{ $env.EMAIL_REPLY_TO }}
+
+═══════════════════════════════════════════════════════════════════
+17. CONFIGURACIÓN DE TELEGRAM
+═══════════════════════════════════════════════════════════════════
+
+Nodo: HTTP Request
+Método: POST
+URL: https://api.telegram.org/bot{{$env.TELEGRAM_BOT_TOKEN}}/sendMessage
+
+Body (JSON):
+{
+  "chat_id": "{{ chat_id }}",
+  "text": "{{ mensaje }}",
+  "parse_mode": "HTML",
+  "disable_web_page_preview": true
+}
+
+═══════════════════════════════════════════════════════════════════
+18. RESUMEN DE RAMAS Y ALERTAS
+═══════════════════════════════════════════════════════════════════
+
+┌─────────────────────┬──────────────┬─────────────┬──────────────┐
+│ Rama                │ Email Externo│ Email Interno│ Telegram     │
+├─────────────────────┼──────────────┼─────────────┼──────────────┤
+│ contact_inquiry     │ Sí (si email)│ Siempre     │ High priority│
+│ client_onboarding   │ Sí (si email)│ Siempre     │ Siempre     │
+│ service_feedback    │ Sí (si email)│ Siempre     │ Si alerta   │
+│ event_rsvp          │ Sí (si email)│ Siempre     │ Siempre     │
+│ staff_evaluation    │ NO (sensible)│ Siempre     │ Si alerta   │
+│ project_feedback    │ Sí (si email)│ Siempre     │ Si detractor│
+│ survey_abandoned    │ Sí (recupera)│ Siempre     │ Siempre     │
+└─────────────────────┴──────────────┴─────────────┴──────────────┘
+
+═══════════════════════════════════════════════════════════════════
+19. CONTACTOS Y RECURSOS
+═══════════════════════════════════════════════════════════════════
+
+- Contacto general: hi@soul23.mx
+- Asistente / citas: talia@soul23.mx
+- Privacidad: privacy@soul23.mx
+- Sitio: https://soul23.mx
+- Logo para emails: https://soul23.mx/images/logo_soul23_cream.svg
+- CTA llamada: https://calendly.com/alma_dev/30min
+
+═══════════════════════════════════════════════════════════════════
+20. NOTAS FINALES
+═══════════════════════════════════════════════════════════════════
+
+1. El frontend (soul23.mx) ya envía llm_config, ai_instructions y templates automáticamente.
+2. Si un campo falta, el nodo Data Formatter usa defaults para no romper el flujo.
+3. Todos los emails internos van a hi@soul23.mx.
+4. Las alertas van a @soul23_alerts. Los resúmenes diarios a @soul23_team.
+5. Google Sheets sirve como CRM/backup. Cada rama va a su hoja.
+6. Si el LLM falla 2 veces (principal + fallback), se envía email interno con datos crudos.
+7. Para templates HTML: n8n debe tener el HTML base pegado en nodos de email o usar nodos de archivo.

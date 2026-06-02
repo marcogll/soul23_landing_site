@@ -20,6 +20,17 @@ export default function PrivacyPolicy() {
 
         <div className="space-y-8 text-sm text-cream-muted leading-relaxed">
           <section>
+            <h2 className="font-serif font-semibold text-cream text-lg mb-2">Protección de datos basada en necesidades reales</h2>
+            <p className="mb-8 text-cream-muted/70 text-xs leading-relaxed">
+              En soul:23, la protección de datos no es un checklist legal, sino una decisión operativa 
+              basada en las necesidades reales de cada negocio. Recopilamos solo lo estrictamente necesario 
+              para operar, proteger y mejorar los sistemas que construimos. Toda la data que mostramos en 
+              nuestros materiales públicos ha sido alterada sintéticamente para preservar la privacidad 
+              de nuestros clientes.
+            </p>
+          </section>
+
+          <section>
             <h2 className="font-serif font-semibold text-cream text-lg mb-3">1. Identidad del responsable</h2>
             <p>
               El responsable del tratamiento de los datos personales es <strong className="text-cream">soul:23</strong>, 
@@ -65,10 +76,20 @@ export default function PrivacyPolicy() {
 
           <section>
             <h2 className="font-serif font-semibold text-cream text-lg mb-3">5. Compartición de datos</h2>
-            <p>
+            <p className="mb-3">
               No vendemos ni alquilamos tus datos personales. Solo compartimos información con proveedores 
               de servicios esenciales (hosting, analytics, comunicación) bajo estrictos acuerdos de confidencialidad 
               y solo cuando es necesario para la prestación del servicio.
+            </p>
+            <p className="mb-3">
+              No compartimos datos con terceros salvo cuando la ley lo ordene expresamente mediante 
+              mandamiento judicial o requerimiento de autoridad competente.
+            </p>
+            <p>
+              La información que mostramos en demos, dashboards y casos de uso de nuestro sitio web 
+              ha sido alterada sintéticamente. No corresponde a datos reales de clientes ni de sus 
+              operaciones. Toda la data utilizada en materiales promocionales es generada con fines 
+              ilustrativos y de protección a la privacidad.
             </p>
           </section>
 

@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLanguage } from '../contexts/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,6 +34,24 @@ const projects = [
     status: 'online',
   },
   {
+    name: 'Soy tu Conta',
+    type: 'Contabilidad · Landing',
+    what: 'Landing page profesional para contadora pública con servicios, paquetes de precios, testimonios y contacto directo.',
+    result: 'Convierte visitantes en clientes con claridad fiscal y precios transparentes desde el primer scroll.',
+    image: '/images/soytuconta.png',
+    link: 'https://soytuconta.soul23.mx/',
+    status: 'online',
+  },
+  {
+    name: 'Marco Gallegos · Portfolio',
+    type: 'Developer · Engineer · Portfolio',
+    what: 'Sitio personal que integra hiring automation, AI survey service, web development, process optimization y herramientas utilitarias como generador de QR con token y descargador de videos.',
+    result: 'Conecta perfiles de desarrollador e ingeniero de procesos en un solo lugar. Herramientas útiles + servicios profesionales en un portfolio que trabaja solo.',
+    image: '/images/portfolio_mg.png',
+    link: 'https://marco.soul23.cloud/',
+    status: 'online',
+  },
+  {
     name: 'Gloria',
     type: 'Salud · Sitio web',
     what: 'Presencia digital clara para servicios profesionales y contacto directo.',
@@ -59,10 +78,29 @@ const projects = [
     link: 'https://h40uopuz4q1ymockyok4mrjn.soul23.cloud/',
     status: 'online',
   },
+  {
+    name: 'Massive Dynamic',
+    type: 'Time & Attendance · Dashboard',
+    what: 'Panel de control de personal: asistencia, horarios, retardos, horas extra y cumplimiento de la reforma de 40 hrs.',
+    result: 'Data sintética basada en un cliente real. Protección de datos del caso original.',
+    image: '/images/massive-dynamic-dashboard.png',
+    link: 'https://s4d4vlibmubd7vsqanml5u45.soul23.cloud/',
+    status: 'online',
+  },
+  {
+    name: 'CAROL · Assessment System',
+    type: 'Manufactura · Competencias · Moldeo',
+    what: 'Sistema de evaluación técnica para moldeo por inyección con routing inteligente, 3 niveles de dificultad y reporte PDF ejecutivo por categoría.',
+    result: 'Captura el conocimiento real de operadores, técnicos e ingenieros. Diagnóstico objetivo + plan de desarrollo personalizado.',
+    image: '/images/carol_welcome.png',
+    link: 'https://carol.soul23.cloud/',
+    status: 'online',
+  },
 ]
 
 export default function Section4Projects() {
   const sectionRef = useRef<HTMLElement>(null)
+  const { t } = useLanguage()
 
   useLayoutEffect(() => {
     const section = sectionRef.current
@@ -82,10 +120,10 @@ export default function Section4Projects() {
     <section ref={sectionRef} id="proyectos" className="relative w-full bg-dark-secondary z-40">
       <div className="max-w-5xl mx-auto px-6 py-24 lg:py-32">
         <h2 className="reveal font-serif font-semibold text-cream text-2xl lg:text-3xl text-center mb-4" style={{ opacity: 0 }}>
-          Negocios que ya operan solos
+          {t('proyectos.titulo')}
         </h2>
         <p className="reveal text-cream-muted text-sm text-center mb-14" style={{ opacity: 0 }}>
-          Historias reales de negocios como el tuyo.
+          {t('proyectos.sub')}
         </p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -97,7 +135,7 @@ export default function Section4Projects() {
                 <div className="absolute left-3 top-3 flex items-center gap-2 border border-cream/15 bg-dark-primary/75 px-2.5 py-1.5 backdrop-blur-sm">
                   <span className={`h-2 w-2 rounded-full ${project.status === 'online' ? 'bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.55)]' : 'bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.5)]'}`} />
                   <span className="font-mono text-[8px] uppercase tracking-[0.14em] text-cream">
-                    {project.status === 'online' ? 'online' : 'en ajuste'}
+                    {project.status === 'online' ? 'online' : t('proyectos.status.adjusting')}
                   </span>
                 </div>
               </div>

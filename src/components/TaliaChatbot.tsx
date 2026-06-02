@@ -22,6 +22,41 @@ interface LeadData {
 
 type LeadField = 'email' | 'phone' | null
 
+const projectLinks = [
+  {
+    label: 'Vanity Experience',
+    url: 'https://vanityexperience.mx/',
+    summary: 'Sitio principal para marca, experiencia y servicios de belleza.',
+  },
+  {
+    label: 'Cursos Vanity',
+    url: 'https://cursos.vanityexperience.mx/',
+    summary: 'Academia y cursos con flujo de venta y registro.',
+  },
+  {
+    label: 'Dra. DFG',
+    url: 'https://dradfg.soul23.mx/',
+    summary: 'Sitio para consultorio medico con enfoque en confianza y conversion.',
+  },
+  {
+    label: 'Gloria',
+    url: 'https://gloria.soul23.mx/',
+    summary: 'Proyecto en ajuste para presencia digital y captacion.',
+  },
+  {
+    label: 'Dashboard Beauty',
+    url: 'https://agytao39e2jhy56eqobo1fqg.soul23.cloud/',
+    summary: 'Dashboard de citas, ventas, personal y operacion para negocio beauty.',
+  },
+  {
+    label: 'Dashboard Business',
+    url: 'https://h40uopuz4q1ymockyok4mrjn.soul23.cloud/',
+    summary: 'Dashboard operativo para revisar indicadores, procesos y rendimiento.',
+  },
+]
+
+const projectOptions = projectLinks.map((project) => project.label)
+
 const taliaFlows: Record<string, Message[]> = {
   welcome: [
     { id: 1, from: 'talia', text: '¡Hola! Soy Talia, asistente de soul:23.' },
@@ -81,7 +116,10 @@ const taliaFlows: Record<string, Message[]> = {
     { id: 25, from: 'talia', text: 'Puedo dejar tus datos listos para el equipo y mandar un resumen al webhook, o puedes agendar directo.', options: ['Dejar mis datos', 'Agendar llamada', 'Contactar por WhatsApp'], delay: 1200 },
   ],
   just_looking: [
-    { id: 26, from: 'talia', text: '¡Perfecto! Puedes explorar el sitio. Si tienes alguna pregunta, aquí estaré. También puedes probar las demos de dashboard y bots más abajo. 👇', options: ['Ver demo dashboard', 'Ver demo bots', 'Gracias'], delay: 600 },
+    { id: 26, from: 'talia', text: 'Perfecto. Si solo quieres explorar, puedo pasarte proyectos reales, demos o precios para que veas como trabaja soul:23.', options: ['Ver proyectos', 'Ver demos', 'Ver precios', 'Gracias'], delay: 600 },
+  ],
+  project_list: [
+    { id: 27, from: 'talia', text: 'Estos son algunos proyectos y demos activos. Elige uno y te mando el link directo.', options: [...projectOptions, 'Ver demos', 'Ver precios'], delay: 600 },
   ],
 }
 
@@ -213,6 +251,21 @@ export default function TaliaChatbot() {
 
     // Route to next flow
     setTimeout(() => {
+      const selectedProject = projectLinks.find((project) => project.label === option)
+      if (selectedProject) {
+        setMessages(prev => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            from: 'talia',
+            text: `${selectedProject.label}: ${selectedProject.summary}\n${selectedProject.url}`,
+            options: ['Ver otros proyectos', 'Agendar llamada', 'Contactar por WhatsApp'],
+          },
+        ])
+        window.open(selectedProject.url, '_blank', 'noopener,noreferrer')
+        return
+      }
+
       switch (option) {
         case 'Quiero cotizar un proyecto':
         case 'Empezar':
@@ -221,6 +274,18 @@ export default function TaliaChatbot() {
           break
         case 'Solo estoy viendo':
           setCurrentFlow('just_looking')
+          break
+        case 'Ver proyectos':
+        case 'Ver otros proyectos':
+          setCurrentFlow('project_list')
+          break
+        case 'Ver demos':
+          setIsOpen(false)
+          window.location.href = '/demos'
+          break
+        case 'Ver precios':
+          setIsOpen(false)
+          window.location.href = '/precios'
           break
         case 'Consultorio médico / Clínica':
         case 'Salón de belleza / Spa':
@@ -442,10 +507,17 @@ export default function TaliaChatbot() {
 
   const renderText = (text: string) => {
     // Simple markdown-like bold
-    const parts = text.split(/(\*\*.*?\*\*)/g)
+    const parts = text.split(/(\*\*.*?\*\*|https?:\/\/[^\s]+)/g)
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={i} className="text-cream font-semibold">{part.slice(2, -2)}</strong>
+      }
+      if (/^https?:\/\//.test(part)) {
+        return (
+          <a key={i} href={part} target="_blank" rel="noreferrer" className="text-gold underline underline-offset-4 break-all">
+            {part}
+          </a>
+        )
       }
       return <span key={i}>{part}</span>
     })

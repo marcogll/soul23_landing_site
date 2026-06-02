@@ -17,140 +17,51 @@ import {
   enrichContactAnswers,
   getContactTags,
 } from '@/services/contactSurveyPayload'
+import { useLanguage } from '../contexts/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const contactConfig: SurveyConfig = {
-  id: 's23_homepage_contact',
-  name: 'Mini diagnóstico de encuestas',
-  welcomeCard: {
-    headline: 'Cuéntanos qué quieres medir',
-    subheader: 'Con tus respuestas armamos un primer reporte para tu correo y vemos si conviene una llamada.',
-    buttonLabel: 'Empezar',
-    enabled: false,
-  },
-  showProgress: true,
-  questions: [
-    {
-      id: 'tipo_negocio',
-      type: 'multipleChoiceSingle',
-      headline: 'Primero: ¿en qué giro está tu negocio?',
-      subheader: 'Esto cambia el lenguaje, métricas y preguntas que conviene usar.',
-      required: true,
-      choices: CONTACT_SECTOR_CHOICES,
+function buildContactConfig(t: (k: string) => string): SurveyConfig {
+  return {
+    id: 's23_homepage_contact',
+    name: t('contacto.config.name'),
+    welcomeCard: {
+      headline: t('contacto.config.welcome.headline'),
+      subheader: t('contacto.config.welcome.subheader'),
+      buttonLabel: t('contacto.config.welcome.buttonLabel'),
+      enabled: false,
     },
-    {
-      id: 'tipo_encuesta',
-      type: 'multipleChoiceMulti',
-      headline: 'Ahora elige qué tipo de encuesta quieres hacer',
-      subheader: 'Puedes elegir más de una. Esto se manda al webhook como selección completa para generar emails y reporte.',
-      required: true,
-      choices: CONTACT_SURVEY_TYPE_CHOICES,
+    showProgress: true,
+    questions: [
+      { id: 'tipo_negocio', type: 'multipleChoiceSingle', headline: t('contacto.q.tipo_negocio.headline'), subheader: t('contacto.q.tipo_negocio.subheader'), required: true, choices: CONTACT_SECTOR_CHOICES },
+      { id: 'tipo_encuesta', type: 'multipleChoiceMulti', headline: t('contacto.q.tipo_encuesta.headline'), subheader: t('contacto.q.tipo_encuesta.subheader'), required: true, choices: CONTACT_SURVEY_TYPE_CHOICES },
+      { id: 'nombre', type: 'openText', headline: t('contacto.q.nombre.headline'), required: true, placeholder: t('contacto.q.nombre.placeholder') },
+      { id: 'negocio', type: 'openText', headline: t('contacto.q.negocio.headline'), required: true, placeholder: t('contacto.q.negocio.placeholder') },
+      { id: 'email', type: 'openText', inputType: 'email', headline: t('contacto.q.email.headline'), required: true, placeholder: t('contacto.q.email.placeholder'), validation: { pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', message: t('contacto.q.email.validation') } },
+      { id: 'telefono', type: 'openText', inputType: 'phone', headline: t('contacto.q.telefono.headline'), required: true, placeholder: t('contacto.q.telefono.placeholder'), validation: { pattern: '^\\d{10,13}$', message: t('contacto.q.telefono.validation') } },
+      { id: 'canal_encuesta', type: 'multipleChoiceMulti', headline: t('contacto.q.canal.headline'), required: true, choices: CONTACT_CHANNEL_CHOICES },
+      { id: 'audiencia_encuesta', type: 'multipleChoiceMulti', headline: t('contacto.q.audiencia.headline'), subheader: t('contacto.q.audiencia.subheader'), required: true, choices: CONTACT_AUDIENCE_CHOICES },
+      { id: 'momento_encuesta', type: 'multipleChoiceMulti', headline: t('contacto.q.momento.headline'), subheader: t('contacto.q.momento.subheader'), required: true, choices: CONTACT_MOMENT_CHOICES },
+      { id: 'necesidad', type: 'multipleChoiceMulti', headline: t('contacto.q.necesidad.headline'), required: true, choices: CONTACT_AUTOMATION_CHOICES.filter((c) => ['email_cliente', 'alertas', 'dashboard', 'whatsapp_followup', 'crm', 'reporte_semanal'].includes(c.id)) },
+      { id: 'urgencia', type: 'multipleChoiceSingle', headline: t('contacto.q.urgencia.headline'), required: true, choices: CONTACT_URGENCY_CHOICES },
+      { id: 'decision_principal', type: 'openText', headline: t('contacto.q.decision.headline'), subheader: t('contacto.q.decision.subheader'), required: true, longAnswer: true, placeholder: t('contacto.q.decision.placeholder') },
+      { id: 'pregunta_clave', type: 'openText', headline: t('contacto.q.pregunta_clave.headline'), subheader: t('contacto.q.pregunta_clave.subheader'), required: false, longAnswer: true, placeholder: t('contacto.q.pregunta_clave.placeholder') },
+      { id: 'alerta_critica', type: 'openText', headline: t('contacto.q.alerta_critica.headline'), subheader: t('contacto.q.alerta_critica.subheader'), required: false, longAnswer: true, placeholder: t('contacto.q.alerta_critica.placeholder') },
+      { id: 'descripcion', type: 'openText', headline: t('contacto.q.descripcion.headline'), subheader: t('contacto.q.descripcion.subheader'), required: false, longAnswer: true, placeholder: t('contacto.q.descripcion.placeholder') },
+    ],
+    ending: {
+      headline: t('contacto.ending.headline'),
+      subheader: t('contacto.ending.subheader'),
     },
-    { id: 'nombre', type: 'openText', headline: '¿Cómo te llamas?', required: true, placeholder: 'Tu nombre' },
-    { id: 'negocio', type: 'openText', headline: '¿Cómo se llama tu negocio?', required: true, placeholder: 'Nombre del negocio' },
-    {
-      id: 'email',
-      type: 'openText',
-      inputType: 'email',
-      headline: '¿A qué correo enviamos el reporte?',
-      required: true,
-      placeholder: 'correo@ejemplo.com',
-      validation: { pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', message: 'Correo electrónico inválido.' },
-    },
-    {
-      id: 'telefono',
-      type: 'openText',
-      inputType: 'phone',
-      headline: '¿Tu WhatsApp?',
-      required: true,
-      placeholder: '8441234567',
-      validation: { pattern: '^\\d{10,13}$', message: 'Debe tener entre 10 y 13 dígitos.' },
-    },
-    {
-      id: 'canal_encuesta',
-      type: 'multipleChoiceMulti',
-      headline: '¿Dónde quieres levantar respuestas?',
-      required: true,
-      choices: CONTACT_CHANNEL_CHOICES,
-    },
-    {
-      id: 'audiencia_encuesta',
-      type: 'multipleChoiceMulti',
-      headline: '¿Quién va a responder esa encuesta?',
-      subheader: 'Esto ayuda a que el correo no suene genérico y use el contexto correcto.',
-      required: true,
-      choices: CONTACT_AUDIENCE_CHOICES,
-    },
-    {
-      id: 'momento_encuesta',
-      type: 'multipleChoiceMulti',
-      headline: '¿En qué momento quieres pedir la respuesta?',
-      subheader: 'El momento define automatizaciones, recordatorios y alertas.',
-      required: true,
-      choices: CONTACT_MOMENT_CHOICES,
-    },
-    {
-      id: 'necesidad',
-      type: 'multipleChoiceMulti',
-      headline: '¿Qué debería pasar después de responder?',
-      required: true,
-      choices: CONTACT_AUTOMATION_CHOICES.filter((choice) => ['email_cliente', 'alertas', 'dashboard', 'whatsapp_followup', 'crm', 'reporte_semanal'].includes(choice.id)),
-    },
-    {
-      id: 'urgencia',
-      type: 'multipleChoiceSingle',
-      headline: '¿Cuándo te gustaría tenerlo funcionando?',
-      required: true,
-      choices: CONTACT_URGENCY_CHOICES,
-    },
-    {
-      id: 'decision_principal',
-      type: 'openText',
-      headline: '¿Qué decisión quieres poder tomar con esas respuestas?',
-      subheader: 'Ejemplo: saber por qué cancelan, qué curso vender más, qué empleado necesita apoyo.',
-      required: true,
-      longAnswer: true,
-      placeholder: 'Quiero decidir...',
-    },
-    {
-      id: 'pregunta_clave',
-      type: 'openText',
-      headline: '¿Cuál es la pregunta que no te puedes quitar de la cabeza?',
-      subheader: 'La usaremos como centro del reporte que recibe el cliente.',
-      required: false,
-      longAnswer: true,
-      placeholder: 'Necesito saber si...',
-    },
-    {
-      id: 'alerta_critica',
-      type: 'openText',
-      headline: '¿Qué respuesta debería prender una alerta inmediata?',
-      subheader: 'Ejemplo: mala atención, cancelación, queja grave, empleado saturado, lead urgente.',
-      required: false,
-      longAnswer: true,
-      placeholder: 'Alertar si alguien responde...',
-    },
-    {
-      id: 'descripcion',
-      type: 'openText',
-      headline: '¿Algo más que deba saber Talia para personalizar el reporte?',
-      subheader: 'Contexto operativo, sucursales, volumen, problema actual o cómo hoy levantan feedback.',
-      required: false,
-      longAnswer: true,
-      placeholder: 'Hoy lo hacemos así...',
-    },
-  ],
-  ending: {
-    headline: 'Recibimos tu diagnóstico',
-    subheader: 'El webhook generará el reporte y lo enviará al correo capturado cuando esté configurado.',
-  },
+  }
 }
 
 export default function Section9Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const [submitted, setSubmitted] = useState(false)
   const [contactOpen, setContactOpen] = useState(true)
+  const { t } = useLanguage()
+  const contactConfig = buildContactConfig(t)
 
   useLayoutEffect(() => {
     const section = sectionRef.current
@@ -190,7 +101,7 @@ export default function Section9Contact() {
         userAgent: navigator.userAgent,
         source: 'homepage_contact_mini_survey',
         form_type: 'homepage_contact_mini_survey',
-        survey_name: 'Mini diagnóstico de encuestas',
+        survey_name: t('contacto.config.name'),
         language: navigator.language,
         phoneNumber: (answers.telefono as string) || undefined,
       },
@@ -205,16 +116,16 @@ export default function Section9Contact() {
     <section ref={sectionRef} id="contacto" className="relative w-full bg-dark-secondary py-24 px-6 z-90" style={{ zIndex: 90 }}>
       <div className="max-w-4xl mx-auto">
         <h2 className="reveal text-center font-serif font-semibold text-cream mb-4" style={{ fontSize: 'clamp(24px, 3vw, 42px)', opacity: 0 }}>
-          Platicanos de tu caso
+          {t('contacto.titulo')}
         </h2>
         <p className="reveal text-center text-cream-muted text-sm max-w-md mx-auto mb-14" style={{ opacity: 0 }}>
-          Responde el mini diagnóstico. El webhook recibe todo con tipo de formulario y datos listos para generar reporte.
+          {t('contacto.sub')}
         </p>
 
         <div className="grid lg:grid-cols-5 gap-12">
           {/* Left - Contact */}
           <div className="reveal lg:col-span-2" style={{ opacity: 0 }}>
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-muted mb-6 block">Habla con nosotros</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-cream-muted mb-6 block">{t('contacto.habla')}</span>
 
             <div className="space-y-6">
               <div className="flex items-start gap-4">
@@ -222,9 +133,9 @@ export default function Section9Contact() {
                   <Mail className="w-4 h-4 text-gold" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream-muted mb-1">Email</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream-muted mb-1">{t('contacto.email.label')}</p>
                   <p className="text-cream text-sm mb-1">hi@soul23.mx</p>
-                  <a href="mailto:hi@soul23.mx" className="font-mono text-xs uppercase tracking-[0.14em] text-gold hover:text-gold-light transition-colors">Escribir →</a>
+                  <a href="mailto:hi@soul23.mx" className="font-mono text-xs uppercase tracking-[0.14em] text-gold hover:text-gold-light transition-colors">{t('contacto.email.cta')}</a>
                 </div>
               </div>
 
@@ -233,9 +144,9 @@ export default function Section9Contact() {
                   <MessageCircle className="w-4 h-4 text-gold" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream-muted mb-1">WhatsApp</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream-muted mb-1">{t('contacto.whatsapp.label')}</p>
                   <p className="text-cream text-sm mb-1">+52 1 844 227 8408</p>
-                  <a href="https://wa.me/528442278408?text=Hola,%20me%20gustaría%20plantear%20un%20caso" target="_blank" rel="noopener noreferrer" className="font-mono text-xs uppercase tracking-[0.14em] text-gold hover:text-gold-light transition-colors">Abrir chat →</a>
+                  <a href="https://wa.me/528442278408?text=Hola,%20me%20gustaría%20plantear%20un%20caso" target="_blank" rel="noopener noreferrer" className="font-mono text-xs uppercase tracking-[0.14em] text-gold hover:text-gold-light transition-colors">{t('contacto.whatsapp.cta')}</a>
                 </div>
               </div>
 
@@ -244,9 +155,9 @@ export default function Section9Contact() {
                   <MessageCircle className="w-4 h-4 text-gold" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream-muted mb-1">Talia · citas</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-cream-muted mb-1">{t('contacto.talia.label')}</p>
                   <p className="text-cream text-sm mb-1">talia@soul23.mx</p>
-                  <a href="mailto:talia@soul23.mx" className="font-mono text-xs uppercase tracking-[0.14em] text-gold hover:text-gold-light transition-colors">Escribir →</a>
+                  <a href="mailto:talia@soul23.mx" className="font-mono text-xs uppercase tracking-[0.14em] text-gold hover:text-gold-light transition-colors">{t('contacto.talia.cta')}</a>
                 </div>
               </div>
             </div>
@@ -271,7 +182,7 @@ export default function Section9Contact() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 py-3 px-6 bg-gold text-dark-primary font-mono text-[11px] uppercase tracking-[0.12em] hover:bg-gold-light transition-colors"
                 >
-                  Agendar llamada
+                  {t('contacto.agendar')}
                 </a>
               </div>
             ) : contactOpen ? (
@@ -284,17 +195,17 @@ export default function Section9Contact() {
             ) : (
               <div className="bg-dark-primary border border-cream/10 p-8 md:p-10 shadow-2xl text-center">
                 <h3 className="font-serif font-semibold text-cream text-2xl mb-3">
-                  Diagnóstico cerrado
+                  {t('contacto.closed.title')}
                 </h3>
                 <p className="text-cream-muted text-[14px] leading-relaxed mb-8">
-                  Puedes volver a abrirlo cuando quieras para elegir giro, tipo de encuesta y automatizaciones.
+                  {t('contacto.closed.desc')}
                 </p>
                 <button
                   type="button"
                   onClick={() => setContactOpen(true)}
                   className="inline-flex items-center gap-2 py-3 px-6 bg-gold text-dark-primary font-mono text-[11px] uppercase tracking-[0.12em] hover:bg-gold-light transition-colors"
                 >
-                  Abrir diagnóstico
+                  {t('contacto.closed.btn')}
                 </button>
               </div>
             )}

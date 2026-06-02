@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:hostinger": "npm run build && node -e \"require('fs').writeFileSync('dist/.htaccess', '<IfModule mod_rewrite.c>\\n  RewriteEngine On\\n  RewriteBase /\\n  RewriteRule ^index\\\\.html$ - [L]\\n  RewriteCond %{REQUEST_FILENAME} !-f\\n  RewriteCond %{REQUEST_FILENAME} !-d\\n  RewriteRule . /index.html [L]\\n</IfModule>\\n')\" && echo '✅ Build + .htaccess generated in dist/'"
+    "build:hostinger": "npm run build && echo '✅ Build generated in hostinger/ .htaccess preserved from public/' "
   },
   "dependencies": {
     "@formbricks/js": "^4.4.0",

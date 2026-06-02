@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { useLanguage } from '../contexts/LanguageContext'
 
 export default function Section1Hero() {
+  const { t } = useLanguage()
   const logoRef = useRef<HTMLDivElement>(null)
   const logoMarkRef = useRef<HTMLImageElement>(null)
   const headlineRef = useRef<HTMLHeadingElement>(null)
@@ -38,8 +40,8 @@ export default function Section1Hero() {
             <img
               ref={logoMarkRef}
               src="/images/soul23_logo_full.svg"
-              alt="soul:23"
-              className="h-10 md:h-14 lg:h-16 w-auto opacity-95 invert"
+              alt={t('hero.img.soul23')}
+              className="h-10 md:h-14 lg:h-16 w-auto opacity-95 brightness-0 invert"
             />
           </div>
 
@@ -48,8 +50,8 @@ export default function Section1Hero() {
             className="font-serif font-semibold text-cream leading-[1.08] mb-6"
             style={{ fontSize: 'clamp(40px, 7vw, 84px)', opacity: 0 }}
           >
-            Tu negocio puede<br />
-            <span className="text-gold">trabajar solo.</span>
+            {t('hero.titulo1')}<br />
+            <span className="text-gold">{t('hero.titulo2')}</span>
           </h1>
 
           <p
@@ -57,8 +59,7 @@ export default function Section1Hero() {
             className="text-cream-muted text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-10"
             style={{ opacity: 0 }}
           >
-            Nosotros conectamos tus citas, ventas y operación en un solo sistema.
-            Tú dejas de hacer todo a mano. Tu negocio empieza a fluir.
+            {t('hero.sub')}
           </p>
 
           <div ref={ctaRef} className="flex flex-wrap justify-center lg:justify-start gap-4" style={{ opacity: 0 }}>
@@ -67,7 +68,7 @@ export default function Section1Hero() {
               onClick={(e) => { e.preventDefault(); document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' }) }}
               className="pill-accent"
             >
-              Ver cómo funciona
+              {t('hero.btn1')}
             </a>
             <a
               href="https://wa.me/528442278408?text=Hola,%20quiero%20saber%20cómo%20hacer%20que%20mi%20negocio%20trabaje%20solo"
@@ -75,7 +76,7 @@ export default function Section1Hero() {
               rel="noopener noreferrer"
               className="pill text-cream-muted hover:text-gold"
             >
-              Hablar por WhatsApp
+              {t('hero.btn2')}
             </a>
           </div>
         </div>
@@ -85,7 +86,7 @@ export default function Section1Hero() {
             <div className="absolute inset-x-0 top-8 overflow-hidden border border-cream/10 bg-dark-secondary shadow-2xl">
               <img
                 src="/images/cursos_vanity.png"
-                alt="Cursos de Vanity Academy"
+                alt={t('hero.img.cursos')}
                 className="h-72 lg:h-[360px] w-full object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-primary/45 via-transparent to-transparent" />
@@ -93,30 +94,30 @@ export default function Section1Hero() {
 
             <div className="absolute right-0 top-0 w-[56%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/project-dashboard.jpg"
-                alt="Dashboard visual de operación"
+                src="/images/industry-dashboard.png"
+                alt={t('hero.img.dashboard')}
                 className="h-40 lg:h-52 w-full object-cover object-top"
               />
             </div>
 
             <div className="absolute left-0 bottom-8 w-[44%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/dradfg.jpg"
-                alt="Sitio de Dra. DFG"
+                src="/images/soytuconta.png"
+                alt={t('hero.img.sitio')}
                 className="h-32 lg:h-40 w-full object-cover object-top"
               />
             </div>
 
             <div className="absolute right-6 bottom-0 w-[38%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/n8n.png"
-                alt="Automatización n8n"
+                src="/images/timeattendance.png"
+                alt={t('hero.img.reporte')}
                 className="h-28 lg:h-36 w-full object-cover object-top"
               />
             </div>
 
             <div className="absolute left-8 top-2 border border-gold/30 bg-dark-primary/85 px-3 py-2 backdrop-blur-sm">
-              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold">vanity academy · dashboard · n8n</p>
+              <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-gold">{t('hero.floating')}</p>
             </div>
           </div>
         </div>

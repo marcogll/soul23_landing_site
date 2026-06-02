@@ -305,6 +305,7 @@ export default function SurveyServicePage() {
               onSubmit={handleSubmit}
               prefillData={prefillData}
               onClose={closeSurvey}
+              i18nPrefix="survey.service"
             />
           )}
         </motion.div>

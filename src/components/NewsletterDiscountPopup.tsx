@@ -2,13 +2,22 @@ import { useEffect, useRef, useState } from 'react'
 import { X, Send } from 'lucide-react'
 import { submitToWebhook } from '@/services/webhook'
 import { buildContactEmailReport } from '@/services/emailReport'
+import { useCurrency } from '../contexts/CurrencyContext'
+
+function toPsych(n: number): string {
+  const nearest = Math.round(n)
+  const base = Math.floor(nearest / 100) * 100
+  const candidates = [base - 1, base + 99, base - 101]
+  const closest = candidates.reduce((a, b) => Math.abs(a - n) < Math.abs(b - n) ? a : b)
+  return `$${closest}`
+}
 
 const STORAGE_KEY = 's23-newsletter-discount-dismissed-v1'
 
 const plans = [
-  { id: 'basic', label: 'Basic', price: 229 },
-  { id: 'techie', label: 'Techie', price: 349 },
-  { id: 'hacker', label: 'Hacker', price: 699 },
+  { id: 'basic', label: 'Basic', price: 199.99 },
+  { id: 'techie', label: 'Techie', price: 299.99 },
+  { id: 'hacker', label: 'Hacker', price: 639.99 },
 ]
 
 const terms = [
@@ -26,12 +35,14 @@ export default function NewsletterDiscountPopup() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const historyEntryArmed = useRef(false)
+  const { currency, rate, fmt, toggle: toggleCurrency } = useCurrency()
 
   const plan = plans.find((item) => item.id === selectedPlan) || plans[1]
   const term = terms.find((item) => item.id === selectedTerm) || terms[1]
   const subtotal = plan.price * term.months
   const discount = Math.round(subtotal * 0.2)
   const total = subtotal - discount
+  const p = (n: number) => currency === 'USD' ? `$${n}` : toPsych(n * rate)
 
   const close = () => {
     window.localStorage.setItem(STORAGE_KEY, new Date().toISOString())
@@ -44,8 +55,28 @@ export default function NewsletterDiscountPopup() {
 
   useEffect(() => {
     if (window.localStorage.getItem(STORAGE_KEY)) return
-    const timer = window.setTimeout(() => setOpen(true), 4200)
-    return () => window.clearTimeout(timer)
+
+    let opened = false
+    const openPopup = () => {
+      if (opened) return
+      opened = true
+      setOpen(true)
+    }
+
+    const timer = window.setTimeout(openPopup, 60000)
+
+    const handleScroll = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight
+      if (scrollable > 0 && window.scrollY / scrollable >= 0.4) {
+        openPopup()
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   useEffect(() => {
@@ -164,7 +195,12 @@ export default function NewsletterDiscountPopup() {
           </div>
         ) : (
           <form onSubmit={submit} className="p-7 md:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-3">Newsletter soul:23</p>
+            <div className="flex items-center justify-between mb-3">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold">Newsletter soul:23</p>
+              <button onClick={toggleCurrency} className="font-mono text-[9px] uppercase tracking-[0.12em] text-cream-muted hover:text-gold transition-colors border border-cream/10 px-2 py-1">
+                {currency}
+              </button>
+            </div>
             <h3 className="font-serif text-cream text-3xl leading-tight mb-3">
               Recibe 20% en tu plan.
             </h3>
@@ -181,7 +217,7 @@ export default function NewsletterDiscountPopup() {
                   className={`border px-3 py-2 text-center transition-colors ${selectedPlan === item.id ? 'border-gold bg-gold/10 text-cream' : 'border-cream/10 text-cream-muted hover:border-gold/40'}`}
                 >
                   <span className="block font-mono text-[9px] uppercase tracking-[0.12em]">{item.label}</span>
-                  <span className="text-xs">${item.price}/mes</span>
+                  <span className="text-xs">{fmt(`$${item.price}/mes`)}</span>
                 </button>
               ))}
             </div>
@@ -199,20 +235,20 @@ export default function NewsletterDiscountPopup() {
               ))}
             </div>
 
-            <div className="mb-5 border border-cream/10 bg-dark-primary/70 p-4">
-              <div className="flex justify-between text-sm text-cream-muted mb-1">
-                <span>Base</span>
-                <span>${subtotal} USD</span>
+              <div className="mb-5 border border-cream/10 bg-dark-primary/70 p-4">
+                <div className="flex justify-between text-sm text-cream-muted mb-1">
+                  <span>Base</span>
+                  <span>{p(subtotal)} {currency}</span>
+                </div>
+                <div className="flex justify-between text-sm text-gold mb-1">
+                  <span>20% descuento</span>
+                  <span>-{p(discount)} {currency}</span>
+                </div>
+                <div className="flex justify-between border-t border-cream/10 pt-2 text-cream">
+                  <span>Total estimado</span>
+                  <span>{p(total)} {currency}</span>
+                </div>
               </div>
-              <div className="flex justify-between text-sm text-gold mb-1">
-                <span>20% descuento</span>
-                <span>-${discount} USD</span>
-              </div>
-              <div className="flex justify-between border-t border-cream/10 pt-2 text-cream">
-                <span>Total estimado</span>
-                <span>${total} USD</span>
-              </div>
-            </div>
 
             <div className="space-y-3 mb-5">
               <input

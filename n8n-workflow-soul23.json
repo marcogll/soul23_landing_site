@@ -1,0 +1,703 @@
+{
+  "name": "Soul:23 Webhook Processor",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "path": "s23"
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "webhookId": "s23"
+    },
+    {
+      "parameters": {
+        "jsCode": "const payload = $input.first().json;\n\nfunction safeGet(obj, path, fallback) {\n  return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : fallback, obj);\n}\n\nfunction arrToText(val) {\n  if (Array.isArray(val)) return val.join(', ');\n  if (typeof val === 'string') return val;\n  return JSON.stringify(val);\n}\n\nfunction flattenAnswers(answers) {\n  const flat = {};\n  for (const [key, val] of Object.entries(answers || {})) {\n    if (val && typeof val === 'object' && !Array.isArray(val)) {\n      flat[key] = val.label || val.value || JSON.stringify(val);\n    } else {\n      flat[key] = arrToText(val);\n    }\n  }\n  return flat;\n}\n\nconst formatted = {\n  type: payload.type,\n  form_type: payload.form_type || 'sin_form_type',\n  status: payload.status || '',\n  answers_flat: flattenAnswers(payload.answers),\n  ratings_text: (payload.ratings_summary || []).map(r => r.category + ': ' + r.score + '/' + r.max).join('\\n'),\n  open_texts: (payload.open_text_responses || []).map(o => '[' + o.sentiment + '] ' + o.question_id + ': ' + o.text + ' (tags: ' + o.tags.join(', ') + ')').join('\\n'),\n  recipient_email: safeGet(payload, 'email_report.recipient_email', ''),\n  email_enabled: safeGet(payload, 'email_report.enabled', false),\n  email_subject: safeGet(payload, 'email_report.subject', ''),\n  email_headline: safeGet(payload, 'email_report.headline', ''),\n  email_summary: safeGet(payload, 'email_report.summary', ''),\n  email_insights: arrToText(safeGet(payload, 'email_report.insights', [])),\n  email_next_steps: arrToText(safeGet(payload, 'email_report.next_steps', [])),\n  email_recommended: arrToText(safeGet(payload, 'email_report.recommended_services', [])),\n  template_client: safeGet(payload, 'email_report.templates.client', ''),\n  template_internal: safeGet(payload, 'email_report.templates.internal', ''),\n  llm_provider: safeGet(payload, 'llm_config.provider', 'gpt_nano'),\n  llm_model: safeGet(payload, 'llm_config.model', 'gpt-4o-mini'),\n  llm_fallback: safeGet(payload, 'llm_config.fallback_provider', 'openrouter_free'),\n  system_message: safeGet(payload, 'ai_instructions.system_message', ''),\n  survey_name: safeGet(payload, 'metadata.survey_name', ''),\n  source: safeGet(payload, 'metadata.source', ''),\n  submittedAt: safeGet(payload, 'metadata.submittedAt', ''),\n  phoneNumber: safeGet(payload, 'metadata.phoneNumber', ''),\n  raw_payload: payload,\n};\n\nreturn [formatted];"
+      },
+      "name": "Data Formatter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "rules": [
+            {
+              "value": "contact_inquiry",
+              "output": 0
+            },
+            {
+              "value": "client_onboarding",
+              "output": 1
+            },
+            {
+              "value": "service_feedback",
+              "output": 2
+            },
+            {
+              "value": "event_rsvp",
+              "output": 3
+            },
+            {
+              "value": "staff_evaluation",
+              "output": 4
+            },
+            {
+              "value": "project_feedback",
+              "output": 5
+            },
+            {
+              "value": "survey_abandoned",
+              "output": 6
+            }
+          ]
+        }
+      },
+      "name": "Switch by Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nlet priority = 'low';\nif (answers.urgencia === 'ya') priority = 'high';\nelse if (answers.urgencia === '30_dias') priority = 'medium';\nconst needStr = (answers.necesidad || '').toLowerCase();\nconst highValue = ['alertas', 'dashboard', 'whatsapp_followup', 'todo'].some(k => needStr.includes(k));\nreturn [{\n  ...data,\n  case_type: 'CONTACT_INQUIRY',\n  priority,\n  is_high_value: highValue,\n  lead_name: answers.nombre || 'Sin nombre',\n  business: answers.negocio || 'Sin negocio',\n  sector: answers.tipo_negocio || 'Sin sector',\n  email: answers.email || '',\n  phone: answers.telefono || data.phoneNumber || '',\n  needs: answers.necesidad || '',\n  urgency: answers.urgencia || '',\n  budget: answers.presupuesto || '',\n  description: answers.descripcion || '',\n  channel: answers.canal_encuesta || '',\n  survey_types: answers.tipo_encuesta || '',\n}];"
+      },
+      "name": "Contact: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nreturn [{\n  ...data,\n  case_type: 'CLIENT_ONBOARDING',\n  client_name: answers.nombre || 'Sin nombre',\n  business: answers.negocio || 'Sin negocio',\n  email: answers.email || '',\n  phone: answers.telefono || data.phoneNumber || '',\n  sector: answers.tipo_negocio || '',\n  services_needed: answers.servicios || '',\n  urgency: answers.urgencia || '',\n  budget: answers.presupuesto || '',\n  referrer: answers.referido_por || '',\n  preferred_contact: answers.contacto_preferido || '',\n  message: answers.mensaje || '',\n}];"
+      },
+      "name": "Onboarding: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nconst ratings = data.ratings_text || '';\nlet avgScore = 0;\nconst scoreMatches = ratings.match(/([0-9]+)\\/5/g);\nif (scoreMatches) {\n  const scores = scoreMatches.map(s => parseInt(s.split('/')[0]));\n  avgScore = scores.reduce((a,b) => a+b, 0) / scores.length;\n}\nconst hasAlert = avgScore < 3 || (data.open_texts || '').toLowerCase().includes('negative');\nreturn [{\n  ...data,\n  case_type: 'SERVICE_FEEDBACK',\n  avg_score: avgScore.toFixed(1),\n  has_alert: hasAlert,\n  service_received: answers.servicio_recibido || '',\n  problem_solved: answers.problema_resuelto || '',\n  would_recommend: answers.recomendaria || '',\n  contact_phone: answers.telefono_contacto || data.phoneNumber || '',\n}];"
+      },
+      "name": "Feedback: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nreturn [{\n  ...data,\n  case_type: 'EVENT_RSVP',\n  attendee_name: answers.nombre || 'Sin nombre',\n  email: answers.email || '',\n  phone: answers.telefono || data.phoneNumber || '',\n  attendance_type: answers.tipo_asistencia || '',\n  event_name: answers.evento || data.survey_name || 'Evento soul:23',\n  topics: answers.temas_interes || '',\n  questions: answers.preguntas_previas || '',\n  how_found: answers.como_nos_conociste || '',\n}];"
+      },
+      "name": "RSVP: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nconst ratingsText = data.ratings_text || '';\nconst lowRatings = ratingsText.includes(': 1/5') || ratingsText.includes(': 2/5');\nreturn [{\n  ...data,\n  case_type: 'STAFF_EVALUATION',\n  evaluado: answers.evaluado || answers.nombre || 'Sin nombre',\n  evaluador: answers.evaluador || 'Anonimo',\n  low_ratings: lowRatings,\n  riesgo_rotacion: (answers.riesgo_operativo || '').toLowerCase().includes('rotacion'),\n  sobrecarga: (answers.riesgo_operativo || '').toLowerCase().includes('sobrecarga'),\n  departamento: answers.departamento || '',\n}];"
+      },
+      "name": "Staff: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nconst npsScore = parseInt(answers.nps_score) || 0;\nlet npsCategory = 'passive';\nif (npsScore >= 9) npsCategory = 'promoter';\nelse if (npsScore <= 6) npsCategory = 'detractor';\nreturn [{\n  ...data,\n  case_type: 'PROJECT_FEEDBACK',\n  project_name: answers.proyecto || data.survey_name || 'Proyecto sin nombre',\n  nps_score: npsScore,\n  nps_category: npsCategory,\n  is_detractor: npsCategory === 'detractor',\n  is_promoter: npsCategory === 'promoter',\n  client_email: answers.email || '',\n  delivery_score: answers.calificacion_proyecto || '',\n}];"
+      },
+      "name": "Project: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst answers = data.answers_flat || {};\nconst raw = data.raw_payload || {};\nconst answeredCount = raw.metadata?.answeredCount || 0;\nconst surveyId = raw.metadata?.surveyId || 'unknown';\nreturn [{\n  ...data,\n  case_type: 'SURVEY_ABANDONED',\n  answered_count: answeredCount,\n  survey_id: surveyId,\n  reason: raw.metadata?.reason || 'user_navigated_away',\n  started_at: raw.metadata?.startedAt || '',\n  recovery_possible: !!(answers.email || data.recipient_email),\n}];"
+      },
+      "name": "Abandoned: Prep",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        850,
+        900
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "={{$json.llm_provider === 'openrouter_free' ? 'https://openrouter.ai/api/v1/chat/completions' : 'https://api.openai.com/v1/chat/completions'}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + ($json.llm_provider === 'openrouter_free' ? $env.OPENROUTER_API_KEY : $env.OPENAI_API_KEY)}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "={{$json.llm_model}}"
+            },
+            {
+              "name": "max_tokens",
+              "value": "1024"
+            },
+            {
+              "name": "temperature",
+              "value": "0.3"
+            },
+            {
+              "name": "messages",
+              "value": "=[{'role':'system','content':'Eres Talia, asistente operativa de soul:23. Procesa el payload y genera JSON con: client_email_html, internal_email_html, crm_summary, priority, tags, follow_up, alerts.'},{'role':'user','content':JSON.stringify($json)}]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "LLM Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{$env.EMAIL_FROM}}",
+        "toEmail": "={{$env.EMAIL_INTERNAL_TO}}",
+        "subject": "={[ALERT] + ' [' + $json.priority + '] ' + $json.case_type + ': ' + ($json.lead_name || $json.client_name || $json.attendee_name || $json.evaluado || 'Nuevo')}",
+        "text": "={{$json.internal_email_html || $json.crm_summary || 'Ver detalles en CRM'}}",
+        "html": "={{$json.internal_email_html || '<p>' + ($json.crm_summary || 'Ver detalles') + '</p>'}}",
+        "options": {
+          "replyTo": "={{$env.EMAIL_REPLY_TO}}"
+        }
+      },
+      "name": "Email Internal",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        200
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIAL_ID",
+          "name": "SMTP Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{$env.EMAIL_FROM}}",
+        "toEmail": "={{$json.email || $json.recipient_email}}",
+        "subject": "={{$json.email_subject || 'Talia | soul:23 -- Actualizacion'}}",
+        "text": "={{$json.client_email_html || $json.email_summary || 'Gracias por contactar soul:23'}}",
+        "html": "={{$json.client_email_html || '<p>Gracias por contactar soul:23</p>'}}",
+        "options": {
+          "replyTo": "={{$env.EMAIL_REPLY_TO}}"
+        }
+      },
+      "name": "Email Client",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        400
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIAL_ID",
+          "name": "SMTP Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "={{'https://api.telegram.org/bot' + $env.TELEGRAM_BOT_TOKEN + '/sendMessage'}}",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{$env.TELEGRAM_CHAT_ID_TEAM}}"
+            },
+            {
+              "name": "text",
+              "value": "={'Resumen: ' + $json.case_type + '\\n\\n' + ($json.crm_summary || 'Ver CRM') + '\\n\\nPrioridad: ' + ($json.priority || 'normal')}"
+            },
+            {
+              "name": "parse_mode",
+              "value": "HTML"
+            }
+          ]
+        }
+      },
+      "name": "Telegram Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "soul23-crm"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": null
+        }
+      },
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1400,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_CREDENTIAL_ID",
+          "name": "Google Sheets Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={'success': True, 'type': $json.case_type, 'message': 'Procesado correctamente'}"
+      },
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{$json.email_enabled && $json.email}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "name": "Has Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1250,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{$json.priority === 'high' || ($json.alerts || []).length > 0}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "name": "Has Alert?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "={{'https://api.telegram.org/bot' + $env.TELEGRAM_BOT_TOKEN + '/sendMessage'}}",
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{$env.TELEGRAM_CHAT_ID_ALERTS}}"
+            },
+            {
+              "name": "text",
+              "value": "={'ALERTA: ' + $json.case_type + '\\n\\nPrioridad: ' + $json.priority + '\\n' + ($json.crm_summary || 'Ver CRM') + '\\n\\nAlertas: ' + ($json.alerts || []).join(', ')}"
+            },
+            {
+              "name": "parse_mode",
+              "value": "HTML"
+            }
+          ]
+        }
+      },
+      "name": "Telegram Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1750,
+        100
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Data Formatter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Formatter": {
+      "main": [
+        [
+          {
+            "node": "Switch by Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch by Type": {
+      "main": [
+        [
+          {
+            "node": "Contact: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Onboarding: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Feedback: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "RSVP: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Staff: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Project: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Abandoned: Prep",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Onboarding: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Feedback: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSVP: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Staff: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Project: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Abandoned: Prep": {
+      "main": [
+        [
+          {
+            "node": "LLM Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Agent": {
+      "main": [
+        [
+          {
+            "node": "Email Internal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Internal": {
+      "main": [
+        [
+          {
+            "node": "Has Alert?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Has Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Alert?": {
+      "main": [
+        [
+          {
+            "node": "Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Alert": {
+      "main": [
+        [
+          {
+            "node": "Telegram Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Email?": {
+      "main": [
+        [
+          {
+            "node": "Email Client",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Client": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Summary": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsCallerPolicy"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "soul23",
+      "id": "soul23-tag"
+    },
+    {
+      "name": "webhook",
+      "id": "webhook-tag"
+    }
+  ]
+}
