@@ -65,7 +65,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
       return (
         <>
           ${mxn.toLocaleString('es-MX')}
-          <span className="text-[9px] font-mono uppercase tracking-wider text-cream-muted/50 ml-1">{currency}</span>
+          <span className="text-[11px] font-mono uppercase tracking-wider text-gold/70 ml-1">{currency}</span>
         </>
       )
     }
@@ -73,7 +73,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     return (
       <>
         ${usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        <span className="text-[9px] font-mono uppercase tracking-wider text-cream-muted/50 ml-1">{currency}</span>
+        <span className="text-[11px] font-mono uppercase tracking-wider text-gold/70 ml-1">{currency}</span>
       </>
     )
   }, [currency, rate])
