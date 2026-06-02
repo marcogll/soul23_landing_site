@@ -110,7 +110,7 @@ export default function Section1Hero() {
 
             <div className="absolute right-6 bottom-0 w-[38%] overflow-hidden border border-cream/10 bg-dark-primary shadow-xl">
               <img
-                src="/images/timeattendance.png"
+                src="/images/massive-dynamic-dashboard.png"
                 alt={t('hero.img.reporte')}
                 className="h-28 lg:h-36 w-full object-cover object-top"
               />
