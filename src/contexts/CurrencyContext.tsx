@@ -11,7 +11,7 @@ interface CurrencyContextType {
   isLoading: boolean
   error: string | null
   fmt: (priceStr: string | number) => string
-  formatPrice: (mxn: number) => ReactNode
+  formatPrice: (usd: number) => ReactNode
   toggle: () => void
 }
 
@@ -60,32 +60,32 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
   const toggle = () => setCurrency(c => (c === 'MXN' ? 'USD' : 'MXN'))
 
-  const formatPrice = useCallback((mxn: number): ReactNode => {
-    if (currency === 'MXN') {
+  const formatPrice = useCallback((usd: number): ReactNode => {
+    if (currency === 'USD') {
       return (
         <>
-          ${mxn.toLocaleString('es-MX')}
-          <span className="text-[11px] font-mono uppercase tracking-wider text-gold/70 ml-1">{currency}</span>
+          ${usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <span className="text-[11px] font-mono uppercase tracking-wider text-gold/70 ml-1">USD</span>
         </>
       )
     }
-    const usd = mxn / rate
+    const mxn = usd * rate
     return (
       <>
-        ${usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        <span className="text-[11px] font-mono uppercase tracking-wider text-gold/70 ml-1">{currency}</span>
+        ${mxn.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        <span className="text-[11px] font-mono uppercase tracking-wider text-gold/70 ml-1">MXN</span>
       </>
     )
   }, [currency, rate])
 
   const fmt = useCallback((priceStr: string | number): string => {
     const str = String(priceStr)
-    if (currency === 'MXN') return str
+    if (currency === 'USD') return str
     return str.replace(/\$([\d,]+(?:\.\d{2})?)/g, (_m, amt) => {
       const n = parseFloat(amt.replace(/,/g, ''))
       if (isNaN(n)) return _m
-      const usd = n / rate
-      return `$${usd.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+      const mxn = n * rate
+      return `$${mxn.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
     })
   }, [currency, rate])
 

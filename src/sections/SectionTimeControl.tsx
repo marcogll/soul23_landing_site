@@ -5,19 +5,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { CheckCircle } from 'lucide-react'
 import { useCurrency } from '../contexts/CurrencyContext'
 import { useLanguage } from '../contexts/LanguageContext'
+import { getTimeAttendanceLicenses, getTimeAttendanceSelfHosted } from '../lib/pricing'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function SectionTimeControl() {
   const sectionRef = useRef<HTMLElement>(null)
-  const { fmt } = useCurrency()
+  const { currency, fmt, formatPrice } = useCurrency()
   const { t } = useLanguage()
-  const plans = [
-    { period: t('tc.plan1.nombre'), price: '$49.99', sub: t('tc.plan1.sub'), desc: t('tc.plan1.desc') },
-    { period: t('tc.plan2.nombre'), price: '$129.99', sub: t('tc.plan2.sub'), desc: t('tc.plan2.desc') },
-    { period: t('tc.plan3.nombre'), price: '$219.99', sub: t('tc.plan3.sub'), desc: t('tc.plan3.desc') },
-    { period: t('tc.plan4.nombre'), price: '$349.99', sub: t('tc.plan4.sub'), desc: t('tc.plan4.desc') },
-  ]
+
+  const licenses = getTimeAttendanceLicenses()
+  const selfHosted = getTimeAttendanceSelfHosted()
 
   useLayoutEffect(() => {
     const section = sectionRef.current
@@ -32,6 +30,27 @@ export default function SectionTimeControl() {
     }, section)
     return () => ctx.revert()
   }, [])
+
+  const planLabels: Record<string, string> = {
+    'LIC_MONTHLY': t('tc.plan1.nombre'),
+    'LIC_QUARTERLY': t('tc.plan2.nombre'),
+    'LIC_SEMIANNUAL': t('tc.plan3.nombre'),
+    'LIC_ANNUAL': t('tc.plan4.nombre'),
+  }
+
+  const planSubs: Record<string, string> = {
+    'monthly': t('tc.plan1.sub'),
+    'quarterly': t('tc.plan2.sub'),
+    'semiannual': t('tc.plan3.sub'),
+    'annual': t('tc.plan4.sub'),
+  }
+
+  const planDescs: Record<string, string> = {
+    'LIC_MONTHLY': t('tc.plan1.desc'),
+    'LIC_QUARTERLY': t('tc.plan2.desc'),
+    'LIC_SEMIANNUAL': t('tc.plan3.desc'),
+    'LIC_ANNUAL': t('tc.plan4.desc'),
+  }
 
   return (
     <section ref={sectionRef} id="time-control" className="relative w-full bg-dark-secondary z-20">
@@ -101,12 +120,14 @@ export default function SectionTimeControl() {
             {t('tc.licencias.sub')}
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {plans.map((p, i) => (
-              <div key={i} className="reveal flex flex-col items-center text-center border border-cream/10 bg-dark-primary/70 p-6" style={{ opacity: 0 }}>
-                <span className="text-xs uppercase tracking-widest text-gold mb-3">{p.period}</span>
-                <span className="text-3xl font-serif font-semibold text-cream mb-1">{fmt(p.price)}</span>
-                <span className="text-xs text-cream-muted mb-4">{p.sub}</span>
-                <p className="text-xs text-cream-muted leading-relaxed">{p.desc}</p>
+            {licenses.map((lic) => (
+              <div key={lic.id} className={`reveal flex flex-col items-center text-center border p-6 ${lic.recommended ? 'border-gold/40 bg-dark-primary/70' : 'border-cream/10 bg-dark-primary/70'}`} style={{ opacity: 0 }}>
+                <span className="text-xs uppercase tracking-widest text-gold mb-3">{planLabels[lic.id] ?? lic.name}</span>
+                <span className="text-3xl font-serif font-semibold text-cream mb-1">
+                  {formatPrice(lic.listUsd)}
+                </span>
+                <span className="text-xs text-cream-muted mb-4">{planSubs[lic.id.replace('LIC_', '').toLowerCase()] ?? ''}</span>
+                <p className="text-xs text-cream-muted leading-relaxed">{planDescs[lic.id] ?? lic.description}</p>
               </div>
             ))}
           </div>
@@ -127,7 +148,10 @@ export default function SectionTimeControl() {
                 {t('tc.self.title')}
               </h4>
               <p className="text-xs text-cream-muted leading-relaxed mb-3">
-                {t('tc.self.desc')}<strong className="text-cream">{fmt('$400/año')}</strong>).
+                {t('tc.self.desc')} <strong className="text-cream">{fmt(`$${selfHosted.listUsd}/año`)}</strong>).
+              </p>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-gold/70 mb-1">
+                {currency}
               </p>
               <p className="text-xs text-gold/80 italic">
                 {t('tc.self.tax')}

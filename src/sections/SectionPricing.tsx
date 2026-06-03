@@ -31,6 +31,8 @@ export default function SectionPricing() {
     return () => ctx.revert()
   }, [])
 
+  const starterPrice = retainers[0]?.listUsd ?? 240.95
+
   return (
     <section ref={sectionRef} id="pricing" className="relative w-full bg-dark-primary" style={{ zIndex: 88 }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24 lg:py-32">
@@ -66,12 +68,12 @@ export default function SectionPricing() {
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-4">{plan.name}</p>
               <div className="flex items-end gap-2 mb-1">
                 <span className="font-serif text-3xl text-cream">
-                  {formatPrice(plan.listMxn)}
+                  {formatPrice(plan.listUsd)}
                 </span>
               </div>
               <p className="text-xs text-cream-muted mb-2">/mes</p>
               <p className="text-xs text-green-400 mb-4">
-                Lanzamiento: {formatPrice(plan.onboardingMxn ?? plan.listMxn)}/mes primer mes
+                Lanzamiento: {formatPrice(plan.onboardingUsd ?? plan.listUsd)}/mes primer mes
               </p>
               <p className="text-sm text-cream-muted leading-relaxed mb-4">{plan.description}</p>
               <div className="space-y-2 mt-auto">
@@ -101,13 +103,13 @@ export default function SectionPricing() {
               <div className="flex items-start justify-between mb-3">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold">{project.name}</p>
                 <span className="font-serif text-xl text-cream">
-                  {formatPrice(project.listMxn)}
+                  {formatPrice(project.listUsd)}
                 </span>
               </div>
               <p className="text-sm text-cream-muted mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-green-400 border border-green-400/30 px-2 py-1">
-                  Lanzamiento {formatPrice(project.onboardingMxn ?? project.listMxn)}
+                  Lanzamiento {formatPrice(project.onboardingUsd ?? project.listUsd)}
                 </span>
                 {project.note && (
                   <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-cream-muted border border-cream/20 px-2 py-1">
@@ -138,7 +140,7 @@ export default function SectionPricing() {
             <div key={lic.id} className={`reveal border p-6 text-center ${lic.recommended ? 'border-gold/40 bg-dark-secondary/80' : 'border-cream/10 bg-dark-secondary'}`} style={{ opacity: 0 }}>
               <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold mb-3">{lic.name}</p>
               <span className="font-serif text-2xl text-cream block mb-1">
-                {formatPrice(lic.listMxn)}
+                {formatPrice(lic.listUsd)}
               </span>
               <p className="text-xs text-cream-muted mb-3">{lic.description}</p>
               {lic.recommended && (
@@ -147,7 +149,7 @@ export default function SectionPricing() {
                 </span>
               )}
               <p className="text-[10px] text-green-400">
-                Lanz: {formatPrice(lic.onboardingMxn ?? lic.listMxn)}
+                Lanz: {formatPrice(lic.onboardingUsd ?? lic.listUsd)}
               </p>
             </div>
           ))}
@@ -161,7 +163,7 @@ export default function SectionPricing() {
               <div key={key} className="border border-cream/10 p-3">
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-mono text-[10px] uppercase tracking-wider text-gold">{disc.label}</span>
-                  <span className="font-serif text-lg text-cream">-{disc.percentage}%</span>
+                  <span className="font-serif text-lg text-cream">-{disc.pct}%</span>
                 </div>
                 <p className="text-[10px] text-cream-muted">{disc.description}</p>
                 <p className="text-[9px] text-cream-muted/50 mt-1">{disc.conditions}</p>
@@ -191,7 +193,9 @@ export default function SectionPricing() {
                 Mejor opción
               </span>
               <p className="font-mono text-[10px] uppercase tracking-wider text-gold mb-2">soul:23</p>
-              <p className="font-serif text-lg text-cream">Desde $4,900/mes</p>
+              <p className="font-serif text-lg text-cream">
+                Desde {formatPrice(starterPrice)}/mes
+              </p>
               <p className="text-[10px] text-cream-muted mt-1">Sistema + soporte + escalamiento</p>
             </div>
           </div>

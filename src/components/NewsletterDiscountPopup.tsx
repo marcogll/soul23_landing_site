@@ -42,7 +42,7 @@ export default function NewsletterDiscountPopup() {
   const subtotal = plan.price * term.months
   const discount = Math.round(subtotal * 0.2)
   const total = subtotal - discount
-  const p = (n: number) => currency === 'USD' ? `$${n}` : toPsych(n * rate)
+  const p = (n: number) => currency === 'USD' ? `$${n.toFixed(2)}` : toPsych(n * rate)
 
   const close = () => {
     window.localStorage.setItem(STORAGE_KEY, new Date().toISOString())
@@ -218,6 +218,7 @@ export default function NewsletterDiscountPopup() {
                 >
                   <span className="block font-mono text-[9px] uppercase tracking-[0.12em]">{item.label}</span>
                   <span className="text-xs">{fmt(`$${item.price}/mes`)}</span>
+                  <span className="block text-[9px] font-mono uppercase tracking-wider text-gold/70">{currency}</span>
                 </button>
               ))}
             </div>
@@ -235,20 +236,29 @@ export default function NewsletterDiscountPopup() {
               ))}
             </div>
 
-              <div className="mb-5 border border-cream/10 bg-dark-primary/70 p-4">
-                <div className="flex justify-between text-sm text-cream-muted mb-1">
-                  <span>Base</span>
-                  <span>{p(subtotal)} {currency}</span>
-                </div>
-                <div className="flex justify-between text-sm text-gold mb-1">
-                  <span>20% descuento</span>
-                  <span>-{p(discount)} {currency}</span>
-                </div>
-                <div className="flex justify-between border-t border-cream/10 pt-2 text-cream">
-                  <span>Total estimado</span>
-                  <span>{p(total)} {currency}</span>
-                </div>
+            <div className="mb-5 border border-cream/10 bg-dark-primary/70 p-4">
+              <div className="flex justify-between text-sm text-cream-muted mb-1">
+                <span>Base</span>
+                <span className="flex items-center gap-1">
+                  <span>{p(subtotal)}</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gold/70">{currency}</span>
+                </span>
               </div>
+              <div className="flex justify-between text-sm text-gold mb-1">
+                <span>20% descuento</span>
+                <span className="flex items-center gap-1">
+                  <span>-{p(discount)}</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gold/70">{currency}</span>
+                </span>
+              </div>
+              <div className="flex justify-between border-t border-cream/10 pt-2 text-cream">
+                <span>Total estimado</span>
+                <span className="flex items-center gap-1">
+                  <span>{p(total)}</span>
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-gold/70">{currency}</span>
+                </span>
+              </div>
+            </div>
 
             <div className="space-y-3 mb-5">
               <input
