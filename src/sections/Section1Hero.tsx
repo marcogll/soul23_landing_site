@@ -85,7 +85,7 @@ export default function Section1Hero() {
           <div className="relative aspect-[1.05/1]">
             <div className="absolute inset-x-0 top-8 overflow-hidden border border-cream/10 bg-dark-secondary shadow-2xl">
               <img
-                src="/images/cursos_vanity.png"
+                src="/images/vanity_academy.png"
                 alt={t('hero.img.cursos')}
                 className="h-72 lg:h-[360px] w-full object-cover object-top"
               />
