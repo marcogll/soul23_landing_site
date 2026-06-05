@@ -9,7 +9,7 @@ const projects = [
     title: 'Cursos Vanity Experience',
     category: 'Ecommerce · Tutoriales',
     description: 'Plataforma de ecommerce para vender cursos y productos educativos de la marca.',
-    image: '/images/cursos_vanity.png',
+    image: '/images/vanity_academy.png',
     link: 'https://cursos.vanityexperience.mx/',
   },
   {

@@ -20,7 +20,7 @@ const projects = [
     type: 'Ecommerce · Cursos',
     what: 'Academy con WooCommerce, carrito, checkout y cursos para venta digital.',
     result: 'La venta de formación vive separada del salón, pero conectada a la marca.',
-    image: '/images/cursos_vanity.png',
+    image: '/images/vanity_academy.png',
     link: 'https://cursos.vanityexperience.mx/',
     status: 'online',
   },
